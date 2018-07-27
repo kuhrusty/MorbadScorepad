@@ -47,7 +47,7 @@ emulated device (that is, running on a virtual/pretend phone in Android
 Studio, not your real phone).  If your phone doesn't show up in that
 window, something is wrong.  Choose your phone (plugged in as a USB
 device, connected as a camera or a media device... probably camera) and
-wait for the "Ask AutoDad 1.0!" screen to show up.
+wait for the Brüttelburg screen to show up.
 
 -----
 
