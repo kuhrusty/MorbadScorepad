@@ -17,8 +17,8 @@ This **will not compile** in its current state.
 The issue is, this uses a massive amount of content (images, card text)
 which is owned by Goblinko, and I haven't exactly received *permission*
 to add all that to this repository.  So, currently this repository
-contains all the stuff which *isn't* Goblinko's, but the instructions
-below will proceed as if it's complete.
+contains ~~all the stuff~~ *some of the stuff* which *isn't* Goblinko's,
+but the instructions below will proceed as if it's complete.
 
 In Android Studio 3.1.3:
 
@@ -36,6 +36,9 @@ In Android Studio 3.1.3:
 
 3. Hit the "Sync Project with Gradle Files" button in the toolbar.  This
    should generate the .iml files it was complaining about.
+
+4. Download the Dominican font from... err... see
+   [issue #7](https://github.com/kuhrusty/MorbadScorepad/issues/7).
 
 ### TO BUILD & RUN IT
 
