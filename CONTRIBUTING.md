@@ -6,15 +6,13 @@ See also the project's list of open issues on GitHub:
 https://github.com/kuhrusty/MorbadScorepad/issues
 
 <!--ts-->
-         * [Interesting stuff in the code](#interesting-stuff-in-the-code)
-         * [Interesting features for developers](#interesting-features-for-developers)
-         * [To check out the code](#to-check-out-the-code)
-         * [Adding a new expansion](#adding-a-new-expansion)
-         * [Adding new skill cards](#adding-new-skill-cards)
-         * [Character Icons](#character-icons)
-
+* [Interesting stuff in the code](#interesting-stuff-in-the-code)
+* [Interesting features for developers](#interesting-features-for-developers)
+* [To check out the code](#to-check-out-the-code)
+* [Adding a new expansion](#adding-a-new-expansion)
+* [Adding new skill cards](#adding-new-skill-cards)
+* [Character Icons](#character-icons)
 <!-- Added by: rusty, at: 2018-12-23T19:11-08:00 -->
-
 <!--te-->
 
 ### Interesting stuff in the code
