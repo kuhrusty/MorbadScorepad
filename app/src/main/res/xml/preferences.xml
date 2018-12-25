@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!--  we will add elements to this at runtime. -->
+    <PreferenceCategory android:key="pref_expansions"
+                        android:title="@string/pref_expansions"
+                        android:summary="@string/pref_expansions_summary"/>
+    <!--
+    Note that, by default, that nice PreferenceCategory summary isn't displayed;
+    see here for notes on how to change that:
+    https://stackoverflow.com/questions/7978476/the-summary-field-of-preferencecategory-tag
+    -->
+
+    <!--
+    There's no visual indication of the *end* of the expansions pref category,
+    so... I guess we wrap everything else in preference categories too.
+    -->
+    <PreferenceCategory android:key="pref_cat2"
+                        android:title="@string/pref_developer">
+        <!--
+            android:dialogTitle="@string/pref_developer"
+        -->
+        <SwitchPreference
+            android:key="pref_developer"
+            android:title="@string/pref_developer"
+            android:summary="@string/pref_developer_summary"
+            android:defaultValue="false" />
+        <!-- NOTE: EditTextPreference accepts EditText attributes. -->
+        <!-- NOTE: EditTextPreference's summary should be set to its value by the activity code. -->
+        <!--
+            android:capitalize="words"
+            android:inputType="textCapWords"
+        -->
+        <EditTextPreference
+            android:key="pref_data_dir"
+            android:dependency="pref_developer"
+            android:defaultValue="HandOfDoom"
+            android:maxLines="1"
+            android:selectAllOnFocus="true"
+            android:singleLine="true"
+            android:title="@string/pref_data_dir"/>
+    </PreferenceCategory>
+
+    <PreferenceCategory android:key="pref_campaign"
+                        android:title="@string/pref_campaign"
+                        android:dependency="pref_developer" >
+        <!--
+            android:dialogTitle="@string/pref_developer"
+        -->
+        <SwitchPreference
+            android:key="pref_campaign_store_discards"
+            android:title="@string/pref_campaign_store_discards"
+            android:summary="@string/pref_campaign_store_discards_summary"
+            android:defaultValue="false"/>
+    </PreferenceCategory>
+
+    <PreferenceCategory android:key="pref_danger_deck"
+                        android:title="@string/pref_danger_deck"
+                        android:summary="@string/pref_danger_deck_summary"
+                        android:dependency="pref_developer">
+        <SwitchPreference
+            android:key="pref_danger_confirm_updated"
+            android:title="@string/pref_danger_confirm_updated"
+            android:summary="@string/pref_danger_confirm_updated_summary"
+            android:defaultValue="false" />
+        <ListPreference
+            android:key="pref_danger_voice_set"
+            android:title="@string/pref_danger_voice_set"
+            android:entries="@array/pref_danger_voice_set_titles"
+            android:entryValues="@array/pref_danger_voice_set_values"
+            android:negativeButtonText="@null"
+            android:positiveButtonText="@null" />
+        <ListPreference
+            android:key="pref_danger_read_sound"
+            android:title="@string/pref_danger_read_sound"
+            android:entries="@array/pref_danger_read_sound_titles"
+            android:entryValues="@array/pref_danger_read_sound_values"
+            android:defaultValue="none"
+            android:negativeButtonText="@null"
+            android:positiveButtonText="@null" />
+    </PreferenceCategory>
+
+    <PreferenceCategory android:key="pref_scenario_graph"
+                        android:title="@string/pref_scenario_graph">
+        <SwitchPreference
+            android:key="pref_scenario_graph_hide_names"
+            android:title="@string/pref_scenario_graph_hide_names"
+            android:summary="@string/pref_scenario_graph_hide_names_summary"
+            android:defaultValue="false"
+            android:dependency="pref_developer" />
+    </PreferenceCategory>
+
+    <PreferenceCategory android:key="pref_other"
+                        android:title="@string/pref_other">
+        <!--  Not exactly a preference; this stores whether we've shown the warning
+              about me going to jail.  -->
+        <SwitchPreference
+            android:key="pref_copyright_warning_shown"
+            android:title="@string/pref_copyright_warning_shown"
+            android:summary="@string/pref_copyright_warning_shown_summary"
+            android:defaultValue="false"
+            android:dependency="pref_developer" />
+    </PreferenceCategory>
+
+</PreferenceScreen>
