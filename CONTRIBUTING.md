@@ -5,15 +5,26 @@ images or entering data.
 See also the project's list of open issues on GitHub:
 https://github.com/kuhrusty/MorbadScorepad/issues
 
+**Contents:**
 <!--ts-->
+* [About the code](#about-the-code)
 * [Interesting stuff in the code](#interesting-stuff-in-the-code)
 * [Interesting features for developers](#interesting-features-for-developers)
 * [To check out the code](#to-check-out-the-code)
 * [Adding a new expansion](#adding-a-new-expansion)
+* [Adding your own danger card recordings](#adding-your-own-danger-card-recordings)
 * [Adding new skill cards](#adding-new-skill-cards)
 * [Character Icons](#character-icons)
-<!-- Added by: rusty, at: 2018-12-23T19:11-08:00 -->
+<!-- Added by: rusty, at: 2018-12-29T01:00-08:00 -->
 <!--te-->
+
+### About the code
+
+Because this started off as an app for saving the game state (basically
+the record sheets on p. 34-35), there's a bunch of incomplete crap
+related to saving & loading games.  If you're just here for the
+skill browser, you can ignore all that (and, with the default settings,
+the incomplete/broken stuff is hidden from users anyway).
 
 ### Interesting stuff in the code
 
@@ -83,16 +94,48 @@ This is really easy, and can be done without editing any code.
    your new expansion's `id`; there are examples of this in
    `JSONRepositoryTest`.
 
+### Adding your own danger card recordings
+
+One of the unfinished bits is a thing which is supposed to keep track of
+the danger card deck, and for fun I made it optionally play recordings
+of the cards being read.
+
+To add your *own* recordings (which are probably going to be better than
+mine!):
+
+1. Enable developer options in Settings.
+1. In `app/src/main/res/values/strings.xml`, find
+   `pref_danger_voice_set_titles`, and add an entry with a human-readable
+   name for your new voice set.
+1. Also add an entry to `pref_danger_voice_set_values` with some unique
+   string which will be the new voice set's ID.
+1. Record yourself reading one card as a test and put it in
+   `app/src/main/res/raw`; its name should be
+   `danger_`*voice set ID*`_`*danger card ID*`.m4a` (or whatever kind of
+   audio file you're using).  To get the list of danger card IDs, look
+   in `app/src/main/assets/HandOfDoom/danger.json`.  (For example, the
+   Bandit Camp is `bandit_camp`, so its audio file in the `rusty` voice
+   set would be `danger_rusty_bandit_camp.m4a`.)
+1. Build & deploy the app, and confirm that your new voice set shows up
+   in Settings; choose it, and make sure the "Danger Card sounds"
+   setting is "Full" ("Name Only" probably does the same thing).
+1. Start the Danger Deck activity, and draw cards until the one with
+   your sound comes up; confirm that you hear your sound instead of my
+   `not_done.m4a` file, which plays when we can't find the audio file
+   for a danger card.
+
+If that all works, go back and finish recording the rest of your danger
+card readings.
+
+I don't know that much about audio file formats, so I just went with
+whatever my phone's voice recorder used; the file sizes could probably
+be reduced.
+
 ### Adding new skill cards
 
-Probably the simplest, most (err, *only)* functional bit of the app is
-the skill list browser: you choose your character, and then it shows you
-which skills that character can have (assuming their stats aren't jacked
-up by being Weakened, Blinded, etc.).
-
-**Unfortunately,** rather than *generating* card images, it uses *scans*
-of the physical cards.  (Ugh!)  This means, if you add new skills, you
-also have to add images.  (See
+Unfortunately, rather than *generating* card images, the skill browser
+uses *scans* of the physical cards.  (Ugh!)  This means, if you add new
+skills, you also have to add images.  (See
 [issue 9](https://github.com/kuhrusty/MorbadScorepad/issues/9).)  Until
 that's fixed, here are notes on how I use the GIMP plugin to process
 cards.
