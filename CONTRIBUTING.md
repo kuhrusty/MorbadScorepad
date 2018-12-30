@@ -57,8 +57,9 @@ In Android Studio 3.2.1:
    That should check the stuff out and start a Gradle build.  (If you
    get errors about missing .iml files, ignore them--do *not* remove the
    modules it's talking about.)
-1. Download the Dominican font from... err... see
+1. ~~Download the Dominican font from~~... err... see
    [issue #7](https://github.com/kuhrusty/MorbadScorepad/issues/7).
+   For now a free Caslon Antique font is included in the source tree.
 1. Build -> Clean Project; then you should be able to build & install on
    your device using the green triangle-thing in the toolbar.
 
