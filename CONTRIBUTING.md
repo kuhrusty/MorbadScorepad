@@ -69,12 +69,12 @@ This is really easy, and can be done without editing any code.
 
 1. Unfortunately, the list of expansions is stored in one file (rather
    than building the list by searching for expansions at runtime).  Edit
-   `app/src/main/resources/HandOfDoom/expansions.json` and copy one of
+   `app/src/main/assets/HandOfDoom/expansions.json` and copy one of
    the existing entries for your new expansion:
      - `id` - just pick something unique
      - `name` - the name which will be displayed in the Settings activity
      - `subdir` - the directory under
-       `app/src/main/resources/HandOfDoom/expansions` where your
+       `app/src/main/assets/HandOfDoom/expansions` where your
        expansion's files will be found
 1. Create that new `subdir` so that you have a place to put your new
    files.
@@ -201,7 +201,7 @@ that.)
 Then, in order to get those adventurer-specific images to be used, make
 these changes:
 
-* Add some drawable ID to resources/HandOfDoom/adventurers.json
+* Add some drawable ID to assets/HandOfDoom/adventurers.json
 * Make the code in `EditCampaignActivity.updateAdventurerIcon()`
   attempt to load that adventurer-specific image (for an example of
   loading a Drawable from a resource *name* instead of ID, see
