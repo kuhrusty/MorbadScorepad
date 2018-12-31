@@ -1,22 +1,21 @@
-//  I don't have their stats; these are just placeholders.
 [
   {
     "name": "Angel of Death",
-    "classes": [ ],
-    "agi": 2,
-    "con": 2,
-    "mag": 2,
-    "mrl": 2,
-    "per": 2,
-    "str": 2
+    "classes": [ "Human", "Rogue", "Scholar" ],
+    "agi": 8,
+    "con": 6,
+    "mag": 7,
+    "mrl": 7,
+    "per": 8,
+    "str": 6
   }, {
     "name": "Infamous Butcher",
-    "classes": [ ],
-    "agi": 2,
-    "con": 2,
-    "mag": 2,
-    "mrl": 2,
-    "per": 2,
-    "str": 2
+    "classes": [ "Human", "Merchant", "Rogue" ],
+    "agi": 8,
+    "con": 8,
+    "mag": 5,
+    "mrl": 6,
+    "per": 6,
+    "str": 8
   }
 ]
