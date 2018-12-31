@@ -1,0 +1,48 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/ddDarkBlue</item>
+        <item name="colorPrimaryDark">@color/black</item>
+        <item name="colorAccent">@color/ddRed</item>
+
+        <item name="buttonStyle">@style/AppTheme.Button</item>
+        <item name="imageButtonStyle">@style/AppTheme.ImageButton</item>
+    </style>
+
+    <style name="AppTheme.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="AppTheme.AppBarOverlay"
+           parent="ThemeOverlay.AppCompat.Dark.ActionBar"/>
+
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light"/>
+
+    <style name="AdventurerSpinner" parent="@android:style/Widget.TextView.SpinnerItem">
+        <!-- item name="android:fontFamily">@font/dominican</item -->
+        <item name="android:fontFamily">@font/caslon_antique_bold</item>
+        <item name="android:textSize">20sp</item>
+    </style>
+
+    <style name="AppTheme.Button" parent="Widget.AppCompat.Button.Colored">
+        <!-- item name="android:fontFamily">@font/dominican</item -->
+        <item name="android:fontFamily">@font/caslon_antique_bold</item>
+        <!-- item name="android:textSize">20sp</item -->
+        <item name="android:textColor">@color/black</item>
+
+        <!--  this one doesn't work at my API level or something -->
+        <!-- item name="colorButtonNormal">@color/ddBrightYellow</item -->
+        <!--  this one doesn't work either -->
+        <!-- item name="colorAccent">@color/ddBrightYellow</item -->
+        <!--  so, instead... -->
+        <item name="android:background">@drawable/button_text</item>
+    </style>
+
+    <style name="AppTheme.ImageButton" parent="Widget.AppCompat.ImageButton">
+        <item name="android:background">@drawable/button_image</item>
+    </style>
+
+</resources>

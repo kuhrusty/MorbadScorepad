@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+<!--
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FF4081</color>
+-->
+    <color name="black">#000000</color>
+    <color name="darkgray">#808080</color>
+    <color name="gray">#bbbbbb</color>
+
+    <!--  like on the Highlands Monster card backs -->
+    <color name="ddYellow">#eebb00</color>
+    <!--  like on the Highlands Monster card backs -->
+    <color name="ddOrange">#ff9900</color>
+    <!--  like on the Badlands Monster card backs -->
+    <color name="ddRed">#ff0000</color>
+    <!--  like on the Badlands Monster card backs -->
+    <color name="ddPurple">#880055</color>
+    <!--  like on the Wetlands Monster card backs -->
+    <color name="ddDarkGreen">#008800</color>
+    <!--  like on the Wetlands Monster card backs -->
+    <color name="ddLightGreen">#aadd00</color>
+    <!--  like on the Lowlands Monster card backs -->
+    <color name="ddDarkBlue">#000080</color>
+    <!--  like on the Lowlands Monster card backs -->
+    <color name="ddLightBlue">#88ddff</color>
+
+    <!--  ermm, maybe this is the red or purple color. -->
+    <color name="ddMagenta">#cc1155</color>
+
+    <!--  The yellow in the startup background  -->
+    <color name="ddBrightYellow">#fddf03</color>
+
+</resources>

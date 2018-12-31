@@ -1,0 +1,149 @@
+<resources>
+
+    <string name="app_name">Morbad Scorepad</string>
+
+    <string name="title_activity_settings">Morbad Scorepad Settings</string>
+
+    <string name="campaign_name_label">Campaign Name</string>
+    <string name="mission_name_label">Mission</string>
+    <string name="done">Done</string>
+    <string name="get_on_with_it">Get on with it!</string>
+    <string name="never_mind">Never mind</string>
+    <string name="factionLabel">Faction</string>
+    <string name="notesLabel">Notes</string>
+
+    <string name="new_campaign">[New Campaign]</string>
+    <string name="confirm_close_message">Are you sure you want to bail without saving?</string>
+    <string name="confirm_close_title">Whoa!</string>
+    <string name="save_game">Save Game</string>
+    <string name="edit_game">Edit Saved Game</string>
+    <string name="set_up_game">Set Up Saved Game</string>
+    <string name="name_label">Name</string>
+    <string name="character_label">Character</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="skill_list_label">Skill List</string>
+    <string name="map_route_label">Map Routes</string>
+    <string name="scenario_graph_label">Scenario Graph</string>
+    <string name="danger_deck_label">Danger Deck</string>
+    <string name="skill_list_all_item">* ALL SKILLS *</string>
+    <string name="danger">DANGER</string>
+
+    <!--  Code in EditCampaignActivity assumes element 0 is blank, element 1 is
+          1, etc.  -->
+    <string-array name="danger_levels">
+        <item></item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+    </string-array>
+
+    <!--  Code in EditCampaignActivity assumes element 0 is blank, element 1 is
+          1, etc.  -->
+    <string-array name="doom_tokens">
+        <item></item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+    </string-array>
+
+    <string name="dialog_title_error">Error</string>
+    <string name="dialog_msg_no_help">Couldn\'t set up help file cache!</string>
+
+    <string name="copyright_warning_title">Warning!</string>
+    <string name="copyright_warning">Note that all of the images &amp; text in this app are copyright GOBLINKO, not me, and are used without permission because DUNGEON DEGENERATES is bad-ass.  I\'m probably going to jail.</string>
+    <string name="copyright_warning_ok">Or getting burned on Witch Hill</string>
+
+    <string name="expansions_warning_title">Oh yeah</string>
+    <string name="expansions_warning">Make sure you go into Settings and select your expansions!</string>
+    <string name="expansions_warning_ok">OK</string>
+
+    <string name="pref_expansions">Expansions</string>
+    <string name="pref_expansions_summary">Cards, Adventurers, etc. from un-selected expansions won\'t be shown</string>
+
+    <string name="pref_developer">Developer options</string>
+    <string name="pref_developer_summary">Enables dangerous/unfinished stuff</string>
+    <string name="pref_data_dir">Data directory (in CLASSPATH)</string>
+
+    <string name="pref_campaign_store_discards">Save discard piles</string>
+    <string name="pref_campaign_store_discards_summary">Not needed if you only play one campaign at a time; see help</string>
+    <string name="pref_scenario_graph_hide_names">Hide unplayed scenario names</string>
+    <string name="pref_scenario_graph_hide_names_summary">Turn off if you don\'t want to see the names of scenarios you haven\'t played in the scenario graph</string>
+    <string name="pref_copyright_warning_shown">Copyright warning shown</string>
+    <string name="pref_copyright_warning_shown_summary">Turn off if you want to see the warning about me going to jail again</string>
+    <string name="pref_scenario_graph">Scenario Graph</string>
+    <string name="pref_other">Other</string>
+    <string name="pref_campaign">Save/Load Campaign</string>
+    <string name="pref_danger_deck">Danger Deck</string>
+    <string name="pref_danger_deck_summary">Cards, Adventurers, etc. from un-selected expansions won\'t be shown</string>
+    <string name="pref_danger_confirm_updated">Confirm updates</string>
+    <string name="pref_danger_confirm_updated_summary">Disable the \"draw the next danger card\" button until you confirm that danger levels on the map have been updated after combat.</string>
+    <string name="pref_danger_voice_set">Danger Card voice set</string>
+    <string-array name="pref_danger_voice_set_titles">
+        <item>Rusty</item>
+    </string-array>
+    <!--  these guys don't get localized -->
+    <string-array name="pref_danger_voice_set_values">
+        <item>rusty</item>
+    </string-array>
+    <string name="pref_danger_read_sound">Danger Card sounds</string>
+    <string-array name="pref_danger_read_sound_titles">
+        <item>None</item>
+        <!-- this one isn't implemented   item>Name only</item -->
+        <item>Full</item>
+    </string-array>
+    <!--  these guys don't get localized -->
+    <string-array name="pref_danger_read_sound_values">
+        <item>none</item>
+        <!-- see above   item>name</item -->
+        <item>full</item>
+    </string-array>
+
+    <string name="trait_base_label">Base</string>
+    <string name="trait_base_rule">Investing here costs only 16 GP</string>
+
+    <string name="trait_destroyed_label">Destroyed</string>
+    <string name="trait_destroyed_rule">You cannot move into, move through, or Rest in this space</string>
+
+    <string name="trait_explored_label">Explored</string>
+    <string name="trait_explored_rule">You can Force March across an Explored Path &amp; draw an additional card when you Trade in an Explored Town</string>
+
+    <string name="trait_fungus_label">Fungus</string>
+    <string name="trait_fungus_rule"></string>
+
+    <string name="trait_inside_label">Inside</string>
+    <string name="trait_inside_rule"></string>
+
+    <string name="trait_lakeport_label">Lake Port</string>
+    <string name="trait_lakeport_rule">You can Lake Port Travel to or from this space</string>
+
+    <string name="trait_law_rule">You may be attacked by Law Monsters this turn (see Rules p. 17)</string>
+
+    <string name="trait_metaphysical_label">Metaphysical</string>
+    <string name="trait_metaphysical_rule">You cannot move into this space unless you have a Status Condition or Disease &amp; when you Recover here, do not remove Status Conditions other than Detained</string>
+
+    <string name="trait_outside_label">Outside</string>
+    <string name="trait_outside_rule"></string>
+
+    <string name="trait_perilous_label">Perilous</string>
+    <string name="trait_perilous_rule">Do not recover Wounds when you use the Recovery action here</string>
+
+    <string name="trait_riverport_label">River Port</string>
+    <!-- back of rulebook says "the next River Port space downriver," but I think that's a mistake -->
+    <string name="trait_riverport_rule">You can River Port Travel from here to the next Port space downriver</string>
+
+    <string name="trait_settlement_label">Settlement</string>
+    <string name="trait_settlement_rule">This space can have a Town Level &amp; therefore can become a Town</string>
+
+    <string name="trait_void_label">Void</string>
+    <string name="trait_void_rule"></string>
+
+    <string name="trait_woodland_label">Woodland</string>
+    <string name="trait_woodland_rule"></string>
+
+</resources>

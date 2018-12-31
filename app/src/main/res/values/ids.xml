@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--  Used on ChooseCampaignLogActivity rows. -->
+    <item type="id" name="campaignID" />
+
+    <!--  Used on SkillListActivity rows. -->
+    <item type="id" name="skillID" />
+
+    <!--  Used on EditCampaignActivity town- & danger-level selection widgets. -->
+    <item type="id" name="isTown" />
+    <item type="id" name="otherWidgetID" />
+
+</resources>
