@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TableRow xmlns:android="http://schemas.android.com/apk/res/android"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:background="@drawable/row_bg">
+
+    <!--  was android:fontFamily="@font/dominican" -->
+    <TextView
+        android:id="@+id/skill_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:fontFamily="@font/caslon_antique_bold"
+        android:paddingBottom="2sp"
+        android:paddingLeft="8dp"
+        android:paddingTop="2sp"
+        android:textColor="@drawable/row_fg"
+        android:textSize="20sp"
+        android:textStyle="normal"/>
+
+</TableRow>
