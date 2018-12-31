@@ -68,16 +68,13 @@
             android:title="@string/pref_danger_voice_set"
             android:entries="@array/pref_danger_voice_set_titles"
             android:entryValues="@array/pref_danger_voice_set_values"
-            android:negativeButtonText="@null"
-            android:positiveButtonText="@null" />
+            android:defaultValue="rusty"/>
         <ListPreference
             android:key="pref_danger_read_sound"
             android:title="@string/pref_danger_read_sound"
             android:entries="@array/pref_danger_read_sound_titles"
             android:entryValues="@array/pref_danger_read_sound_values"
-            android:defaultValue="none"
-            android:negativeButtonText="@null"
-            android:positiveButtonText="@null" />
+            android:defaultValue="full"/>
     </PreferenceCategory>
 
     <PreferenceCategory android:key="pref_scenario_graph"
