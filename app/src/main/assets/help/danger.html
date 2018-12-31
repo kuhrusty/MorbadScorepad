@@ -1,0 +1,58 @@
+<html>
+<body>
+<h1>Danger Deck</h1>
+
+<p><font color="#ff0000">Apart from looking ugly, a main problem is that this
+    doesn't preserve the state of the deck across restarts (like when rotating
+    your screen).</font>  This is
+    <a href="https://github.com/kuhrusty/MorbadScorepad/issues/12">issue #12</a>.</p>
+
+<h2>Drawing cards</h2>
+
+<p>There are two ways to draw a danger card:
+    <ul>
+    <li>The main <b>draw button</b> (which is what you would normally use for
+        the first party's danger card draw)</li>
+    <li>The <b>"Draw Secondary" button</b>, which is what you would use for
+        parties other than the first, and when you need to draw a danger card
+        for Void Travel, the Fortune Cards item, etc.  (The differences are that
+        the "Draw Secondary" button doesn't play sound, and doesn't enable the
+        "Map Updated" button; see below.)</li></ul></p>
+
+<h2>Undo!</h2>
+
+<p>If you draw a card when you're not supposed to, <b>that's fine;</b> you can
+    fix it by hitting "Undo," which will put the card back on the deck.  That
+    will enable the "Shuffle Draw Pile" button, which will shuffle the remaining
+    cards without affecting the discards.</p>
+
+<p>If you screw <i>that</i> up, you can hit Undo again, and it will restore the
+    draw pile to its previous order.</p>
+
+<p>If you refuse to accept Fate, I suppose you <i>could,</i> upon drawing a card
+    you don't like, hit Undo, hit Shuffle Draw Pile, and draw again.</p>
+
+<h2>Confirming map changes</h2>
+
+<p>If you're the kind of person who forgets to lower the danger level on the map
+    after winning a fight, you can go into Settings and turn on "Confirm
+    updates."  Then, when you press the "Draw" button, it will be disabled until
+    you press the "Map Updated" button.  (The only point of the "Map Updated"
+    button is to keep you from accidentally drawing a new Danger card without
+    remembering to update post-fight danger levels.)</p>
+
+<h2>Sound</h2>
+
+<p>By default, the incomplete "Rusty" set of card readings is enabled.  If you
+    don't love the sound of Rusty's voice as much as certain people who think
+    it's funny to refer to themselves in the third person, you can turn this off
+    in Settings.</p>
+
+<h2>You can add your own recordings of you reading the cards!</h2>
+
+<p>See
+<a href="https://github.com/kuhrusty/MorbadScorepad/blob/master/CONTRIBUTING.md#adding-your-own-danger-card-recordings">CONTRIBUTING</a>
+in the source tree.</p>
+
+</body>
+</html>
