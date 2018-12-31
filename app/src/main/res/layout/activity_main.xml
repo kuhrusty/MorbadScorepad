@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--  This also had
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:showIn="@layout/activity_main"
+-->
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/black"
+    tools:context="com.kuhrusty.morbadscorepad.MainActivity"
+    >
+
+    <ImageView
+        android:id="@+id/mainImage"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_gravity="bottom"
+        android:layout_margin="0dp"
+        android:layout_marginBottom="8dp"
+        android:padding="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/helpButton"
+        app:layout_constraintDimensionRatio="816:1053"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:srcCompat="@drawable/main_bg"/>
+
+    <ImageView
+        android:id="@+id/appNameImage"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintDimensionRatio="569:282"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/app_name"/>
+
+    <Button
+        android:id="@+id/saveCampaignButton"
+        android:layout_width="0dp"
+        android:layout_height="48dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginStart="8dp"
+        android:onClick="doSaveCampaign"
+        android:text="@string/save_game"
+        app:layout_constraintBottom_toTopOf="@+id/editCampaignButton"
+        app:layout_constraintStart_toStartOf="parent"/>
+
+    <Button
+        android:id="@+id/editCampaignButton"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginStart="8dp"
+        android:onClick="doEditCampaign"
+        android:text="@string/edit_game"
+        app:layout_constraintBottom_toTopOf="@+id/loadCampaignButton"
+        app:layout_constraintStart_toStartOf="parent"/>
+
+    <Button
+        android:id="@+id/loadCampaignButton"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginStart="8dp"
+        android:onClick="doSetUpCampaign"
+        android:text="@string/set_up_game"
+        app:layout_constraintBottom_toTopOf="@+id/settingsButton"
+        app:layout_constraintStart_toStartOf="parent"/>
+
+    <!--
+    <Button
+        android:id="@+id/saveAdventurerButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="32dp"
+        android:layout_marginStart="32dp"
+        android:onClick="doSaveAdventurer"
+        android:text="@string/save"/>
+
+    <Button
+        android:id="@+id/editAdventurerButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="32dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginStart="32dp"
+        android:onClick="doEditAdventurer"
+        android:text="@string/edit"/>
+
+    <Button
+        android:id="@+id/loadAdventurerButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="32dp"
+        android:layout_marginEnd="32dp"
+        android:onClick="doSetUpAdventurer"
+        android:text="@string/set_up"/>
+-->
+
+    <ImageButton
+        android:id="@+id/settingsButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginStart="8dp"
+        android:onClick="openSettings"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:srcCompat="@android:drawable/ic_menu_manage"/>
+
+    <ImageButton
+        android:id="@+id/helpButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:onClick="openHelp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:srcCompat="@android:drawable/ic_menu_help"/>
+
+    <Button
+        android:id="@+id/skillListButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:onClick="openSkillList"
+        android:text="@string/skill_list_label"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/helpButton"
+        app:layout_constraintStart_toEndOf="@+id/settingsButton"/>
+
+    <Button
+        android:id="@+id/mapRouteButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:onClick="openMapRoutes"
+        android:text="@string/map_route_label"
+        app:layout_constraintBottom_toTopOf="@+id/helpButton"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <Button
+        android:id="@+id/scenarioGraphButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:onClick="openScenarioGraph"
+        android:text="@string/scenario_graph_label"
+        app:layout_constraintBottom_toTopOf="@+id/dangerDeckButton"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <Button
+        android:id="@+id/dangerDeckButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:onClick="openDangerDeck"
+        android:text="@string/danger_deck_label"
+        app:layout_constraintBottom_toTopOf="@+id/mapRouteButton"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+</android.support.constraint.ConstraintLayout>
