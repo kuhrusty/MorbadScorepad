@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!--
+    See button_text.xml for the enraged screed which goes here.  This duplicates
+    all the content in that file, but with different padding.  LAME
+    -->
+    <item android:state_enabled="false" >
+        <shape>
+            <solid android:color="@color/gray" />
+            <stroke
+                android:width="3dp"
+                android:color="@color/darkgray" />
+            <corners
+                android:radius="5dp" />
+            <padding
+                android:left="8dp"
+                android:right="8dp"
+                android:top="8dp"
+                android:bottom="8dp" />
+        </shape>
+    </item>
+
+    <item android:state_pressed="true" >
+        <shape>
+            <gradient
+                android:startColor="@color/ddOrange"
+                android:endColor="@color/ddRed"
+                android:angle="270" />
+            <stroke
+                android:width="3dp"
+                android:color="@color/black" />
+            <corners
+                android:radius="5dp" />
+            <padding
+                android:left="8dp"
+                android:right="8dp"
+                android:top="8dp"
+                android:bottom="8dp" />
+        </shape>
+    </item>
+
+    <item>
+        <shape>
+            <gradient
+                android:startColor="@color/ddBrightYellow"
+                android:endColor="@color/ddYellow"
+                android:angle="270" />
+            <stroke
+                android:width="3dp"
+                android:color="@color/black" />
+            <corners
+                android:radius="5dp" />
+            <padding
+                android:left="8dp"
+                android:right="8dp"
+                android:top="8dp"
+                android:bottom="8dp" />
+        </shape>
+    </item>
+
+</selector>

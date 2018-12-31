@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!--
+    I JUST WANT A GODDAMN BORDER AROUND MY BUTTONS.  Actually, the first thing I
+    wanted was to change the background color.  But you can't *do* that in
+    Android without screwing up everything; the "background" attribute is some
+    Drawable XML which contains a bunch of other stuff about the button, and
+    setting "colorButtonNormal" doesn't work at my API level or something.  Once
+    I gave up and set colorAccent in my AppTheme to my desired button background
+    color, I decided I wanted a thicker border around the edge of my buttons...
+    but once again, you can't just set one attribute somewhere; so here I'm
+    once again copying 50 goddamn lines of XML off StackOverflow for what should
+    have been a single clearly documented attribute I could set somewhere.
+
+    ARGHH!!!  I feel like *most* of the time I spend on Android apps is flailing
+    on stupid UI stuff which should be *easy*, instead of working on the
+    interesting code which *drives* the app.
+
+    I am probably going to wind up duplicating this crap in another file to get
+    the same look for ImageButtons, aren't I.
+    -->
+    <item android:state_enabled="false" >
+        <shape>
+            <solid android:color="@color/gray" />
+            <stroke
+                android:width="3dp"
+                android:color="@color/darkgray" />
+            <corners
+                android:radius="5dp" />
+            <padding
+                android:left="10dp"
+                android:right="10dp"
+                android:top="0dp"
+                android:bottom="0dp" />
+        </shape>
+    </item>
+
+    <item android:state_pressed="true" >
+        <shape>
+            <gradient
+                android:startColor="@color/ddOrange"
+                android:endColor="@color/ddRed"
+                android:angle="270" />
+            <stroke
+                android:width="3dp"
+                android:color="@color/black" />
+            <corners
+                android:radius="5dp" />
+            <padding
+                android:left="10dp"
+                android:right="10dp"
+                android:top="0dp"
+                android:bottom="0dp" />
+        </shape>
+    </item>
+
+    <item>
+        <shape>
+            <gradient
+                android:startColor="@color/ddBrightYellow"
+                android:endColor="@color/ddYellow"
+                android:angle="270" />
+            <stroke
+                android:width="3dp"
+                android:color="@color/black" />
+            <corners
+                android:radius="5dp" />
+            <padding
+                android:left="10dp"
+                android:right="10dp"
+                android:top="0dp"
+                android:bottom="0dp" />
+        </shape>
+    </item>
+
+</selector>
