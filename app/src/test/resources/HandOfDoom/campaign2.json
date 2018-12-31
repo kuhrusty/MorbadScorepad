@@ -1,0 +1,45 @@
+{
+  "campaignName": "Punchy Brothers",
+  "timestamp": 1234571490000,
+  "id": "save1234571490",
+  "highlandDoom": 0,
+  "lowlandDoom": 0,
+  "badlandDoom": 0,
+  "wetlandDoom": 0,
+  "mission": "Death for Hire",
+  "bountyLevel": 0,
+  "map": {
+    "regions": [
+      {
+        "name": "Highlands"
+      },
+      {
+        "name": "Badlands"
+      },
+      {
+        "name": "Lowlands"
+      },
+      {
+        "name": "Wetlands",
+        "locations": [
+          {
+            "name": "Stone Circle",
+            "town": 1
+          },
+          {
+            "name": "The Black Tree",
+            "danger": 6,
+            "traits": [
+              "Fungus",
+              "Perilous"
+            ]
+          },
+          {
+            "name": "Tomb Lake",
+            "danger": 5
+          }
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "campaignName": "Punchy Brothers",
+  "timestamp": 1234567890000,
+  "id": "save1234567890",
+  "highlandDoom": 0,
+  "lowlandDoom": 0,
+  "badlandDoom": 0,
+  "wetlandDoom": 0,
+  "mission": "On the Run",
+  "bountyLevel": 0,
+  "map": {
+    "regions": [
+      {
+        "name": "Highlands"
+      },
+      {
+        "name": "Badlands"
+      },
+      {
+        "name": "Lowlands"
+      },
+      {
+        "name": "Wetlands"
+      }
+    ]
+  }
+}

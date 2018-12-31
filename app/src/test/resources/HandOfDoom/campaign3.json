@@ -1,0 +1,68 @@
+/*
+
+Wednesday discards:
+
+Law Monster Discard: everything except
+  Plague Conscript
+  Saved Scratcher
+  Sin-Finder
+  Smelling Dwarf
+Lowlands Monster Discard: everything except
+  Black Wizard
+  Corpse Golem
+  Daemonic Servant
+  Feral Scratcher
+  Ghost Swarm
+  Ghoul
+  Grave Robber
+  Megarat
+  Moon Witch
+  Pumpkinhead
+  Verm Corpse
+  Vermus Guard
+  (weird umbrella thing)
+  Wolfman
+Lowlands Encounter Discard:
+  Holy Shrine
+  Lone Pilgrim
+Highlands Monster Discard:
+  Bird Riders
+  the 3 yellow-experience dudes
+Badlands Monster Discard:
+  the 3 yellow-experience dudes
+Wetlands Monster Discard: everyone except
+  Bird Horror
+  Bog Skrag
+  Crab Soldier
+  Death Troll
+  Fishmonger
+  Fishoid Warlock
+  Harpy
+  Lake Lurker
+  Scroglin Hunter
+  Skuttler
+Wetlands Encounter Discard:
+  Albino Scrog
+  Foul Weather
+  Lost in the Fog
+  Talking Bird
+Loot Discard:
+  Soothsayer's Head
+  Hunting Hook
+  Evil Puppet Show
+  Lucky Tattoo
+Epic Monster Discard:
+  Queen of the Rats
+*/
+
+{
+  "campaignName": "Punchy Brothers",
+  "timestamp": 1234571490000,
+  "id": "save1234571490",
+  "highlandDoom": 0,
+  "lowlandDoom": 0,
+  "badlandDoom": 0,
+  "wetlandDoom": 0,
+  "mission": "Death for Hire",
+  "bountyLevel": 0
+}
