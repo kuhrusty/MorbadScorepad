@@ -143,7 +143,7 @@
                 android:layout_marginRight="5dp"
                 android:orientation="horizontal">
 
-                <com.kuhrusty.wurstreichorder.SquareLayout
+                <com.kuhrusty.morbadscorepad.SquareLayout
                     android:id="@+id/squareLayout0"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
@@ -171,9 +171,9 @@
                         android:scaleType="centerInside"
                         android:onClick="editAdventurer"
                         app:srcCompat="@drawable/adventurer_none"/>
-                </com.kuhrusty.wurstreichorder.SquareLayout>
+                </com.kuhrusty.morbadscorepad.SquareLayout>
 
-                <com.kuhrusty.wurstreichorder.SquareLayout
+                <com.kuhrusty.morbadscorepad.SquareLayout
                     android:id="@+id/squareLayout1"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
@@ -191,9 +191,9 @@
                         android:scaleType="centerInside"
                         android:onClick="editAdventurer"
                         app:srcCompat="@drawable/adventurer_none"/>
-                </com.kuhrusty.wurstreichorder.SquareLayout>
+                </com.kuhrusty.morbadscorepad.SquareLayout>
 
-                <com.kuhrusty.wurstreichorder.SquareLayout
+                <com.kuhrusty.morbadscorepad.SquareLayout
                     android:id="@+id/squareLayout2"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
@@ -211,9 +211,9 @@
                         android:scaleType="centerInside"
                         android:onClick="editAdventurer"
                         app:srcCompat="@drawable/adventurer_none"/>
-                </com.kuhrusty.wurstreichorder.SquareLayout>
+                </com.kuhrusty.morbadscorepad.SquareLayout>
 
-                <com.kuhrusty.wurstreichorder.SquareLayout
+                <com.kuhrusty.morbadscorepad.SquareLayout
                     android:id="@+id/squareLayout3"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
@@ -231,7 +231,7 @@
                         android:scaleType="centerInside"
                         android:onClick="editAdventurer"
                         app:srcCompat="@drawable/adventurer_none"/>
-                </com.kuhrusty.wurstreichorder.SquareLayout>
+                </com.kuhrusty.morbadscorepad.SquareLayout>
             </LinearLayout>
 
             <LinearLayout
