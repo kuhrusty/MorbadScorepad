@@ -1,0 +1,76 @@
+[
+  {
+    "name": "Charlatan Magician",
+    "classes": [ "Human", "Performer", "Wizard" ],
+    "agi": 8,
+    "con": 6,
+    "mag": 8,
+    "mrl": 6,
+    "per": 7,
+    "str": 6
+  }, {
+    "name": "Cloaked Killer",
+    "classes": [ "Reptilian", "Hunter", "Scholar" ],
+    "agi": 8,
+    "con": 7,
+    "mag": 7,
+    "mrl": 5,
+    "per": 8,
+    "str": 6
+  }, {
+    "name": "Fishy Confectioner",
+    "classes": [ "Fishoid", "Merchant", "Wild" ],
+    "agi": 7,
+    "con": 7,
+    "mag": 7,
+    "mrl": 6,
+    "per": 7,
+    "str": 7
+  }, {
+    "name": "Hermit Ascetic",
+    "classes": [ "Human", "Warlock", "Wizard" ],
+    "agi": 7,
+    "con": 8,
+    "mag": 9,
+    "mrl": 6,
+    "per": 7,
+    "str": 7
+  }, {
+    "name": "Highway Robber",
+    "classes": [ "Human", "Rogue", "Hunter" ],
+    "agi": 8,
+    "con": 7,
+    "mag": 7,
+    "mrl": 6,
+    "per": 8,
+    "str": 6
+  }, {
+    "name": "Naughty Naturalist",
+    "classes": [ "Human", "Scholar", "Wild" ],
+//...or not Wild... this one's going to be tough
+    "agi": 7,
+    "con": 7,
+    "mag": 7,
+    "mrl": 7,
+    "per": 8,
+    "str": 6
+  }, {
+    "name": "Sharpshooter",
+    "classes": [ "Human", "Hunter", "Militant" ],
+    "agi": 7,
+    "con": 7,
+    "mag": 6,
+    "mrl": 7,
+    "per": 8,
+    "str": 7
+  }, {
+    "name": "Solitary Swordsman",
+    "classes": [ "Human", "Fighter", "Rogue" ],
+    "agi": 8,
+    "con": 7,
+    "mag": 6,
+    "mrl": 7,
+    "per": 7,
+    "str": 8
+  }
+]

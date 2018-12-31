@@ -1,0 +1,24 @@
+[
+  {
+    "name": "Dagger & Sword",
+    "id": "wb_badlands1",
+    "prev": [ "START" ],
+    "next": [ "hod4", "hod16", "wb_badlands2" ],
+    "pageNumber": 17
+  }, {
+    "name": "Tear Open the Gates",
+    "id": "wb_badlands2",
+    "pageNumber": 20
+  }, {
+    "name": "Beat Them Bloody",
+    "id": "wb_badlands3",
+    "prev": [ "DEFEATED(Badlands)", "DEFEATED(Bandit Camp)", "DEFEATED(Watchtower)" ],
+    "next": [ "hod8", "hod14", "hod15" ],
+    "pageNumber": 22
+  }, {
+    "name": "Into the Unknown",
+    "id": "wb_badlands4",
+    "prev": [ "END(Pigskin Port)" ],
+    "pageNumber": 26
+  }
+]

@@ -1,0 +1,58 @@
+//  The list of Skill cards.
+//
+//  See https://boardgamegeek.com/article/27715870#27715870
+//
+//  Note that the IDs are used in Android drawable IDs, so they can't contain
+//  upper-case characters.  We prepend "skill_" and "mastery_" to the IDs to
+//  get drawable IDs.
+[
+  {
+    "id": "bloodlust",
+    "name": "Bloodlust",
+    "req": "Warlock or Wild"
+  }, {
+    "id": "claws",
+    "name": "Claws",
+    "req": "Reptilian, Warlock, or Lycanthrope"
+  }, {
+    "id": "immunity",
+    "name": "Immunity",
+    "req": "Rogue, Scholar, Warlock, or Wild"
+  }, {
+    "id": "lycanthropy",
+    "name": "Lycanthropy",
+    "req": "Lycanthrope"
+  }, {
+    "id": "martial_discipline",
+    "name": "Martial Discipline",
+    "req": "Militant or Fighter"
+  }, {
+    "id": "meditation",
+    "name": "Meditation",
+    "req": "Wizard"
+  }, {
+    "id": "performance",
+    "name": "Performance",
+    "req": "Performer"
+  }, {
+    "id": "provoke",
+    "name": "Provoke",
+    "req": "MRL 6"
+  }, {
+    "id": "river_rat",
+    "name": "River Rat",
+    "req": "Merchant, Rogue, or Wild"
+  }, {
+    "id": "shieldwall",
+    "name": "Shieldwall",
+    "req": "STR 8"
+  }, {
+    "id": "shock_wave",
+    "name": "Shock Wave",
+    "req": "Wizard"
+  }, {
+    "id": "streetwise",
+    "name": "Streetwise",
+    "req": "Merchant, Rogue, or Performer"
+  }
+]

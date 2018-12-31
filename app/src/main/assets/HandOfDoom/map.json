@@ -1,0 +1,179 @@
+//  An array of Regions on the map.
+[
+  {
+    "name": "Highlands",
+    //  includes territories
+    "locations": [
+      {
+        "name": "Bandit Camp",
+        "isSettlement": "true",
+        "danger": 4,
+        "traits": ["Outside", "Settlement"]
+      }, {
+        "name": "Pigskin Port",
+        "town": 3,
+        "traits": ["Inside", "Settlement", "RiverPort"]
+      }, {
+        "name": "The Watchtower",
+        "danger": 3,
+        "traits": ["Inside", "Settlement", "RiverPort"]
+      }, {
+        "name": "The Temple of Madness",
+        "danger": 5,
+        "traits": ["Inside", "Metaphysical", "Perilous"]
+      }, {
+        "name": "The Tunnel of Terror",
+        "danger": 4,
+        "traits": ["Inside", "RiverPort", "Metaphysical", "Perilous"]
+      }, {
+        "name": "Slaver's Pass",
+        "danger": 4,
+        "traits": ["Outside"]
+      }, {
+        "name": "The Foothills",
+        "danger": 2,
+        "traits": ["Outside"]
+      }, {
+        "name": "The Windmill",
+        //  danger of 0 means it gets its danger level from somewhere else.
+        "danger": 0,
+        "traits": ["Inside"]
+      }, {
+        "name": "North Bridge",
+        "danger": 0,
+        "traits": ["Outside"]
+      }
+    ]
+  }, {
+    "name": "Badlands",
+    "locations": [
+      {
+        "name": "Goblin Fortress",
+        "danger": 5,
+        "traits": ["Inside", "Settlement"]
+      }, {
+        "name": "Burning Lakes",
+        "danger": 4,
+        "traits": ["Outside", "Perilous"]
+      }, {
+        "name": "Crystal Crater",
+        "danger": 0,
+        "traits": ["Outside", "RiverPort", "Perilous"]
+      }, {
+        "name": "The Wasteland",
+        "danger": 3,
+        "traits": ["Outside"]
+      }, {
+        "name": "Last Chance",
+        "danger": 0,
+        "traits": ["Inside"]
+      }, {
+        "name": "Skull Bridge",
+        "danger": 4,
+        "traits": ["Inside"]
+      }, {
+        "name": "The Blasted Heath",
+        "danger": 4,
+        "traits": ["Outside", "Perilous"]
+      }, {
+        "name": "The Hell Pit",
+        "danger": 5,
+        "traits": ["Outside", "Perilous"]
+      }
+    ]
+  }, {
+    "name": "Lowlands",
+    "locations": [
+      {
+        "name": "Brüttelburg",
+        "town": 5,
+        "traits": ["Inside", "Settlement", "Law"]
+      }, {
+        "name": "The Holy Order",
+        "town": 3,
+        "traits": ["Inside", "Settlement", "Law"]
+      }, {
+        "name": "Hunt Lodge",
+        "town": 2,
+        "traits": ["Inside", "Woodland", "Settlement", "Law"]
+      }, {
+        "name": "The Graveyard",
+        "danger": 4,
+        "traits": ["Inside"]
+      }, {
+        "name": "The Catacombs",
+        "danger": 5,
+        "traits": ["Inside"]
+      }, {
+        "name": "The Fields",
+        "danger": 2,
+        "traits": ["Outside", "Law"]
+      }, {
+        "name": "Crossroads",
+        "danger": 0,
+        "traits": ["Outside", "Law"]
+      }, {
+        "name": "Witch Hill",
+        "danger": 5,
+        "traits": ["Outside", "Woodland"]
+      }, {
+        "name": "The Witchwood",
+        "danger": 4,
+        "traits": ["Outside", "Woodland"]
+      }, {
+        "name": "East Bridge",
+        "danger": 0,
+        "traits": ["Outside", "Woodland", "RiverPort", "Law"]
+      }, {
+        "name": "Hag's Fork",
+        "danger": 0,
+        "traits": ["Outside", "Woodland"]
+      }
+    ]
+  }, {
+    "name": "Wetlands",
+    "locations": [
+      {
+        "name": "Gutfish Ford",
+        "town": 2,
+        "traits": ["Outside", "Settlement", "RiverPort"]
+      }, {
+        "name": "Stone Circle",
+        "town": 2,
+        "traits": ["Outside", "Settlement"]
+      }, {
+        "name": "Fishmonger Camp",
+        "danger": 2,
+        "traits": ["Inside", "Settlement", "LakePort"]
+      }, {
+        "name": "The Rotting Swamp",
+        "danger": 4,
+        "traits": ["Outside"]
+      }, {
+        "name": "The Black Tree",
+        "danger": 5,
+        "traits": ["Outside", "Woodland"]
+      }, {
+        "name": "Sunken Village",
+        "danger": 4,
+        "traits": ["Inside"]
+      }, {
+        "name": "Tower Island",
+        "danger": 4,
+        "traits": ["Inside", "LakePort"]
+      }, {
+        "name": "Tomb Lake",
+        "danger": 3,
+        "traits": ["Outside", "LakePort"]
+      }, {
+        "name": "Dusk Falls",
+        "danger": 0,
+        "traits": ["Outside", "LakePort"]
+      }, {
+        "name": "Ghostgate",
+        "danger": 0,
+        "traits": ["Inside", "LakePort"]
+      }
+    ]
+  }
+]

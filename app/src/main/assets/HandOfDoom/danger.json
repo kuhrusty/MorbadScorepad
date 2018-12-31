@@ -1,0 +1,228 @@
+//  The list of Danger cards.
+//
+//  Note that the IDs are used in Android drawable IDs, so they can't contain
+//  upper-case characters.  We prepend "danger_" to the IDs to get drawable IDs,
+//  and "danger_<audio-preference-value>_" to the IDs to get raw audio IDs.
+//
+//  Note also that most of these entries aren't correct/complete; I just entered
+//  the minimum I needed for DangerDeckActivity, plus some test stuff.  So if
+//  you actually want to use these for something more than that, you've got some
+//  work to do.
+[
+//  Highlands
+  {
+    "id": "bandit_camp",
+    "location": "The Bandit Camp"
+  },
+  {
+    "id": "pigskin_port",
+    "location": "Pigskin Port"
+  },
+  {
+    "id": "watchtower",
+    "location": "The Watchtower"
+  },
+  {
+    "id": "temple_of_madness",
+    "preamble": "Obscene mockeries of nature & reality gather within the horrific skull-edifice called",
+    "location": "The Temple of Madness",
+    "danger": [
+      { "traits": "!Metaphysical", "value": 3 },
+      { "traits": "Metaphysical", "value": 2 }
+    ],
+    "encounter": true,
+    "fight": [
+      "1", "2", "3", "4"
+    ]
+  },
+  {
+    "id": "tunnel_of_terror",
+    "location": "Tunnel of Terror"
+  },
+  {
+    "id": "slavers_pass",
+    "location": "Slaver's Pass"
+  },
+  {
+    "id": "foothills",
+    "preamble": "Robbers, mutants & worse harass travellers on the windblown Highland roads of",
+    "location": "The Foothills",
+    "doom": "The Windmill",
+    "danger": [
+      { "traits": "Outside", "value": 6 },
+      { "traits": "Inside", "value": 5 }
+    ],
+    "encounter": true,
+    "fight": [
+      "2", "4", "6", "E2"
+    ]
+  },
+
+//  Badlands
+  {
+    "id": "goblin_fortress",
+    "location": "The Goblin Fortress"
+  },
+  {
+    "id": "burning_lakes",
+    "location": "The Burning Lakes"
+  },
+  {
+    "id": "wasteland",
+    "location": "The Wasteland"
+  },
+  {
+    "id": "skull_bridge",
+    "location": "Skull Bridge"
+  },
+  {
+    "id": "blasted_heath",
+    "location": "The Blasted Heath"
+  },
+  {
+    "id": "hell_pit",
+    "location": "The Hell Pit"
+  },
+
+//  Lowlands
+  {
+    "id": "bruttelburg",
+    "location": "Brüttelburg"
+  },
+  {
+    "id": "holy_order",
+    "location": "The Holy Order"
+  },
+  {
+    "id": "hunt_lodge",
+    "location": "The Hunt Lodge"
+  },
+  {
+    "id": "graveyard",
+    "preamble": "Carrion-feeding vermin & depraved lunatic cults infest",
+    "location": "The Graveyard",
+    "danger": [
+      { "traits": "Law", "value": 6 }
+    ],
+    "fight": [
+      "E0", "E1", "E2", "E3"
+    ]
+  },
+  {
+    "id": "catacombs",
+    "location": "The Catacombs"
+  },
+  {
+    "id": "fields",
+    "location": "The Fields"
+  },
+  {
+    "id": "witch_hill",
+    "location": "Witch Hill"
+  },
+  {
+    "id": "witchwood",
+    "location": "The Witchwood"
+  },
+
+//  Wetlands
+  {
+    "id": "gutfish_ford",
+    "preamble": "Broken fishing nets, missing children & strange webbed prints in the mud panic the remote community at",
+    "location": "Gutfish Ford",
+    "danger": [
+      { "traits": "Law", "value": 3 }
+    ],
+    "fight": [
+      "2", "3", "4", "5"
+    ]
+  },
+  {
+    "id": "stone_circle",
+    "location": "Stone Circle"
+  },
+  {
+    "id": "fishmonger_camp",
+    "location": "Fishmonger Camp"
+  },
+  {
+    "id": "rotting_swamp",
+    "preamble": "Eerie howls of stalking beasts echo through the endless gloom of",
+    "location": "The Rotting Swamp",
+    "doom": "Dusk Falls",
+    "danger": [
+      { "traits": "!Fungus", "value": 6 },
+      { "traits": "Fungus", "value": 5 }
+    ],
+    "encounter": true,
+    "fight": [
+      "3", "4", "5", "6"
+    ]
+  },
+  {
+    "id": "black_tree",
+    "location": "The Black Tree"
+  },
+  {
+    "id": "sunken_village",
+    "location": "The Sunken Village"
+  },
+  {
+    "id": "tower_island",
+    "location": "Tower Island"
+  },
+  {
+    "id": "tomb_lake",
+    "location": "Tomb Lake"
+  },
+
+//  Special stuff
+  {
+    "id": "none1",
+    "preamble": "The air feels thick & your hair stands on end... some devilry is afoot!",
+    "danger": [
+      { "value": 5 }
+    ],
+    "encounter": true,
+    "fight": [
+      "E0", "E1", "E1", "E2"
+    ],
+    "reshuffle": true
+  },
+  {
+    "id": "none2",
+    "preamble": "You feel a chill run down your spine.",
+    "danger": [
+      { "value": 1 }
+    ],
+    "encounter": true,
+    "fight": [
+      "1", "2", "3", "4"
+    ],
+    "reshuffle": true
+  },
+  {
+    "id": "none3",
+    "preamble": "You've attracted the attention of an unmistakeable malignant force in",
+    "location": "Your Current Space"
+  },
+  {
+    "id": "none4",
+    "location": "Each Space with a Voidgate"
+  },
+  {
+    "id": "none5",
+    "preamble": "You glance over your shoulder, certain that you're being followed through",
+    "location": "Your Current Space"
+  },
+  {
+    "id": "none6",
+    "preamble": "You have an uneasy feeling, like something horrible is about to happen",
+    "reshuffle": true
+  },
+  {
+    "id": "none7",
+    "preamble": "You can't shake the feeling that you're being watched by something in",
+    "location": "Your Current Space"
+  }
+]

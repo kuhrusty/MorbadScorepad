@@ -1,0 +1,98 @@
+//  The list of available Adventurers.
+[
+  {
+    "name": "Bloodsport Brawler",
+//    "crime": "",
+//    "homeland": ""
+//    "flavorHTML": "",
+//    "suggestedSkills": [ "", "" ],
+//    "suggestedWeaknesses": [ "" ],
+    "classes": [ "Human", "Fighter", "Performer" ],
+//    "items": [ "", "" ],
+//    "skills": [ "" ],
+//    "luckRule": "",
+    "agi": 8,
+    "con": 9,
+    "mag": 5,
+    "mrl": 8,
+    "per": 6,
+    "str": 9
+//    "gp": ,
+//    "luck": ,
+//    "xp":
+  }, {
+    "name": "Bog Conjurer",
+    "crime": "Uncleanliness & Vagrancy",
+    "homeland": "Stone Circle",
+    "flavorHTML": "Raised by a toothless, bearded hag, the Bog Conjurer ...",
+    "suggestedSkills": [ "MendWounds", "Rebuke" ],
+    "suggestedWeaknesses": [ "Wanderlust" ],
+    "classes": [ "Human", "Warlock", "Wild" ],
+    "items": [ "SpiritGuide", "TotemStick" ],
+    "skills": [ "SixthSense" ],
+    "luckRule": "Gain 1 Luck when you pass an Explore Test with doubles while you are Outside",
+    "agi": 7,
+    "con": 8,
+    "mag": 9,
+    "mrl": 6,
+    "per": 7,
+    "str": 8,
+    "gp": 2,
+    "luck": 4,
+    "xp": 10
+  }, {
+    "name": "Corpse Burner",
+    "classes": [ "Human", "Puritan", "Rogue" ],
+    "agi": 7,
+    "con": 8,
+    "mag": 5,
+    "mrl": 8,
+    "per": 7,
+    "str": 8
+  }, {
+    "name": "Hinterlander",
+    "classes": [ "Human", "Hunter", "Wild" ],
+    "agi": 8,
+    "con": 8,
+    "mag": 7,
+    "mrl": 6,
+    "per": 9,
+    "str": 7
+  }, {
+    "name": "Mercenary Alchemist",
+    "classes": [ "Human", "Militant", "Scholar" ],
+    "agi": 7,
+    "con": 7,
+    "mag": 8,
+    "mrl": 7,
+    "per": 8,
+    "str": 6
+  }, {
+    "name": "Vermin Hunter",
+    "classes": [ "Human", "Hunter", "Rogue" ],
+    "agi": 8,
+    "con": 6,
+    "mag": 7,
+    "mrl": 6,
+    "per": 8,
+    "str": 6
+  }, {
+    "name": "Void Witch",
+    "classes": [ "Human", "Warlock", "Wizard" ],
+    "agi": 8,
+    "con": 5,
+    "mag": 9,
+    "mrl": 6,
+    "per": 8,
+    "str": 5
+  }, {
+    "name": "Witch Smeller",
+    "classes": [ "Human", "Hunter", "Puritan" ],
+    "agi": 8,
+    "con": 7,
+    "mag": 7,
+    "mrl": 9,
+    "per": 8,
+    "str": 6
+  }
+]

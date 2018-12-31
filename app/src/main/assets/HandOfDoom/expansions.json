@@ -1,0 +1,26 @@
+//  The list of expansions which are available for this game.  Cards, Missions,
+//  Adventurers, etc. won't be displayed if they have an expansion ID which
+//  doesn't match an expansion which the user has selected as having in play.
+[
+  {
+    "id": "cp1",
+    "name": "Adventurer Expansion",
+    "subdir": "CharacterPack1"
+  }, {
+    "id": "cp2",
+    "name": "Freaks & Psychos",
+    "subdir": "FreaksAndPsychos"
+  }, {
+    "id": "hod_ks",
+    "name": "Hand of Doom Kickstarter Exclusives",
+    "subdir": "KSX1"
+  }, {
+    "id": "wb_badlands",
+    "name": "World Book - The Badlands & Beyond",
+    "subdir": "WorldBookBadlands"
+  }, {
+    "id": "wb_wetlands",
+    "name": "World Book - Tomb Lake & The Wetlands",
+    "subdir": "WorldBookWetlands"
+  }
+]

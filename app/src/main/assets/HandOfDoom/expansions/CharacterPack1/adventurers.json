@@ -1,0 +1,76 @@
+[
+  {
+    "name": "Alley Cat",
+    "classes": [ "Lycanthrope", "Rogue", "Wild" ],
+    "agi": 8,
+    "con": 7,
+    "mag": 7,
+    "mrl": 6,
+    "per": 8,
+    "str": 5
+  }, {
+    "name": "Banished Sorcerer",
+    "expansionID": "cp1",
+    "classes": [ "Reptilian", "Scholar", "Wizard" ],
+    "agi": 7,
+    "con": 6,
+    "mag": 9,
+    "mrl": 6,
+    "per": 8,
+    "str": 6
+  }, {
+    "name": "Carnival Drifter",
+    "classes": [ "Human", "Performer", "Rogue" ],
+    "agi": 8,
+    "con": 6,
+    "mag": 8,
+    "mrl": 6,
+    "per": 7,
+    "str": 6
+  }, {
+    "name": "Dishonored Knight",
+    "classes": [ "Human", "Fighter", "Militant" ],
+    "agi": 7,
+    "con": 8,
+    "mag": 6,
+    "mrl": 9,
+    "per": 6,
+    "str": 9
+  }, {
+    "name": "Jack Slasher",
+    "classes": [ "Human", "Hunter", "Wild" ],
+    "agi": 8,
+    "con": 7,
+    "mag": 7,
+    "mrl": 5,
+    "per": 6,
+    "str": 7
+  }, {
+    "name": "River Pirate",
+    "classes": [ "Human", "Merchant", "Rogue" ],
+    "agi": 8,
+    "con": 8,
+    "mag": 6,
+    "mrl": 6,
+    "per": 8,
+    "str": 8
+  }, {
+    "name": "Soldier of Fortune",
+    "classes": [ "Human", "Fighter", "Militant" ],
+    "agi": 7,
+    "con": 9,
+    "mag": 5,
+    "mrl": 8,
+    "per": 7,
+    "str": 8
+  }, {
+    "name": "Wastelander",
+    "classes": [ "Human", "Fighter", "Wild" ],
+    "agi": 7,
+    "con": 9,
+    "mag": 5,
+    "mrl": 6,
+    "per": 8,
+    "str": 9
+  }
+]

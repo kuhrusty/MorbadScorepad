@@ -1,0 +1,91 @@
+//  The list of decks of cards in the game.
+//
+//  NOTE that these entries are not necessarily correct/complete; I think the
+//  only decks currently being loaded are the skill and danger decks, anyway.
+[
+  {
+    "id": "llm",
+    "name": "Lowlands Monster",
+    "cardFileName": "lowlandsMonster.json",
+    //    "cardClassName": ...
+    "monster": true
+  }, {
+    "id": "lle",
+    "name": "Lowlands Encounter",
+    "cardFileName": "lowlandsEncounter.json",
+    "encounter": true
+  }, {
+    "id": "hlm",
+    "name": "Highlands Monster",
+    "cardFileName": "highlandsMonster.json",
+    "monster": true
+  }, {
+    "id": "hle",
+    "name": "Highlands Encounter",
+    "cardFileName": "highlandsEncounter.json",
+    "encounter": true
+  }, {
+    "id": "blm",
+    "name": "Badlands Monster",
+    "cardFileName": "badlandsMonster.json",
+    //    "cardClassName": ...
+    "monster": true
+  }, {
+    "id": "ble",
+    "name": "Badlands Encounter",
+    "cardFileName": "badlandsEncounter.json",
+    "encounter": true
+  }, {
+    "id": "wlm",
+    "name": "Wetlands Monster",
+    "cardFileName": "wetlandsMonster.json",
+    "monster": true
+  }, {
+    "id": "wle",
+    "name": "Wetlands Encounter",
+    "cardFileName": "highlandsEncounter.json",
+    "encounter": true
+  }, {
+    "id": "lm",
+    "name": "Law Monster",
+    "cardFileName": "lawMonster.json",
+    "monster": true
+  }, {
+    "id": "em",
+    "name": "Epic Monster",
+    "cardFileName": "epicMonster.json",
+    "epic": true,
+    "monster": true
+  }, {
+    "id": "loot",
+    "name": "Loot",
+    "cardFileName": "loot.json",
+    "loot": true
+  }, {
+    "id": "eloot",
+    "name": "Epic Loot",
+    "cardFileName": "epicLoot.json",
+    "epic": true,
+    "loot": true
+  }, {
+    "id": "skill",
+    "name": "Skill",
+    "cardFileName": "skills.json",
+    "noDiscardPile": true
+  }, {
+    "id": "danger",
+    "name": "Danger",
+    "cardFileName": "danger.json"
+  }, {
+    "id": "triumph",
+    "name": "Triumph",
+    "cardFileName": "triumph.json",
+    "noDiscardPile": true
+  }, {
+    "id": "weakness",
+    "name": "Weakness",
+    "cardFileName": "weakness.json"
+  }
+//  Sign Of Power
+//  Doom
+]

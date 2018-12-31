@@ -1,0 +1,25 @@
+//  The list of Skill cards.
+//
+//  See https://boardgamegeek.com/article/27715870#27715870
+//
+//  Note that the IDs are used in Android drawable IDs, so they can't contain
+//  upper-case characters.  We prepend "skill_" and "mastery_" to the IDs to
+//  get drawable IDs.
+[
+  {
+    "id": "exploit",
+    "name": "Exploit",
+//  copied from FreaksAndPsychos; not sure it's correct
+    "req": "Fighter, Hunter, Militant, or Rogue"
+  }, {
+    "id": "gourmet",
+    "name": "Gourmet",
+//  copied from the base skills.json; not sure it's correct
+    "req": "MRL <9"
+  }, {
+    "id": "sneak_attack",
+    "name": "Sneak Attack",
+//  copied from the base skills.json; not sure it's correct
+    "req": "PER 8"
+  }
+]

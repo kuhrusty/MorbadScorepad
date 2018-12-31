@@ -1,0 +1,154 @@
+//  The list of Skill cards.
+//
+//  See https://boardgamegeek.com/article/27715870#27715870
+//
+//  Note that the IDs are used in Android drawable IDs, so they can't contain
+//  upper-case characters.  We prepend "skill_" and "mastery_" to the IDs to
+//  get drawable IDs.
+[
+  {
+    "id": "alchemy",
+    "name": "Alchemy",
+    "req": "Scholar"
+  }, {
+    "id": "backstab",
+    "name": "Backstab",
+    "req": "Hunter or Rogue"
+  }, {
+    "id": "black_market",
+    "name": "Black Market",
+    "req": "Merchant or Rogue"
+  }, {
+    "id": "blood_curse",
+    "name": "Blood Curse",
+    "req": "Warlock"
+  }, {
+    "id": "burly",
+    "name": "Burly",
+    "req": "STR 8"
+  }, {
+    "id": "combat_reflexes",
+    "name": "Combat Reflexes",
+    "req": "Hunter or Rogue"
+  }, {
+    "id": "counter",
+    "name": "Counter",
+    "req": "AGI 8"
+  }, {
+    "id": "dauntless",
+    "name": "Dauntless",
+    "req": "MRL 8"
+  }, {
+    "id": "decay",
+    "name": "Decay",
+    "req": "Warlock"
+  }, {
+    "id": "drain_life",
+    "name": "Drain Life",
+    "req": "Warlock"
+  }, {
+    "id": "exterminator",
+    "name": "Exterminator",
+    "req": "Fighter, Hunter, or Wild"
+  }, {
+    "id": "ferocious_charge",
+    "name": "Ferocious Charge",
+    "req": "STR 8"
+  }, {
+    "id": "fieldcraft",
+    "name": "Fieldcraft",
+    "req": "Wild"
+  }, {
+    "id": "find_weakness",
+    "name": "Find Weakness",
+    "req": "Fighter, Hunter, Scholar, or Wild"
+  }, {
+    "id": "foe_killer",
+    "name": "Foe Killer",
+    "req": "Fighter, Hunter, Militant"
+  }, {
+    "id": "goblin_slayer",
+    "name": "Goblin Slayer",
+    "req": "Fighter, Hunter, Wild"
+  }, {
+    "id": "gourmet",
+    "name": "Gourmet",
+    "req": "MRL <9"
+  }, {
+    "id": "immunity",
+    "name": "Immunity",
+    "req": "Rogue, Scholar, Warlock, or Wild"
+  }, {
+    "id": "inquisitor",
+    "name": "Inquisitor",
+    "req": "Puritan"
+  }, {
+    "id": "intimidate",
+    "name": "Intimidate",
+    "req": "MRL 8 or STR 8"
+  }, {
+    "id": "levitate",
+    "name": "Levitate",
+    "req": "MAG 9"
+  }, {
+    "id": "looter",
+    "name": "Looter",
+    "req": "Merchant or Rogue"
+  }, {
+    "id": "magic_missile",
+    "name": "Magic Missile",
+    "req": "Wizard"
+  }, {
+    "id": "mend_wounds",
+    "name": "Mend Wounds",
+    "req": "Scholar or Wild"
+  }, {
+    "id": "mist_form",
+    "name": "Mist Form",
+    "req": "Warlock or Wizard"
+  }, {
+    "id": "mystic_shield",
+    "name": "Mystic Shield",
+    "req": "Wizard"
+  }, {
+    "id": "provoke",
+    "name": "Provoke",
+    "req": "MRL 6"
+  }, {
+    "id": "rage",
+    "name": "Rage",
+    "req": "STR 8"
+  }, {
+    "id": "rebuke",
+    "name": "Rebuke",
+    "req": "Puritan or Warlock"
+  }, {
+    "id": "shrug_off_pain",
+    "name": "Shrug Off Pain",
+    "req": "CON 8 or MRL 9"
+  }, {
+    "id": "sixth_sense",
+    "name": "Sixth Sense",
+    "req": "MAG 8 or PER 8"
+  }, {
+    "id": "sneak_attack",
+    "name": "Sneak Attack",
+    "req": "PER 8"
+  }, {
+    "id": "track",
+    "name": "Track",
+    "req": "Hunter or Wild"
+  }, {
+    "id": "transmute",
+    "name": "Transmute",
+    "req": "Scholar"
+  }, {
+    "id": "voidwalker",
+    "name": "Voidwalker",
+    "req": "Void Witch"
+  }, {
+    "id": "warding",
+    "name": "Warding",
+    "req": "Puritan or Warlock"
+  }
+]

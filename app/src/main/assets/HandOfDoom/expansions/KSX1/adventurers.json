@@ -1,0 +1,22 @@
+//  I don't have their stats; these are just placeholders.
+[
+  {
+    "name": "Angel of Death",
+    "classes": [ ],
+    "agi": 2,
+    "con": 2,
+    "mag": 2,
+    "mrl": 2,
+    "per": 2,
+    "str": 2
+  }, {
+    "name": "Infamous Butcher",
+    "classes": [ ],
+    "agi": 2,
+    "con": 2,
+    "mag": 2,
+    "mrl": 2,
+    "per": 2,
+    "str": 2
+  }
+]

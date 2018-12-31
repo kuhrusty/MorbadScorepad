@@ -1,0 +1,109 @@
+//  The list of available missions.  These are just so we can offer them as a
+//  list of choices when saving a campaign.
+//
+//  In addition to expansion IDs, it would be cool to keep the list of previous
+//  & next adventures so that you could display the graph of routes through a
+//  campaign.
+[
+  {
+    "name": "On the Run",
+    "id": "hod1",
+    "prev": ["START"],
+    "next": [ "hod2", "hod3", "hod4", "hod5", "hod10" ],
+    "pageNumber": 2
+  }, {
+    "name": "Loot & Pillage",
+    "id": "hod2",
+    "next": [ "hod4", "hod5", "hod6", "hod8", "hod11" ],
+    "pageNumber": 3
+  }, {
+    "name": "Visions at the Peak",
+    "id": "hod3",
+    "next": [ "hod12", "hod17" ],
+    "pageNumber": 4
+  }, {
+    "name": "Establish a Base",
+    "id": "hod4",
+    "next": [ "hod8", "hod9", "hod13", "hod14", "hod15", "hod16", "hod18" ],
+    "pageNumber": 5
+  }, {
+    "name": "Death for Hire",
+    "id": "hod5",
+    "prev": ["CAPTURE"],
+    "next": [ "hod6", "hod13", "hod14", "hod15" ],
+    "pageNumber": 6
+  }, {
+    "name": "Curse of the Dread Saint",
+    "id": "hod6",
+    "next": [ "hod16", "hod20" ],
+    "pageNumber": 8
+  }, {
+    "name": "Escape from Brüttelburg",
+    "id": "hod7",
+    "prev": ["CAPTURE"],
+    "next": [ "hod4" ],
+    "pageNumber": 9
+  }, {
+    "name": "Caravan Through the Badlands",
+    "id": "hod8",
+    "next": [ "hod14", "hod15" ],
+    "pageNumber": 10
+  }, {
+    "name": "Screaming for Vengeance",
+    "id": "hod9",
+    "next": [ "hod19", "hod20" ],
+    "pageNumber": 10
+  }, {
+    "name": "Throw it in the Pit",
+    "id": "hod10",
+    "next": [ "hod3", "hod4" ],
+    "pageNumber": 11
+  }, {
+    "name": "Make a Scratch",
+    "id": "hod11",
+    "next": [ "hod5", "hod16" ],
+    "pageNumber": 12
+  }, {
+    "name": "Cleanse the Blight",
+    "id": "hod12",
+    "next": [ "hod19" ],
+    "pageNumber": 13
+  }, {
+    "name": "Start a War",
+    "id": "hod13",
+    "next": [ "hod19" ],
+    "pageNumber": 14
+  }, {
+    "name": "War on Goblins",
+    "id": "hod14",
+    "next": [ "hod19" ],
+    "pageNumber": 15
+  }, {
+    "name": "Unify the Highlands",
+    "id": "hod15",
+    "next": [ "hod13", "hod19" ],
+    "pageNumber": 16
+  }, {
+    "name": "Hunt the Witch Cult",
+    "id": "hod16",
+    "next": [ "hod19" ],
+    "pageNumber": 18
+  }, {
+    "name": "Spread the Blight",
+    "id": "hod17",
+    "pageNumber": 19
+  }, {
+    "name": "The Scroglin Crown",
+    "id": "hod18",
+    "next": [ "hod4", "hod19" ],
+    "pageNumber": 19
+  }, {
+    "name": "Against the Hand of Doom",
+    "id": "hod19",
+    "pageNumber": 20
+  }, {
+    "name": "Bringer of Doom",
+    "id": "hod20",
+    "pageNumber": 20
+  }
+]
