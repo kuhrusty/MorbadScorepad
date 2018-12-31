@@ -49,7 +49,7 @@ public class Campaign implements Parcelable {
     //XXX If one of these is on a Path or Road, indicate which Locations they
     //XXX are between.
     private int bountyLevel;
-    private LocationOrTerritory handOfDoom;
+//    private LocationOrTerritory handOfDoom;
 //  can we get the list of locations from map.json?
 //    private List<LocationState> highlands;
 //    private List<LocationState> lowlands;
