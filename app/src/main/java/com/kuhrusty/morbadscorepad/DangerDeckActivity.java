@@ -116,6 +116,10 @@ Log.w(LOGBIT, "need to load deck state");
         super.onResume();
         checkPrefs();
         confirmBtn.setVisibility(confirmPref ? View.VISIBLE : View.GONE);
+        //  if they had confirmPref turned on, they pressed drawBtn, drawBtn
+        //  became disabled, they opened settings, and turned off confirmPref,
+        //  we want drawBtn to be enabled now:
+        updateUI(false);
     }
 
     /**
