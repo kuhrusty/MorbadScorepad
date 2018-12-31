@@ -1,0 +1,413 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.kuhrusty.morbadscorepad.EditCampaignActivity">
+
+    <ScrollView
+        android:id="@+id/scrollView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/ok"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:id="@+id/odin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <!--        <TableLayout
+            android:id="@+id/table"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp">
+-->
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <!--
+            <TableRow
+                android:id="@+id/campaignRow"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+-->
+                <TextView
+                    android:id="@+id/campaignLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginTop="8dp"
+                    android:labelFor="@id/campaign"
+                    android:text="@string/campaign_name_label"/>
+
+                <EditText
+                    android:id="@+id/campaign"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_weight="1"
+                    android:ems="10"
+                    android:inputType="textPersonName"/>
+
+            </LinearLayout>
+            <!--
+            </TableRow>
+-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <!--
+            <TableRow
+                android:id="@+id/notesRow"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+-->
+                <TextView
+                    android:id="@+id/notesLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/notesLabel"/>
+
+                <EditText
+                    android:id="@+id/notes"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:ems="10"
+                    android:inputType="textMultiLine"/>
+
+            </LinearLayout>
+            <!--
+            </TableRow>
+-->
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <!--
+            <TableRow
+                android:id="@+id/missionRow"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+-->
+
+                <TextView
+                    android:id="@+id/missionLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="21dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginTop="8dp"
+                    android:labelFor="@id/mission"
+                    android:text="@string/mission_name_label"/>
+
+                <AutoCompleteTextView
+                    android:id="@+id/mission"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_weight="1"
+                    android:completionThreshold="0"
+                    android:imeOptions="actionDone"
+                    android:inputType="textPersonName"
+                    android:singleLine="true"/>
+
+            </LinearLayout>
+            <!--
+            </TableRow>
+-->
+
+            <!--
+            <TableRow
+                android:id="@+id/adventurerRow"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+-->
+            <LinearLayout
+                android:id="@+id/adventurerRow"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:orientation="horizontal">
+
+                <com.kuhrusty.wurstreichorder.SquareLayout
+                    android:id="@+id/squareLayout0"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1">
+
+ <!--
+        android:layout_gravity="center"
+        android:adjustViewBounds="true"
+        android:scaleType="centerInside"
+        android:layout_height="wrap_content"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+-->
+                    <ImageButton
+                        android:id="@+id/adventurer0"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_margin="0dp"
+                        android:layout_weight="1"
+                        android:adjustViewBounds="false"
+                        android:padding="5dp"
+                        android:scaleType="centerInside"
+                        android:onClick="editAdventurer"
+                        app:srcCompat="@drawable/adventurer_none"/>
+                </com.kuhrusty.wurstreichorder.SquareLayout>
+
+                <com.kuhrusty.wurstreichorder.SquareLayout
+                    android:id="@+id/squareLayout1"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1">
+
+                    <ImageButton
+                        android:id="@+id/adventurer1"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_margin="0dp"
+                        android:layout_weight="1"
+                        android:adjustViewBounds="false"
+                        android:padding="5dp"
+                        android:scaleType="centerInside"
+                        android:onClick="editAdventurer"
+                        app:srcCompat="@drawable/adventurer_none"/>
+                </com.kuhrusty.wurstreichorder.SquareLayout>
+
+                <com.kuhrusty.wurstreichorder.SquareLayout
+                    android:id="@+id/squareLayout2"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1">
+
+                    <ImageButton
+                        android:id="@+id/adventurer2"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_margin="0dp"
+                        android:layout_weight="1"
+                        android:adjustViewBounds="false"
+                        android:padding="5dp"
+                        android:scaleType="centerInside"
+                        android:onClick="editAdventurer"
+                        app:srcCompat="@drawable/adventurer_none"/>
+                </com.kuhrusty.wurstreichorder.SquareLayout>
+
+                <com.kuhrusty.wurstreichorder.SquareLayout
+                    android:id="@+id/squareLayout3"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1">
+
+                    <ImageButton
+                        android:id="@+id/adventurer3"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_margin="0dp"
+                        android:layout_weight="1"
+                        android:adjustViewBounds="false"
+                        android:padding="5dp"
+                        android:scaleType="centerInside"
+                        android:onClick="editAdventurer"
+                        app:srcCompat="@drawable/adventurer_none"/>
+                </com.kuhrusty.wurstreichorder.SquareLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/doomRow"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+                <!--
+            <TableRow
+                android:id="@+id/doomRow"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+-->
+                <!-- LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal" -->
+
+                <ImageView
+                    android:id="@+id/highlandDoomIcon"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    app:srcCompat="@drawable/token_doom_yellow"
+                    android:background="@color/ddYellow"
+                    android:onClick="fireDoomSpinner"/>
+
+<!--
+                    android:layout_weight="1"
+                    android:width="50dp"
+-->
+                <Spinner
+                    android:id="@+id/highlandDoom"
+                    android:layout_width="10sp"
+                    android:layout_height="40dp"
+                    android:layout_weight="1"
+                    android:background="@color/ddYellow"
+                    android:entries="@array/doom_tokens"
+                    android:gravity="center"/>
+
+                <ImageView
+                    android:id="@+id/lowlandDoomIcon"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    app:srcCompat="@drawable/token_doom_blue"
+                    android:background="@color/ddLightBlue"
+                    android:onClick="fireDoomSpinner"/>
+                <Spinner
+                    android:id="@+id/lowlandDoom"
+                    android:layout_width="10sp"
+                    android:layout_height="40dp"
+                    android:layout_weight="1"
+                    android:background="@color/ddLightBlue"
+                    android:entries="@array/doom_tokens"
+                    android:gravity="center"/>
+
+                <ImageView
+                    android:id="@+id/badlandDoomIcon"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    app:srcCompat="@drawable/token_doom_red"
+                    android:background="@color/ddRed"
+                    android:onClick="fireDoomSpinner"/>
+                <Spinner
+                    android:id="@+id/badlandDoom"
+                    android:layout_width="10sp"
+                    android:layout_height="40dp"
+                    android:layout_weight="1"
+                    android:background="@color/ddRed"
+                    android:entries="@array/doom_tokens"
+                    android:gravity="center"/>
+
+                <ImageView
+                    android:id="@+id/wetlandDoomIcon"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    app:srcCompat="@drawable/token_doom_green"
+                    android:background="@color/ddLightGreen"
+                    android:onClick="fireDoomSpinner"/>
+                <Spinner
+                    android:id="@+id/wetlandDoom"
+                    android:layout_width="10sp"
+                    android:layout_height="40dp"
+                    android:layout_weight="1"
+                    android:background="@color/ddLightGreen"
+                    android:entries="@array/doom_tokens"
+                    android:gravity="center"/>
+
+            </LinearLayout>
+            <!--
+            </TableRow>
+-->
+
+            <LinearLayout
+                android:id="@+id/factionRow"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+                <!--
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+-->
+
+                <TextView
+                    android:id="@+id/factionLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/factionLabel"/>
+
+                <EditText
+                    android:id="@+id/faction"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:inputType="textPersonName"
+                    />
+            </LinearLayout>
+            <!--
+            </TableRow>
+-->
+
+            <!--
+        </TableLayout>
+-->
+
+
+            <!--
+            <TableLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"/>
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"/>
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"/>
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"/>
+            </TableLayout>
+-->
+
+
+        </LinearLayout>
+
+    </ScrollView>
+
+    <Button
+        android:id="@+id/cancel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginStart="8dp"
+        android:onClick="cancel"
+        android:text="@android:string/cancel"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"/>
+
+    <Button
+        android:id="@+id/ok"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:onClick="done"
+        android:text="@string/done"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        />
+
+
+</android.support.constraint.ConstraintLayout>

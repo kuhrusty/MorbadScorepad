@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TableRow xmlns:android="http://schemas.android.com/apk/res/android"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:background="@drawable/row_bg">
+
+<!--    android:layout_span="2" -->
+    <TextView
+        android:id="@+id/campaign_new"
+        android:textStyle="bold"
+        android:text="@string/new_campaign"
+        android:textColor="@drawable/row_fg"/>
+
+</TableRow>
