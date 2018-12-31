@@ -126,7 +126,9 @@ mine!):
    for a danger card.
 
 If that all works, go back and finish recording the rest of your danger
-card readings.
+card readings.  (**It would be cool** if you had different background
+sounds: banjo music or buzzing insects for the wetlands, techtonic
+rumbling for the badlands, blowing wind for the highlands, etc.)
 
 I don't know that much about audio file formats, so I just went with
 whatever my phone's voice recorder used; the file sizes could probably
