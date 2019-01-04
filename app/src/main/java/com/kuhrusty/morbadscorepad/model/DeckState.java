@@ -27,6 +27,7 @@ public class DeckState<T extends Card> {
         LogEntry(int tos) {
             this.tos = tos;
         }
+        boolean isShuffle() { return false; }
     }
     private static class ShuffleEntry<T> extends LogEntry<T> {
         final T[] order;
@@ -34,6 +35,8 @@ public class DeckState<T extends Card> {
             super(tos);
             this.order = order;
         }
+        @Override
+        boolean isShuffle() { return true; }
     }
 
     final private Class<T> tclass;
@@ -236,13 +239,13 @@ public class DeckState<T extends Card> {
     public boolean undo() {
         if ((log == null) || (logpos <= 0)) return false;
 
-        if (log.get(logpos) instanceof ShuffleEntry) {
+        if (log.get(logpos).isShuffle()) {
             //  we have to run backward until we find the previous
             //  ShuffleEntry, because that has the order of the cards
             //  up to this point.
             boolean found = false;
             for (int tlp = logpos - 1; tlp >= 0; --tlp) {
-                if (log.get(tlp) instanceof ShuffleEntry) {
+                if (log.get(tlp).isShuffle()) {
                     ShuffleEntry<T> se = (ShuffleEntry<T>) (log.get(tlp));
                     order = se.order;
                     found = true;
