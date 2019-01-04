@@ -122,8 +122,42 @@ public class DangerTest {
         assertTrue(ds.redo());
         check(ds, 36, true, true, "pigskin_port", null);
 
+        Danger[] savedOrder = ds.getOrder();  //  see comment below for reason
+
+        assertEquals(41, ds.getLogSize());
+        //  we have 3 shuffles; confirm that this doesn't delete anything:
+        ds.trimLog(3);
+        assertEquals(41, ds.getLogSize());
+        //  now undo past shuffle #2, so that we can't delete that third shuffle
+        //  without losing our log position
+        ds.undo();
+        ds.trimLog(2);
+        assertEquals(41, ds.getLogSize());
+        //  now redo past shuffle #2, so that the 3rd shuffle back can be trimmed
+        ds.redo();
+        assertTrue(ds.canUndo());
+        ds.trimLog(2);
+        assertEquals(5, ds.getLogSize());
+        assertFalse(ds.canUndo());
+        ds.redo();
+        assertTrue(ds.canUndo());
+        ds.trimLog(1);  //  log pos too far back again
+        assertEquals(5, ds.getLogSize());
+        while (ds.redo()) ; //  wheee
+        assertTrue(ds.canUndo());
+        ds.trimLog(1);
+        assertEquals(1, ds.getLogSize());
+        assertFalse(ds.canUndo());
+        ds.trimLog(-666);
+        assertEquals(1, ds.getLogSize());
+
         //  Now let's try running with no log.
         ds.disableLog();
+        //  so, I added the trimLog() stuff in the middle of this test, which
+        //  screwed up the rest of this test because shuffle() gives different
+        //  results based on the *existing* order of the deck... so put the
+        //  order back how it was before I added the trimLog() tests.
+        ds.setOrder(savedOrder);
         ds.shuffle();
         check(ds, 36, false, false, "tunnel_of_terror", null);
         ds.draw();

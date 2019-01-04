@@ -6,6 +6,7 @@ import com.kuhrusty.morbadscorepad.NotDoneException;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
@@ -302,10 +303,69 @@ throw new NotDoneException("didn't find previous ShuffleEntry");
     }
 
     /**
+     * If we're keeping an undo log, this removes entries beyond the last n
+     * shuffles.  Values less than 1 are treated as 1.  If the current undo
+     * position is in the area which would be trimmed, we keep as many shuffles
+     * as are needed to keep the current undo position.
+     */
+    public void trimLog(int shuffles) {
+        if (log == null) return;
+        int foundShuffles = 0;
+        int pos = log.size() - 1;
+        while (pos > 0) {  //  not <= 0, because if we get to 0, we're not trimming
+            if (log.get(pos).isShuffle()) {
+                ++foundShuffles;
+                if ((foundShuffles >= shuffles) && (pos <= logpos)) {
+                    //  Trim everything before this.
+                    //log.removeRange() is protected, so... lame
+                    log = new ArrayList<>(log.subList(pos, log.size()));
+                    logpos -= pos;
+                    return;
+                }
+            }
+            --pos;
+        }
+        //  if we're here, the log was already smaller than what they wanted
+        //  to trim.
+    }
+
+    /**
      * This just returns the number of elements in the log, probably not useful
      * outside unit tests.
      */
     public int getLogSize() {
         return (log != null) ? log.size() : 0;
+    }
+
+    /**
+     * Returns an array of the cards in the deck & draw pile, in their current
+     * order.  Really this is just for a unit test where I wanted to save a copy
+     * of a DeckState at a given point, do stuff with it, then restore that
+     * state and do other stuff with it.
+     *
+     * @return a new array containing the Card references, or null if this deck
+     *         has never been shuffled.
+     */
+    public T[] getOrder() {
+        return (order != null) ? Arrays.copyOf(order, order.length) : null;
+    }
+
+    /**
+     * Treated as shuffle(), in which the cards are arranged in the specified
+     * order.  Just as getOrder(), this probably is not useful outside unit
+     * tests.
+     *
+     * @param cards must not be null, must not contain null elements, etc.
+     */
+    public void setOrder(T[] cards) {
+        removeUndoneLogEntries();
+        order = Arrays.copyOf(cards, cards.length);
+        tos = order.length - 1;
+        if (logpos != DISABLE_LOG) {
+            if (log == null) {
+                log = new ArrayList<LogEntry<T>>();
+            }
+            log.add(new ShuffleEntry<T>(tos, order));
+        }
     }
 }
