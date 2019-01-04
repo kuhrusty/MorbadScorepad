@@ -84,6 +84,7 @@ public class DeckState<T extends Card> {
     }
 
     private void shuffle(boolean drawPileOnly) {
+        removeUndoneLogEntries();
         LinkedList<T> newOrder = new LinkedList<>();
         if (rand == null) rand = new Random();
         if (order == null) {
@@ -285,5 +286,26 @@ throw new NotDoneException("didn't find previous ShuffleEntry");
      */
     public boolean canRedo() {
         return (log != null) && ((logpos + 1) < log.size());
+    }
+
+    /**
+     * If we've undone some draws or whatever, and then we "do something" other
+     * than redo() (like shuffling), then those undone entries should be removed.
+     */
+    private void removeUndoneLogEntries() {
+        if (log != null) {
+            int ii = log.size() - 1;
+            while (ii > logpos) {
+                log.remove(ii--);
+            }
+        }
+    }
+
+    /**
+     * This just returns the number of elements in the log, probably not useful
+     * outside unit tests.
+     */
+    public int getLogSize() {
+        return (log != null) ? log.size() : 0;
     }
 }

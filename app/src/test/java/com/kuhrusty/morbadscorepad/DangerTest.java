@@ -10,6 +10,7 @@ import com.kuhrusty.morbadscorepad.model.dao.CachingGameRepository;
 import com.kuhrusty.morbadscorepad.model.dao.GameRepository;
 import com.kuhrusty.morbadscorepad.model.json.JSONGameRepository2;
 
+import org.junit.Before;
 import org.junit.Test;
 
 import java.util.List;
@@ -22,19 +23,29 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 public class DangerTest {
+
+    private Context context;
+    private GameRepository grepos;
+    private GameConfiguration config;
+    List<Danger> dangerCards;
+    Deck<Danger> dangerDeck;
+
+    @Before
+    public void before() {
+        context = TestUtil.mockContext();
+        grepos = new CachingGameRepository(new JSONGameRepository2());
+        config = new GameConfiguration(context, "HandOfDoom", grepos, "cp1", "cp2");
+
+        dangerCards = grepos.getCards(context, config, "danger", Danger.class);
+        assertEquals(36, dangerCards.size());
+
+        dangerDeck = grepos.getDeck(context, config, "danger", Danger.class);
+        assertEquals(36, dangerDeck.getCards().size());
+    }
+
     @Test
     public void testCardStuff() {
-        Context context = TestUtil.mockContext();
-        GameRepository grepos = new CachingGameRepository(new JSONGameRepository2());
-        GameConfiguration config = new GameConfiguration(context, "HandOfDoom", grepos, "cp1", "cp2");
-
-        List<Danger> dangers = grepos.getCards(context, config, "danger", Danger.class);
-        assertEquals(36, dangers.size());
-
-        Deck<Danger> dd = grepos.getDeck(context, config, "danger", Danger.class);
-        assertEquals(36, dd.getCards().size());
-
-        DeckState<Danger> ds = new DeckState<>(Danger.class, dd);
+        DeckState<Danger> ds = new DeckState<>(Danger.class, dangerDeck);
         ds.setRandom(new Random(666));  //  so we get... repeatable results
         ds.shuffle();
         check(ds, 36, false, false, "witchwood", null);
@@ -104,9 +115,9 @@ public class DangerTest {
         assertTrue(ds.undo());
         check(ds, 36, true, true, "pigskin_port", null);
         assertTrue(ds.undo());
-        check(ds, 0, true, true, null, "goblin_fortress");
-        assertTrue(ds.undo());
         check(ds, 1, true, true, "goblin_fortress", "wasteland");
+        assertTrue(ds.undo());
+        check(ds, 2, true, true, "wasteland", "rotting_swamp");
         assertTrue(ds.redo());
         assertTrue(ds.redo());
         check(ds, 36, true, true, "pigskin_port", null);
@@ -165,6 +176,36 @@ public class DangerTest {
         danger = ds.findByID("none6");
         assertNotNull(danger);
         assertTrue(danger.isReshuffle());
+    }
+
+    /**
+     * Looking at the code just now, I didn't see where we trim the undo log if
+     * someone does an undo() and then a shuffle; it looks like we just add the
+     * shuffle to the end of the log and point at it without whacking all the
+     * undone elements.
+     */
+    @Test
+    public void testShuffleAfterUndo() {
+        DeckState<Danger> ds = new DeckState<>(Danger.class, dangerDeck);
+        ds.setRandom(new Random(666));  //  so we get... repeatable results
+        ds.shuffle();
+        check(ds, 36, false, false, "witchwood", null);
+
+        ds.draw();
+        ds.draw();
+        ds.draw();
+        check(ds, 33, true, false, "none1", "foothills");
+        ds.undo();
+        ds.undo();
+        assertEquals(4, ds.getLogSize());
+        check(ds, 35, true, true, "witch_hill", "witchwood");
+
+        ds.shuffle();
+        check(ds, 36, true, false, "pigskin_port", null);
+        //  we should've lost those two undos, then added the shuffle
+        assertEquals(3, ds.getLogSize());
+        ds.undo();
+        check(ds, 35, true, true, "witch_hill", "witchwood");
     }
 
     private void check(Danger card, String expectID) {
