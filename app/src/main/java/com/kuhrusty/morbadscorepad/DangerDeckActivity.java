@@ -40,6 +40,10 @@ public class DangerDeckActivity extends AppCompatActivity {
 
     private DeckState<Danger> deck;
 
+    //  whether the last first-party-danger-card-draw was a RESHUFFLE DANGER
+    //  DECK card.  This does not work real well with "undo"; if you draw one,
+    //  and hit undo, and draw again, we probably reshuffle first.
+    private boolean lastPrimaryWasReshuffle = false;
     private boolean needConfirmDangerUpdate = false;
 
     //  preference values which we load in onCreate().
@@ -161,9 +165,15 @@ Log.w(LOGBIT, "need to load deck state");
      */
     public void doDraw(View view) {
         killSound();
+        if (lastPrimaryWasReshuffle) {
+            deck.shuffle();
+            lastPrimaryWasReshuffle = false;
+        }
         Danger card = deck.draw();
         if (card == null) {
             deck.shuffle();
+        } else if (card.isReshuffle()) {
+            lastPrimaryWasReshuffle = true;
         }
         needConfirmDangerUpdate = confirmPref && (card != null);
         updateUI(true);

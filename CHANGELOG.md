@@ -5,6 +5,8 @@ format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 
 ## Unreleased
 #### Added
+- Handle "RESHUFFLE DANGER DECK" Danger cards
+  ([issue #11](https://github.com/kuhrusty/MorbadScorepad/issues/11)).
 - Trim the Danger deck undo log after every shuffle, rather than letting
   it grow without limit ([issue #10](https://github.com/kuhrusty/MorbadScorepad/issues/10)).
 
