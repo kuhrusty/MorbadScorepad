@@ -206,6 +206,12 @@ public class DangerTest {
         assertEquals(3, ds.getLogSize());
         ds.undo();
         check(ds, 35, true, true, "witch_hill", "witchwood");
+
+        //  same thing should happen with a draw after an undo.
+        ds.draw();
+        assertEquals(3, ds.getLogSize());  //  lose the shuffle, add the draw
+        ds.undo();
+        check(ds, 35, true, true, "witch_hill", "witchwood");
     }
 
     private void check(Danger card, String expectID) {

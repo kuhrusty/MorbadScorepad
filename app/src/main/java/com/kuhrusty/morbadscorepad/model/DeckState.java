@@ -153,10 +153,7 @@ public class DeckState<T extends Card> {
      */
     public T draw() {
         if ((order != null) && (tos >= 0)) {
-            //  trim the log if necessary
-            while ((log != null) && (log.size() > (logpos + 1))) {
-                log.remove(log.size() - 1);
-            }
+            removeUndoneLogEntries();
             --tos;
             if (logpos != DISABLE_LOG) {
                 log.add(new LogEntry<T>(tos));
