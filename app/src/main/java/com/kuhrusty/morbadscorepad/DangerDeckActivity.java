@@ -39,7 +39,6 @@ public class DangerDeckActivity extends AppCompatActivity {
     private MediaPlayer mediaPlayer;
 
     private DeckState<Danger> deck;
-    private int keepShuffleCount = 5;  //  just a guess at what would be good
 
     private boolean needConfirmDangerUpdate = false;
 
@@ -165,7 +164,6 @@ Log.w(LOGBIT, "need to load deck state");
         Danger card = deck.draw();
         if (card == null) {
             deck.shuffle();
-            deck.trimLog(keepShuffleCount);
         }
         needConfirmDangerUpdate = confirmPref && (card != null);
         updateUI(true);
@@ -192,7 +190,6 @@ resID = "danger_" + voicePref + "_" + card.getID();
         killSound();
         if (deck.draw() == null) {
             deck.shuffle();
-            deck.trimLog(keepShuffleCount);
         }
         updateUI(true);
     }
@@ -213,7 +210,6 @@ resID = "danger_" + voicePref + "_" + card.getID();
 
     public void doShuffleDrawPile(View view) {
         deck.shuffleDrawPile();
-        deck.trimLog(keepShuffleCount);
         updateUI(false);
     }
 

@@ -126,30 +126,30 @@ public class DangerTest {
 
         assertEquals(41, ds.getLogSize());
         //  we have 3 shuffles; confirm that this doesn't delete anything:
-        ds.trimLog(3);
+        ds.setShuffleLogLimit(3);
         assertEquals(41, ds.getLogSize());
         //  now undo past shuffle #2, so that we can't delete that third shuffle
         //  without losing our log position
         ds.undo();
-        ds.trimLog(2);
+        ds.setShuffleLogLimit(2);
         assertEquals(41, ds.getLogSize());
         //  now redo past shuffle #2, so that the 3rd shuffle back can be trimmed
         ds.redo();
         assertTrue(ds.canUndo());
-        ds.trimLog(2);
+        ds.setShuffleLogLimit(2);
         assertEquals(5, ds.getLogSize());
         assertFalse(ds.canUndo());
         ds.redo();
         assertTrue(ds.canUndo());
-        ds.trimLog(1);  //  log pos too far back again
+        ds.setShuffleLogLimit(1);  //  log pos too far back again
         assertEquals(5, ds.getLogSize());
         while (ds.redo()) ; //  wheee
         assertTrue(ds.canUndo());
-        ds.trimLog(1);
+        ds.setShuffleLogLimit(1);
         assertEquals(1, ds.getLogSize());
         assertFalse(ds.canUndo());
-        ds.trimLog(-666);
-        assertEquals(1, ds.getLogSize());
+        ds.setShuffleLogLimit(-666);
+        assertEquals(0, ds.getLogSize());
 
         //  Now let's try running with no log.
         ds.disableLog();

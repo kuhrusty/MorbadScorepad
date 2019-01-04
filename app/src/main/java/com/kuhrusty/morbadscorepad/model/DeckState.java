@@ -45,6 +45,7 @@ public class DeckState<T extends Card> {
     //  later entries are appended to the log.
     private List<LogEntry<T>> log;
     private int logpos = NO_LOG;
+    private int shuffleLogLimit = 5;  //  just a guess at what would be good
     private T[] order;  //  reference to order from last ShuffleEntry
     private int tos;  //  copied from last LogEntry
 
@@ -136,6 +137,8 @@ public class DeckState<T extends Card> {
         order = na;
         //  tos was either set to na.length - 1 if !drawPileOnly, or remains unchanged
 
+        trimLog(shuffleLogLimit);
+
         if (Log.isLoggable(LOGBIT, Log.DEBUG)) {
             StringBuilder buf = new StringBuilder();
             buf.append("after shuffle(DrawPileOnly=").append(drawPileOnly).append(":\n");
@@ -216,6 +219,24 @@ public class DeckState<T extends Card> {
     public void disableLog() {
         logpos = DISABLE_LOG;
         log = null;
+    }
+
+    /**
+     * Sets the maximum number of shuffles we'll keep in our undo log.  Calling
+     * this removes entries beyond the last n shuffles (unless the current undo
+     * position is in the area which would be trimmed, in which case we keep as
+     * many shuffles as are needed to keep the current undo position).  A value
+     * of 0 or less will be treated the same as disableLog(); a positive value
+     * will call enableLog().
+     */
+    public void setShuffleLogLimit(int limit) {
+        if (limit <= 0) {
+            disableLog();
+            return;
+        }
+        enableLog();
+        shuffleLogLimit = limit;
+        trimLog(shuffleLogLimit);
     }
 
     /**
@@ -308,7 +329,7 @@ throw new NotDoneException("didn't find previous ShuffleEntry");
      * position is in the area which would be trimmed, we keep as many shuffles
      * as are needed to keep the current undo position.
      */
-    public void trimLog(int shuffles) {
+    private void trimLog(int shuffles) {
         if (log == null) return;
         int foundShuffles = 0;
         int pos = log.size() - 1;
