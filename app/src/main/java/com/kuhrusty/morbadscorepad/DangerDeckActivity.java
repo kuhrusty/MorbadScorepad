@@ -9,6 +9,7 @@ import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -51,6 +52,23 @@ public class DangerDeckActivity extends AppCompatActivity {
     private String voicePref = null;
     private boolean confirmPref = false;
 
+    /**
+     * Just for fun... regardless of whether they have sound turned on or off,
+     * if they tap the card image, play or stop the card's audio.
+     */
+    private final View.OnTouchListener soundFiddler = new View.OnTouchListener() {
+        @Override
+        public boolean onTouch(View view, MotionEvent motionEvent) {
+            Log.d(LOGBIT, "got main image touch, mediaPlayer == " + mediaPlayer);
+            if (mediaPlayer != null) {
+                killSound();
+            } else {
+                playCardSound(false);
+            }
+            return true;
+        }
+    };
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -79,6 +97,7 @@ Log.w(LOGBIT, "need to restore saved deck state");
         }
 
         dangerIV = findViewById(R.id.cardImage);
+        dangerIV.setOnTouchListener(soundFiddler);
         dangerIDTV = findViewById(R.id.dangerText);
         drawBtn = findViewById(R.id.drawButton);
         confirmBtn = findViewById(R.id.confirmDangerButton);
@@ -151,6 +170,31 @@ Log.w(LOGBIT, "need to load deck state");
     }
 
     /**
+     * Plays the sound for the card at the top of the discard pile, if any.  If
+     * checkAudioPref is true, we'll check audioPref to see whether we should
+     * play the full sound or just the name; if false, we'll play the full
+     * sound.
+     */
+    private void playCardSound(boolean checkAudioPref) {
+        Danger card = deck.getTopDiscard();
+        if (card == null) return;
+        String resID = "danger_" + voicePref + "_" + card.getID();
+        if (checkAudioPref && audioPref.equals(SettingsActivity.PREF_DANGER_READ_SOUND_VALUE_NAME)) {
+            //  use name only... currently this is ignored, and uses the full
+            //  audio file.
+            Log.w(LOGBIT, "audioPref \"" +
+                    SettingsActivity.PREF_DANGER_READ_SOUND_VALUE_NAME +
+                    "\" doesn't do anything");
+            //resID = ...
+        }
+        int sound = getResources().getIdentifier(resID, "raw", getPackageName());
+        if (sound == 0) sound = R.raw.not_done;
+        //  was getApplicationContext() instead of this
+        mediaPlayer = MediaPlayer.create(this, sound);
+        mediaPlayer.start();
+    }
+
+    /**
      * If we're in the middle of playing a sound, stop it.
      */
     private void killSound() {
@@ -177,19 +221,9 @@ Log.w(LOGBIT, "need to load deck state");
         }
         needConfirmDangerUpdate = confirmPref && (card != null);
         updateUI(true);
-        if ((card == null) || (audioPref == null)) return;  //  no audio
-
-        String resID;
-        if (audioPref.equals("name")) {
-//use name only... currently this uses the full audio file.
-resID = "danger_" + voicePref + "_" + card.getID();
-        } else {
-            resID = "danger_" + voicePref + "_" + card.getID();
+        if ((card != null) && (audioPref != null)) {
+            playCardSound(true);
         }
-        int sound = getResources().getIdentifier(resID, "raw", getPackageName());
-        if (sound == 0) sound = R.raw.not_done;
-        mediaPlayer = MediaPlayer.create(getApplicationContext(), sound);
-        mediaPlayer.start();
     }
 
     /**
