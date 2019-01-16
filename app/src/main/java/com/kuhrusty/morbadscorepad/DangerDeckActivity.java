@@ -1,5 +1,6 @@
 package com.kuhrusty.morbadscorepad;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.media.AudioManager;
@@ -13,19 +14,33 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.google.gson.Gson;
 import com.kuhrusty.morbadscorepad.model.Danger;
 import com.kuhrusty.morbadscorepad.model.Deck;
 import com.kuhrusty.morbadscorepad.model.DeckState;
 import com.kuhrusty.morbadscorepad.model.GameConfiguration;
 import com.kuhrusty.morbadscorepad.model.dao.GameRepository;
 import com.kuhrusty.morbadscorepad.model.dao.RepositoryFactory;
+import com.kuhrusty.morbadscorepad.model.json.JSONGameRepository;
+
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.io.Writer;
 
 /**
  * Manages a view of the danger deck, with buttons for drawing a new card etc.
  */
 public class DangerDeckActivity extends AppCompatActivity {
     private static final String LOGBIT = "DangerDeckActivity";
+
+    private static final String KEY_CONFIG = "config";
+    private static final String KEY_DECK = "deck";
+
+    private static final String DECK_STATE_FILENAME = "DangerDeckActivity.deck.json";
 
     private GameConfiguration config;
     private GameRepository grepos = RepositoryFactory.getGameRepository();
@@ -82,15 +97,39 @@ public class DangerDeckActivity extends AppCompatActivity {
         }
 
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+
+        if ((config == null) && (savedInstanceState != null)) {
+            config = savedInstanceState.getParcelable(KEY_CONFIG);
+            if (config != null) Log.d(LOGBIT, "onCreate() using saved config");
+        }
+//hey, now that config is Parcelable, you oughtta check the Intent to see if we
+//passed one in.
         if (config == null) {
+            Log.d(LOGBIT, "onCreate() creating new config");
             config = new GameConfiguration(this, prefs, grepos);
         }
 
-        if (savedInstanceState != null) {
-//XXX issue #12
-Log.w(LOGBIT, "need to restore saved deck state");
+        if ((deck == null) && (savedInstanceState != null)) {
+            try {
+                //  I'm not totally positive that this approach works; in my
+                //  tests, the same instance is being passed straight across in
+                //  the Bundle, rather than being serialized & having a new
+                //  instance deserialized.  At least it's working in unit tests
+                //  with a mocked context & config...
+                Util.setContextAndConfig(this, config);
+                deck = savedInstanceState.getParcelable(KEY_DECK);
+            } finally {
+                Util.setContextAndConfig(null, null);
+            }
+            if (deck != null) Log.d(LOGBIT, "onCreate() using saved deck state");
         }
         if (deck == null) {
+            //  See if we can load our deck state from file
+            loadDeckStateFromFile();
+            if (deck != null) Log.d(LOGBIT, "onCreate() using deck state from file");
+        }
+        if (deck == null) {
+            Log.d(LOGBIT, "onCreate() creating new deck state");
             grepos.getCards(this, config, Deck.DANGER, Danger.class);
             deck = new DeckState<>(Danger.class, grepos.getDeck(this, config, Deck.DANGER, Danger.class));
             deck.shuffle();
@@ -107,25 +146,21 @@ Log.w(LOGBIT, "need to restore saved deck state");
 
         confirmBtn.setVisibility(confirmPref ? View.VISIBLE : View.GONE);
 
-        updateUI(false);
+        updateUI(true);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        saveDeckStateToFile();
     }
 
     @Override
     public void onSaveInstanceState(Bundle savedInstanceState) {
         super.onSaveInstanceState(savedInstanceState);
 
-        if (deck != null) {
-//XXX issue #12
-Log.w(LOGBIT, "need to save deck state");
-//            savedInstanceState.putParcelable(KEY_DECK_STATE, deck);
-        }
-    }
-
-    @Override
-    public void onRestoreInstanceState(Bundle savedInstanceState) {
-        super.onRestoreInstanceState(savedInstanceState);
-//XXX issue #12
-Log.w(LOGBIT, "need to load deck state");
+        if (config != null) savedInstanceState.putParcelable(KEY_CONFIG, config);
+        if (deck != null) savedInstanceState.putParcelable(KEY_DECK, deck);
     }
 
     @Override
@@ -309,5 +344,52 @@ Log.w(LOGBIT, "need to load deck state");
                 "file:///android_asset/help/danger.html");
         //intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
         startActivity(intent);
+    }
+
+    private void saveDeckStateToFile() {
+        Gson gson = JSONGameRepository.newGsonBuilder().create();
+        Writer fw = null;
+        try {
+            fw = new OutputStreamWriter(openFileOutput(DECK_STATE_FILENAME, Context.MODE_PRIVATE));
+            gson.toJson(deck, fw);
+        } catch (IOException ioe) {
+            Log.w(LOGBIT, ioe);
+        } finally {
+            if (fw != null) {
+                try {
+                    fw.close();
+                } catch (IOException ioe) {
+                    Log.w(LOGBIT, ioe);  //  care *some*, as write may be bad
+                }
+            }
+        }
+    }
+
+    /**
+     * This is just here to keep some clutter out of onCreate().
+     */
+    private void loadDeckStateFromFile() {
+        Gson gson = JSONGameRepository.newGsonBuilder().create();
+        FileReader fr = null;
+        try {
+            Util.setContextAndConfig(this, config);
+            fr = new FileReader(openFileInput(DECK_STATE_FILENAME).getFD());
+            deck = gson.fromJson(fr, DeckState.class);
+        } catch (Exception ex) {
+            if (!(ex instanceof FileNotFoundException)) {
+                Log.e(LOGBIT, "couldn't restore danger deck from file", ex);
+                Toast.makeText(this, R.string.err_restore_bad_danger_deck,
+                        Toast.LENGTH_LONG).show();
+            }
+        } finally {
+            Util.setContextAndConfig(null, null);
+            if (fr != null) {
+                try {
+                    fr.close();
+                } catch (IOException ioe) {
+                    Log.w(LOGBIT, ioe);  //  don't care
+                }
+            }
+        }
     }
 }

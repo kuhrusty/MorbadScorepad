@@ -29,6 +29,8 @@
     <string name="skill_list_all_item">* ALL SKILLS *</string>
     <string name="danger">DANGER</string>
 
+    <string name="err_restore_bad_danger_deck">Unable to restore saved Danger deck state; starting over with new deck.</string>
+
     <!--  Code in EditCampaignActivity assumes element 0 is blank, element 1 is
           1, etc.  -->
     <string-array name="danger_levels">
@@ -95,7 +97,7 @@
     <string-array name="pref_danger_read_sound_titles">
         <item>None</item>
         <!-- this one isn't implemented   item>Name only</item -->
-        <item>Full</item>
+        <item>Full reading</item>
     </string-array>
     <!--  these guys don't get localized -->
     <string-array name="pref_danger_read_sound_values">

@@ -3,17 +3,26 @@ package com.kuhrusty.morbadscorepad;
 import android.content.Context;
 import android.content.res.AssetManager;
 
+import com.google.gson.Gson;
+import com.kuhrusty.morbadscorepad.model.json.JSONGameRepository;
+
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 import org.powermock.api.mockito.PowerMockito;
 
 import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.FileInputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.StringWriter;
 import java.util.List;
+import java.util.Random;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Matchers.anyString;
@@ -56,6 +65,37 @@ public class TestUtil {
     }
 
     /**
+     * Writes the given object to JSON, then reads it from JSON and returns the
+     * new object.
+     *
+     * @param src
+     * @param tClass
+     * @param <T>
+     * @return
+     */
+    public static <T> T json(T src, Class<T> tClass) {
+        Gson gson = JSONGameRepository.newGsonBuilder().setPrettyPrinting().create();
+        StringWriter out = new StringWriter();
+        gson.toJson(src, out);
+        //System.err.println("got JSON:\n" + out.toString());
+        T rv = gson.fromJson(out.toString(), tClass);
+        return rv;
+    }
+
+    /**
+     * Uses serialization to create a copy of the given Random, needed for
+     * repeatability in some tests.
+     */
+    public static Random cloneRandom(Random src) throws Exception {
+        ByteArrayOutputStream bo = new ByteArrayOutputStream();
+        ObjectOutputStream oos = new ObjectOutputStream(bo);
+        oos.writeObject(src);
+        oos.close();
+        ObjectInputStream ois = new ObjectInputStream(new ByteArrayInputStream(bo.toByteArray()));
+        return (Random)(ois.readObject());
+    }
+
+    /**
      * Asserts that the contents of the two given files are identical.
      *
      * @param expectFileName will be read from CLASSPATH
@@ -72,7 +112,17 @@ public class TestUtil {
                 es, gs);
     }
 
-    private static String snort(String fileName, boolean classpath,
+    /**
+     * Reads the entire text file into a String.
+     *
+     * @param fileName
+     * @param classpath true if this should be loaded from CLASSPATH, false if
+     *                  from the filesystem.
+     * @param ignoreComments true if lines starting with // should be discarded.
+     * @param ignoreWhitespace true if contiguous whitespace should be collapsed
+     *                         into a single space.
+     */
+    public static String snort(String fileName, boolean classpath,
                                 boolean ignoreComments, boolean ignoreWhitespace)
             throws IOException {
         BufferedReader in = new BufferedReader(classpath ?

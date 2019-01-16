@@ -5,9 +5,61 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 
+import com.kuhrusty.morbadscorepad.model.GameConfiguration;
+
 import java.util.Collection;
 
 public class Util {
+
+    private static ThreadLocal<Context> tlContext = new ThreadLocal<>();
+    private static ThreadLocal<GameConfiguration> tlConfig = new ThreadLocal<>();
+
+    /**
+     * Sets thread-local Context and GameConfiguration which may be used during
+     * de-parceling or whatever.  You probably want to use this like this:
+     *
+     * <pre>
+     *     try {
+     *         Util.setContextAndConfig(context, config);
+     *         //  call some method which is going to need access to the context
+     *         //  and/or config, but whose API prevents it from being passed in
+     *         //  directly
+     *     } finally {
+     *         Util.setContextAndConfig(null, null);
+     *     }
+     * </pre>
+     *
+     * @param context may be null.
+     * @param config may be null.
+     */
+    public static void setContextAndConfig(Context context, GameConfiguration config) {
+        if (context != null) {
+            tlContext.set(context);
+        } else {
+            tlContext.remove();
+        }
+        if (config != null) {
+            tlConfig.set(config);
+        } else {
+            tlConfig.remove();
+        }
+    }
+
+    /**
+     * Returns the thread-local Context last passed to setContextAndConfig(), or
+     * null.
+     */
+    public static Context getContext() {
+        return tlContext.get();
+    }
+    /**
+     * Returns the thread-local GameConfiguration last passed to
+     * setContextAndConfig(), or null.
+     */
+    public static GameConfiguration getConfig() {
+        return tlConfig.get();
+    }
+
     /**
      * Pretty sure <i>this</i> bit of code has only been written two million
      * times.  Compares two strings, treating null as less than "".  Returns

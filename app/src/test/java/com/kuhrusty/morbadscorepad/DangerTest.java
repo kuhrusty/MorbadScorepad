@@ -2,20 +2,31 @@ package com.kuhrusty.morbadscorepad;
 
 import android.content.Context;
 
+import com.google.gson.Gson;
+import com.kuhrusty.mockparcel.MockParcel;
+import com.kuhrusty.morbadscorepad.model.BadDataException;
 import com.kuhrusty.morbadscorepad.model.Danger;
 import com.kuhrusty.morbadscorepad.model.Deck;
 import com.kuhrusty.morbadscorepad.model.DeckState;
 import com.kuhrusty.morbadscorepad.model.GameConfiguration;
 import com.kuhrusty.morbadscorepad.model.dao.CachingGameRepository;
 import com.kuhrusty.morbadscorepad.model.dao.GameRepository;
+import com.kuhrusty.morbadscorepad.model.dao.RepositoryFactory;
+import com.kuhrusty.morbadscorepad.model.json.JSONGameRepository;
 import com.kuhrusty.morbadscorepad.model.json.JSONGameRepository2;
 
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.List;
 import java.util.Random;
 
+import static com.kuhrusty.morbadscorepad.TestUtil.compare;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
@@ -30,10 +41,15 @@ public class DangerTest {
     List<Danger> dangerCards;
     Deck<Danger> dangerDeck;
 
+    @Rule
+    public ExpectedException expectThrown = ExpectedException.none();
+
     @Before
     public void before() {
+        Util.setContextAndConfig(null, null);
         context = TestUtil.mockContext();
         grepos = new CachingGameRepository(new JSONGameRepository2());
+        RepositoryFactory.setGameRepository(grepos);
         config = new GameConfiguration(context, "HandOfDoom", grepos, "cp1", "cp2");
 
         dangerCards = grepos.getCards(context, config, "danger", Danger.class);
@@ -44,8 +60,9 @@ public class DangerTest {
     }
 
     @Test
-    public void testCardStuff() {
+    public void testCardStuff() throws Exception {
         DeckState<Danger> ds = new DeckState<>(Danger.class, dangerDeck);
+        DeckState<Danger> ds2;
         ds.setRandom(new Random(666));  //  so we get... repeatable results
         ds.shuffle();
         check(ds, 36, false, false, "witchwood", null);
@@ -89,9 +106,17 @@ public class DangerTest {
         assertFalse(ds.canRedo());
         assertTrue(ds.undo());
         check(ds, 1, true, true, "goblin_fortress", "wasteland");
+        //  As long as we've got a reasonably complex DeckState, confirm that
+        //  it survives Parcel.
+        ds2 = checkJSONAndParcel(ds);
+
+        //  well... the seed is not being preserved across parceling.
+        ds2.setRandom(TestUtil.cloneRandom(ds.getRandom()));
 
         ds.shuffle();
         check(ds, 36, true, false, "pigskin_port", null);
+        ds2.shuffle();
+        check(ds2, 36, true, false, "pigskin_port", null);
         ds.draw();
         ds.draw();
         ds.draw();
@@ -121,6 +146,23 @@ public class DangerTest {
         assertTrue(ds.redo());
         assertTrue(ds.redo());
         check(ds, 36, true, true, "pigskin_port", null);
+
+        //  Horrible mix of tests here, but let's Parcel this thing again, but
+        //  this time without a GameRepository in the RepositoryFactory.
+        RepositoryFactory.setGameRepository(null);
+        checkJSON(ds);
+        RepositoryFactory.setGameRepository(null);
+        checkParcel(ds);
+        RepositoryFactory.setGameRepository(grepos);
+
+        //  Well, this is a deck state with a reasonably complex undo history...
+        //  let's see how the JSON looks.
+        Gson gson = JSONGameRepository.newGsonBuilder().setPrettyPrinting().create();
+        String outfile = "build/tmp/DangerDeckActivity.deck.json";
+        FileWriter fw = new FileWriter(outfile);
+        gson.toJson(ds, fw);
+        fw.close();
+        compare("DangerTest.2.json", outfile, true, false);
 
         Danger[] savedOrder = ds.getOrder();  //  see comment below for reason
 
@@ -170,6 +212,15 @@ public class DangerTest {
         check(ds, 34, false, false, "graveyard", "gutfish_ford");
         assertFalse(ds.redo());
         check(ds, 34, false, false, "graveyard", "gutfish_ford");
+
+        //  and Parcel with no log
+        ds2 = checkJSONAndParcel(ds);
+
+        //  actually, I want to take a look at the JSON.
+        fw = new FileWriter(outfile);
+        gson.toJson(ds, fw);
+        fw.close();
+        compare("DangerTest.3.json", outfile, true, false);
 
         //  If we turn the log back on, is the deck still functional, and can we get back to our last shuffle?
         ds.enableLog();
@@ -248,6 +299,116 @@ public class DangerTest {
         check(ds, 35, true, true, "witch_hill", "witchwood");
     }
 
+    /**
+     * This tests a case I'm seeing where we restore a deck from file, undo, and
+     * explode.
+     */
+    @Test
+    public void testUndoAfterRead() throws Exception {
+        DeckState<Danger> ds = new DeckState<>(Danger.class, dangerDeck);
+        ds.setRandom(new Random(666));  //  so we get... repeatable results
+        ds.shuffle();
+        check(ds, 36, false, false, "witchwood", null);
+
+        ds.draw();
+        ds.draw();
+        ds.draw();
+        check(ds, 33, true, false, "none1", "foothills");
+
+        //  Save our deck state to file
+        Gson gson = JSONGameRepository.newGsonBuilder().setPrettyPrinting().create();
+        String outfile = "build/tmp/DangerDeckActivity.deck.json";
+        FileWriter fw = new FileWriter(outfile);
+        gson.toJson(ds, fw);
+        fw.close();
+        compare("DangerTest.1.json", outfile, true, false);
+
+        //  Load our deck state from file
+        try {
+            Util.setContextAndConfig(context, config);
+            ds = (DeckState<Danger>) (gson.fromJson(new FileReader(outfile), DeckState.class));
+        } finally {
+            Util.setContextAndConfig(null, null);
+        }
+
+        check(ds, 33, true, false, "none1", "foothills");
+        ds.undo();
+        ds.undo();
+        check(ds, 35, true, true, "witch_hill", "witchwood");
+        ds.undo();
+        check(ds, 36, false, true, "witchwood", null);
+    }
+
+    /**
+     * DeckStateActivity writes its DeckState to file when shutting down; it
+     * needs to handle the case where a card ID has changed or been removed
+     * since we last ran.
+     */
+    @Test
+    public void testBadDangerCardID() throws Exception {
+        String json = TestUtil.snort("DangerTest.badID.json", true, true, false);
+        Gson gson = JSONGameRepository.newGsonBuilder().create();
+
+        Util.setContextAndConfig(context, config);
+        expectThrown.expect(BadDataException.class);
+        expectThrown.expectMessage("card ID \"fnub\" isn't in the deck; giving up");
+        gson.fromJson(json, DeckState.class);
+    }
+
+    /**
+     * Similarly, if a new Danger card has been <i>added</i> to the deck since
+     * we saved our file, we need to handle that.
+     */
+    @Test
+    public void testMissingDangerCard() throws Exception {
+        String json = TestUtil.snort("DangerTest.missingCard.json", true, true, false);
+        Gson gson = JSONGameRepository.newGsonBuilder().create();
+
+        Util.setContextAndConfig(context, config);
+        expectThrown.expect(BadDataException.class);
+        expectThrown.expectMessage("read 35 card IDs, but 36 cards in deck; giving up");
+        gson.fromJson(json, DeckState.class);
+    }
+
+    /**
+     * This is for developers: confirm that we throw a better exception than
+     * NullPointerException when no context or GameConfiguration has been set
+     * before trying to deserialize, a mistake I keep making.
+     */
+    @Test
+    public void testMissingContext() throws Exception {
+        String json = TestUtil.snort("DangerTest.1.json", true, true, false);
+        Gson gson = JSONGameRepository.newGsonBuilder().create();
+
+        expectThrown.expect(RuntimeException.class);
+        expectThrown.expectMessage("null context or config; call " +
+                "Util.setContextAndConfig() before deserializing DeckState");
+        gson.fromJson(json, DeckState.class);
+    }
+
+    /**
+     * Do we correctly save/load a deck which hasn't had shuffle() called yet?
+     */
+    @Test
+    public void testNoShuffle() throws Exception {
+        DeckState<Danger> ds = new DeckState<>(Danger.class, dangerDeck);
+        assertEquals(0, ds.getLogSize());
+        assertNull(ds.getOrder());
+        assertNull(ds.getTopDiscard());
+        assertNull(ds.peek());
+
+        //  well... this is not exactly the behavior I was hoping for, but it's
+        //  not a case I care enough about to go fix.  Just don't save a
+        //  DeckState you haven't done anything with yet.
+        expectThrown.expect(BadDataException.class);
+        expectThrown.expectMessage("read 0 card IDs, but 36 cards in deck; giving up");
+        DeckState<Danger> ds2 = checkJSONAndParcel(ds);
+        //assertEquals(0, ds2.getLogSize());
+        //assertNull(ds2.getOrder());
+        //assertNull(ds2.getTopDiscard());
+        //assertNull(ds2.peek());
+    }
+
     private void check(Danger card, String expectID) {
         assertEquals(expectID, card.getID());
     }
@@ -274,5 +435,37 @@ public class DangerTest {
         } else {
             assertNull(td);
         }
+    }
+
+    private DeckState<Danger> checkJSON(DeckState<Danger> ds) throws IOException {
+        Util.setContextAndConfig(context, config);
+        DeckState<Danger> rv = TestUtil.json(ds, DeckState.class);
+        Util.setContextAndConfig(null, null);
+        check(ds, rv);
+        return rv;
+    }
+
+    private DeckState<Danger> checkParcel(DeckState<Danger> ds) {
+        Util.setContextAndConfig(context, config);
+        DeckState<Danger> rv = MockParcel.parcel(ds, DeckState.CREATOR);
+        Util.setContextAndConfig(null, null);
+        check(ds, rv);
+        return rv;
+    }
+
+    private DeckState<Danger> checkJSONAndParcel(DeckState<Danger> ds) throws IOException {
+        checkJSON(ds);
+        return checkParcel(ds);
+    }
+
+    /**
+     * Confirms that the two DeckStates are not the same instance, but that they
+     * have the same top-of-deck and top-of-discard, and maybe other stuff.
+     */
+    private void check(DeckState<Danger> expect, DeckState<Danger> got) {
+        assertTrue(expect != got);
+        String expectTopID = (expect.peek() != null) ? expect.peek().getID() : null;
+        String expectTopDiscardID = (expect.getTopDiscard() != null) ? expect.getTopDiscard().getID() : null;
+        check(got, expect.cardsInDrawPile(), expect.canUndo(), expect.canRedo(), expectTopID, expectTopDiscardID);
     }
 }

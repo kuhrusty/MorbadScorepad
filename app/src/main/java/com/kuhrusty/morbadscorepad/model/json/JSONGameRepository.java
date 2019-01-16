@@ -10,6 +10,7 @@ import com.google.gson.stream.JsonReader;
 import com.kuhrusty.morbadscorepad.model.AdventurerSheet;
 import com.kuhrusty.morbadscorepad.model.Card;
 import com.kuhrusty.morbadscorepad.model.Deck;
+import com.kuhrusty.morbadscorepad.model.DeckState;
 import com.kuhrusty.morbadscorepad.model.Expandable;
 import com.kuhrusty.morbadscorepad.model.Expansion;
 import com.kuhrusty.morbadscorepad.model.GameConfiguration;
@@ -56,6 +57,7 @@ public class JSONGameRepository implements GameRepository {
         GsonBuilder rv = new GsonBuilder();
         rv.registerTypeAdapter(LocationState.class, LocationState.PRETTY_JSON);
         rv.registerTypeAdapter(Region.class, Region.PRETTY_JSON);
+        rv.registerTypeAdapter(DeckState.class, DeckState.CREATOR);
         return rv;
     }
 

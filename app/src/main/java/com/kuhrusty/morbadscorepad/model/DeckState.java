@@ -1,12 +1,30 @@
 package com.kuhrusty.morbadscorepad.model;
 
+import android.content.Context;
+import android.os.Parcel;
+
+import com.google.gson.JsonDeserializationContext;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonParseException;
+import com.kuhrusty.parcelorgson.CreatorSD;
+import com.kuhrusty.parcelorgson.GsonWrapper;
+import com.kuhrusty.parcelorgson.ParcelOrGson;
+import com.kuhrusty.parcelorgson.ParcelWrapper;
+import com.kuhrusty.parcelorgson.Parcelable;
 import android.util.Log;
 
 import com.kuhrusty.morbadscorepad.NotDoneException;
+import com.kuhrusty.morbadscorepad.Util;
+import com.kuhrusty.morbadscorepad.model.dao.GameRepository;
+import com.kuhrusty.morbadscorepad.model.dao.RepositoryFactory;
 
 import java.lang.reflect.Array;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
@@ -15,7 +33,7 @@ import java.util.Random;
  * This keeps track of the order of a deck of cards and its discard pile, and an
  * optional undo log of changes to that order.
  */
-public class DeckState<T extends Card> {
+public class DeckState<T extends Card> implements Parcelable {
     private static final String LOGBIT = "DeckState";
 
     private static final int NO_LOG = -1;
@@ -40,7 +58,42 @@ public class DeckState<T extends Card> {
         boolean isShuffle() { return true; }
     }
 
-    final private Class<T> tclass;
+    /**
+     * This is only public so that its CREATOR is visible to Parcel.  (or maybe
+     * just MockParcel in unit tests.)  We have one LogEntry per card draw, but
+     * for serialization, we can pack those down to one ShuffleEntry and a count
+     * of the subsequent draws.
+     */
+    public static class PackedLogEntry implements android.os.Parcelable {
+        int draws;
+        int tos;
+        int[] order;
+
+        @Override
+        public void writeToParcel(Parcel parcel, int i) {
+            parcel.writeInt(draws);
+            parcel.writeInt(tos);
+            parcel.writeIntArray(order);
+        }
+        public static final Creator<PackedLogEntry> CREATOR = new Creator<PackedLogEntry>() {
+            public PackedLogEntry createFromParcel(Parcel in) {
+                PackedLogEntry rv = new PackedLogEntry();
+                rv.draws = in.readInt();
+                rv.tos = in.readInt();
+                rv.order = in.createIntArray();
+                return rv;
+            }
+            public PackedLogEntry[] newArray(int size) {
+                return new PackedLogEntry[size];
+            }
+        };
+        @Override
+        public int describeContents() {
+            return 0;
+        }
+    }
+
+    private Class<T> tclass;
     private Deck<T> deck;
     //  later entries are appended to the log.
     private List<LogEntry<T>> log;
@@ -58,12 +111,153 @@ public class DeckState<T extends Card> {
         this.tclass = tclass;
         this.deck = deck;
     }
+
+    public DeckState(ParcelOrGson in) {
+        Context context = Util.getContext();
+        GameConfiguration config = Util.getConfig();
+        if ((context == null) || (config == null)) {
+            throw new NullPointerException("null context or config; call " +
+                    "Util.setContextAndConfig() before deserializing DeckState");
+        }
+        GameRepository grepos = RepositoryFactory.getGameRepository();
+        String deckID = in.readString("id");
+        in.readInt("fmt", 1);  //  see comment in writeTo()
+        String cn = in.readString("class");
+        try {
+            tclass = (Class<T>) getClass().getClassLoader().loadClass(cn);
+        } catch (ClassNotFoundException cnfe) {
+            throw new BadDataException("bad class name?", cnfe);
+        }
+        deck = grepos.getDeck(context, config, deckID, tclass);
+        if (deck.getCards() == null) {
+            //  really great API you have here.  getCards() theoretically has
+            //  the side effect of setting the list of Cards on the Deck, which
+            //  is incredibly dumb.  If I were getting paid for this, I'd fire
+            //  myself.
+            grepos.getCards(context, config, deckID, tclass);
+        }
+        List<T> cards = deck.getCards();
+        if (cards == null) {
+//there's really no other possible explanation.
+throw new RuntimeException("RUSTY IS A GODDAMN BOZO");
+        }
+        java.util.Map<String, T> idMap = new HashMap<>();
+        for (int ii = cards.size() - 1; ii >= 0; --ii) {
+            idMap.put(cards.get(ii).getID(), cards.get(ii));
+        }
+        tos = in.readInt("tos", -1);
+        List<String> lut = in.readStrings("ids");
+        if (lut.size() != cards.size()) {
+            throw new BadDataException("read " + lut.size() + " card IDs, but " +
+                    cards.size() + " cards in deck; giving up");
+        }
+        order = newArray(lut.size());
+        for (int ii = lut.size() - 1; ii >= 0; --ii) {
+            order[ii] = idMap.get(lut.get(ii));
+            if (order[ii] == null) {
+                throw new BadDataException("card ID \"" + lut.get(ii) +
+                        "\" isn't in the deck; giving up");
+            }
+        }
+        shuffleLogLimit = in.readInt("logLimit", shuffleLogLimit);
+        logpos = in.readInt("logpos", logpos);
+        if (logpos >= 0) {
+            List<PackedLogEntry> ples = in.readList("log", PackedLogEntry.class);
+            log = new ArrayList<>();
+            //  The latest entry is at the start of the list, so let's walk
+            //  backward through the packed entries.
+            for (int ii = ples.size() - 1; ii >= 0; --ii) {
+                PackedLogEntry ple = ples.get(ii);
+                T[] eorder = newArray(order.length);
+                for (int jj = ple.order.length - 1; jj >= 0; --jj) {
+                    //  order[] has our Card instances; ple.order[] has each
+                    //  element's index into that array.
+                    eorder[jj] = order[ple.order[jj]];
+                }
+                int ttos = ple.tos;
+                log.add(new ShuffleEntry<>(ttos, eorder));
+                for (int draw = ple.draws; draw > 0; --draw) {
+                    log.add(new LogEntry<T>(--ttos));
+                }
+            }
+        }
+    }
+    @Override
+    public void writeTo(ParcelOrGson dest) {
+        dest.writeString("id", deck.getID());
+        //  put some format version number in case we change the structure
+        //  later, and have saved JSON files hanging around in the old format.
+        dest.writeInt("fmt", 1);
+        //  We don't actually care about the card class here; we're storing
+        //  nothing about the card other than its ID.
+        dest.writeString("class", tclass.getCanonicalName());
+        dest.writeInt("tos", tos);
+        List<String> ids;
+        java.util.Map<String, Integer> idMap = (log != null) ?
+                new java.util.HashMap<String, Integer>() : null;
+        if (order != null) {
+            ids = new ArrayList<String>(order.length);
+            for (int ii = 0; ii < order.length; ++ii) {
+                ids.add(order[ii].getID());
+                if (idMap != null) idMap.put(order[ii].getID(), Integer.valueOf(ii));
+            }
+        } else {
+            //  This is going to croak the read; see DangerTest.testNoShuffle().
+            ids = Collections.emptyList();
+        }
+        dest.writeStrings("ids", ids);
+        dest.writeInt("logLimit", shuffleLogLimit);
+        dest.writeInt("logpos", logpos);
+        if (logpos >= 0) {
+            List<PackedLogEntry> ples = new ArrayList<PackedLogEntry>(shuffleLogLimit);
+            PackedLogEntry ple = null;
+            for (int ii = log.size() - 1; ii >= 0; --ii) {
+                if (ple == null) ple = new PackedLogEntry();
+                //  we very much hope that we get a ShuffleEntry first;
+                //  otherwise this logic is probably broken.
+                if (log.get(ii).isShuffle()) {
+                    ShuffleEntry<T> shuffle = (ShuffleEntry<T>)(log.get(ii));
+                    ple.tos = shuffle.tos;
+                    ple.order = new int[idMap.size()];
+                    for (int jj = 0; jj < shuffle.order.length; ++jj) {
+                        //  shuffle.order[] has our Card instances; idMap maps
+                        //  those card IDs to their index in the "ids" array; so
+                        //  if "witch_hill" is ids element 5, then idMap has
+                        //  "witch_hill" -> 5; if shuffle.order[3] is
+                        //  witch_hill, then ple.order[3] = 5.
+                        ple.order[jj] = idMap.get(shuffle.order[jj].getID());
+                    }
+                    //  note that we're going backward through the log, so the
+                    //  latest entry is at the start of the list.
+                    ples.add(ple);
+                    ple = null;
+                } else {
+                    ++ple.draws;
+                }
+            }
+            dest.writeList("log", ples);
+        }
+    }
+
     //hmm, I wonder if this works with tclass...
     public void setDeck(Deck<T> deck) {
         this.deck = deck;
     }
+
+    /**
+     * Sets the Random to use for shuffling.  You probably only care about this
+     * in unit tests.
+     *
+     * @param rand may be null.
+     */
     public void setRandom(Random rand) {
         this.rand = rand;
+    }
+    /**
+     * Returns the Random currently being used for shuffling, or null.
+     */
+    public Random getRandom() {
+        return rand;
     }
 
     /**
@@ -125,7 +319,7 @@ public class DeckState<T extends Card> {
                 newOrder.add(order[ii++]);
             }
         }
-        T[] na = (T[])(Array.newInstance(tclass, newOrder.size()));
+        T[] na = newArray(newOrder.size());
         na = newOrder.toArray(na);
         if (logpos != DISABLE_LOG) {
             if (log == null) {
@@ -141,7 +335,7 @@ public class DeckState<T extends Card> {
 
         if (Log.isLoggable(LOGBIT, Log.DEBUG)) {
             StringBuilder buf = new StringBuilder();
-            buf.append("after shuffle(DrawPileOnly=").append(drawPileOnly).append(":\n");
+            buf.append("after shuffle(DrawPileOnly=").append(drawPileOnly).append("):\n");
             for (int ii = order.length - 1; ii >= 0; --ii) {
                 buf.append("  ").append(order[ii].getID());
                 if (tos == ii) buf.append("  <-- TOS");
@@ -388,5 +582,31 @@ throw new NotDoneException("didn't find previous ShuffleEntry");
             }
             log.add(new ShuffleEntry<T>(tos, order));
         }
+    }
+
+    private T[] newArray(int size) {
+        //  well, might as well have this warning in one place instead of 3.
+        return (T[]) (Array.newInstance(tclass, size));
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        writeTo(new ParcelWrapper(dest, flags));
+    }
+    public static final CreatorSD<DeckState> CREATOR = new CreatorSD<DeckState>() {
+        @Override
+        public DeckState deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
+            return new DeckState(new GsonWrapper(json.getAsJsonObject(), context));
+        }
+        public DeckState createFromParcel(Parcel in) {
+            return new DeckState(new ParcelWrapper(in));
+        }
+        public DeckState[] newArray(int size) {
+            return new DeckState[size];
+        }
+    };
+    @Override
+    public int describeContents() {
+        return 0;
     }
 }
