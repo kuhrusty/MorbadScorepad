@@ -19,6 +19,15 @@ android {
     }
 }
 
+repositories {
+    maven {
+        //  for parcelorgson and mockparcel.  Holy crap jitpack is cool, but
+        //  using *allegedly* unmodified code provided by a third party, what
+        //  could go wrong!
+        url 'https://jitpack.io'
+    }
+}
+
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation 'com.android.support:appcompat-v7:27.1.1'
@@ -28,11 +37,18 @@ dependencies {
     implementation 'com.android.support:support-vector-drawable:27.1.1'
     implementation 'com.android.support:recyclerview-v7:27.1.1'
     implementation 'com.google.code.gson:gson:2.8.2'
+
+    //implementation project(":parcelorgson")
+    //testImplementation project(":mockparcel")
+    //  jitpack.io versions:
+    implementation 'com.github.kuhrusty.ParcelOrGSON:parcelorgson:v0.1'
+    testImplementation 'com.github.kuhrusty.ParcelOrGSON:mockparcel:v0.1'
+
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
 
-    testImplementation 'org.powermock:powermock:1.6.5'
-    testImplementation 'org.powermock:powermock-module-junit4:1.6.5'
-    testImplementation 'org.powermock:powermock-api-mockito:1.6.5'
+    testImplementation 'org.mockito:mockito-core:2.23.4'
+    testImplementation 'org.powermock:powermock-module-junit4:2.0.0'
+    testImplementation 'org.powermock:powermock-api-mockito2:2.0.0'
 }
