@@ -37,6 +37,17 @@ import java.util.TreeSet;
  */
 public class SettingsActivity extends AppCompatPreferenceActivity {
 
+    /**
+     * The pref_danger_read_sound_values value in strings.xml which means we
+     * should play the full card sound.
+     */
+    public static final String PREF_DANGER_READ_SOUND_VALUE_FULL = "full";
+    /**
+     * The pref_danger_read_sound_values value in strings.xml which means we
+     * should play just the name of the card.
+     */
+    public static final String PREF_DANGER_READ_SOUND_VALUE_NAME = "name";
+
     private static final String PREF_DATA_DIRECTORY = "pref_data_dir";
 
     /**
