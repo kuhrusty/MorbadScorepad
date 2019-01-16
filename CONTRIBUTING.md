@@ -8,7 +8,6 @@ https://github.com/kuhrusty/MorbadScorepad/issues
 **Contents:**
 <!--ts-->
 * [About the code](#about-the-code)
-* [Interesting stuff in the code](#interesting-stuff-in-the-code)
 * [Interesting features for developers](#interesting-features-for-developers)
 * [To check out the code](#to-check-out-the-code)
 * [Adding a new expansion](#adding-a-new-expansion)
@@ -26,15 +25,7 @@ related to saving & loading games.  If you're just here for the
 skill browser, you can ignore all that (and, with the default settings,
 the incomplete/broken stuff is hidden from users anyway).
 
-### Interesting stuff in the code
-
-- Parsing expressions like "MRL <5 or STR 6" into a tree of operations
-  which is applied to Adventurers to determine whether a given skill is
-  applicable (mostly in the unfortunately named `Req` class)
-- Loading Drawables from names generated at runtime
-  (`SkillListActivity.loadImage()`)
-- Dynamically generating preferences based on data read from file
-  (`SettingsActivity.updateExpansionPrefs()`)
+See also [Interesting stuff in the code](INTERESTING.md).
 
 ### Interesting features for developers
 
