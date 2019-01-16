@@ -269,7 +269,6 @@ Toast.makeText(this, "openScenarioGraph() doesn't do anything", Toast.LENGTH_SHO
         setVisibility(visibility, R.id.loadCampaignButton);
         setVisibility(visibility, R.id.mapRouteButton);
         setVisibility(visibility, R.id.scenarioGraphButton);
-        setVisibility(visibility, R.id.dangerDeckButton);
     }
 
     /**

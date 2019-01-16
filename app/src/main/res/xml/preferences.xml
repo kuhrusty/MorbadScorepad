@@ -11,6 +11,28 @@
     https://stackoverflow.com/questions/7978476/the-summary-field-of-preferencecategory-tag
     -->
 
+    <PreferenceCategory android:key="pref_danger_deck"
+                        android:title="@string/pref_danger_deck"
+                        android:summary="@string/pref_danger_deck_summary">
+        <SwitchPreference
+            android:key="pref_danger_confirm_updated"
+            android:title="@string/pref_danger_confirm_updated"
+            android:summary="@string/pref_danger_confirm_updated_summary"
+            android:defaultValue="false" />
+        <ListPreference
+            android:key="pref_danger_voice_set"
+            android:title="@string/pref_danger_voice_set"
+            android:entries="@array/pref_danger_voice_set_titles"
+            android:entryValues="@array/pref_danger_voice_set_values"
+            android:defaultValue="rusty"/>
+        <ListPreference
+            android:key="pref_danger_read_sound"
+            android:title="@string/pref_danger_read_sound"
+            android:entries="@array/pref_danger_read_sound_titles"
+            android:entryValues="@array/pref_danger_read_sound_values"
+            android:defaultValue="full"/>
+    </PreferenceCategory>
+
     <!--
     There's no visual indication of the *end* of the expansions pref category,
     so... I guess we wrap everything else in preference categories too.
@@ -52,29 +74,6 @@
             android:title="@string/pref_campaign_store_discards"
             android:summary="@string/pref_campaign_store_discards_summary"
             android:defaultValue="false"/>
-    </PreferenceCategory>
-
-    <PreferenceCategory android:key="pref_danger_deck"
-                        android:title="@string/pref_danger_deck"
-                        android:summary="@string/pref_danger_deck_summary"
-                        android:dependency="pref_developer">
-        <SwitchPreference
-            android:key="pref_danger_confirm_updated"
-            android:title="@string/pref_danger_confirm_updated"
-            android:summary="@string/pref_danger_confirm_updated_summary"
-            android:defaultValue="false" />
-        <ListPreference
-            android:key="pref_danger_voice_set"
-            android:title="@string/pref_danger_voice_set"
-            android:entries="@array/pref_danger_voice_set_titles"
-            android:entryValues="@array/pref_danger_voice_set_values"
-            android:defaultValue="rusty"/>
-        <ListPreference
-            android:key="pref_danger_read_sound"
-            android:title="@string/pref_danger_read_sound"
-            android:entries="@array/pref_danger_read_sound_titles"
-            android:entryValues="@array/pref_danger_read_sound_values"
-            android:defaultValue="full"/>
     </PreferenceCategory>
 
     <PreferenceCategory android:key="pref_scenario_graph"

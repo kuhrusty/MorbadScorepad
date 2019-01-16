@@ -126,7 +126,7 @@
         android:onClick="openSkillList"
         android:text="@string/skill_list_label"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/helpButton"
+        app:layout_constraintEnd_toStartOf="@+id/dangerDeckButton"
         app:layout_constraintStart_toEndOf="@+id/settingsButton"/>
 
     <Button
@@ -146,7 +146,7 @@
         android:layout_marginBottom="8dp"
         android:onClick="openScenarioGraph"
         android:text="@string/scenario_graph_label"
-        app:layout_constraintBottom_toTopOf="@+id/dangerDeckButton"
+        app:layout_constraintBottom_toTopOf="@+id/mapRouteButton"
         app:layout_constraintRight_toLeftOf="@+id/mainImage"/>
 
     <Button
@@ -156,7 +156,8 @@
         android:layout_marginBottom="8dp"
         android:onClick="openDangerDeck"
         android:text="@string/danger_deck_label"
-        app:layout_constraintBottom_toTopOf="@+id/mapRouteButton"
-        app:layout_constraintRight_toLeftOf="@+id/mainImage"/>
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/skillListButton"
+        app:layout_constraintEnd_toStartOf="@+id/helpButton"/>
 
 </android.support.constraint.ConstraintLayout>
