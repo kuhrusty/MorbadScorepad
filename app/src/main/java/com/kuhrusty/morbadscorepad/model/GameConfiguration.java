@@ -2,6 +2,8 @@ package com.kuhrusty.morbadscorepad.model;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.os.Parcel;
+import android.os.Parcelable;
 
 import com.kuhrusty.morbadscorepad.model.dao.GameRepository;
 
@@ -11,10 +13,11 @@ import java.util.List;
 /**
  * Information about which expansions etc. are in play.
  */
-public class GameConfiguration {
+public class GameConfiguration implements Parcelable {
     private int modcount = 0;
     private String dataDirectory;
     private String expansionPrefKeyPrefix;
+    //  key is expansion ID
     private HashMap<String, Expansion> expansions;
 
     public String expansionIDToPrefKey(String expansionID) {
@@ -60,6 +63,12 @@ public class GameConfiguration {
                 }
             }
         }
+    }
+
+    /**
+     * This one is used by CREATOR.
+     */
+    private GameConfiguration() {
     }
 
     /**
@@ -119,5 +128,50 @@ public class GameConfiguration {
      */
     public boolean hasExpansion(String expansionID) {
         return (expansions != null) && (expansions.containsKey(expansionID));
+    }
+
+    /**
+     * Note that this guy writes complete Expansion instances, and creates new
+     * ones when de-parceling, rather than getting shared instances from
+     * GameRepository; that may be a bad idea.
+     */
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(modcount);
+        dest.writeString(dataDirectory);
+        dest.writeString(expansionPrefKeyPrefix);
+        if (expansions != null) {
+            dest.writeInt(expansions.size());
+            for (Expansion te : expansions.values()) {
+                dest.writeParcelable(te, 0);
+            }
+        } else {
+            dest.writeInt(0);
+        }
+    }
+    public static final Parcelable.Creator<GameConfiguration> CREATOR =
+            new Parcelable.Creator<GameConfiguration>() {
+                public GameConfiguration createFromParcel(Parcel in) {
+                    GameConfiguration rv = new GameConfiguration();
+                    rv.modcount = in.readInt();
+                    rv.dataDirectory = in.readString();
+                    rv.expansionPrefKeyPrefix = in.readString();
+                    int xcount = in.readInt();
+                    while (xcount-- > 0) {
+                        if (rv.expansions == null) {
+                            rv.expansions = new HashMap<>();
+                        }
+                        Expansion te = in.readParcelable(Expansion.class.getClassLoader());
+                        rv.expansions.put(te.getID(), te);
+                    }
+                    return rv;
+                }
+                public GameConfiguration[] newArray(int size) {
+                    return new GameConfiguration[size];
+                }
+            };
+    @Override
+    public int describeContents() {
+        return 0;
     }
 }
