@@ -223,6 +223,11 @@ resID = "danger_" + voicePref + "_" + card.getID();
         updateUI(false);
     }
 
+    public void doShuffleAll(View view) {
+        deck.shuffle();
+        updateUI(true);
+    }
+
     /**
      * Called when we think preferences might have changed.
      */
