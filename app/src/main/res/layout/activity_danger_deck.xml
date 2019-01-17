@@ -22,7 +22,7 @@
         android:layout_height="0dp"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="@+id/cardImage"
-        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@+id/cardImage"
         app:layout_constraintTop_toTopOf="@+id/cardImage">
 
         <!--
@@ -100,7 +100,7 @@
         android:layout_height="0dp"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="@+id/cardImage"
-        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toRightOf="@+id/cardImage"
         app:layout_constraintTop_toTopOf="@+id/cardImage">
 
         <!--
