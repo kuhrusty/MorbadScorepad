@@ -74,13 +74,16 @@ public class DangerDeckActivity extends AppCompatActivity {
     private final View.OnTouchListener soundFiddler = new View.OnTouchListener() {
         @Override
         public boolean onTouch(View view, MotionEvent motionEvent) {
-            Log.d(LOGBIT, "got main image touch, mediaPlayer == " + mediaPlayer);
-            if (mediaPlayer != null) {
-                killSound();
-            } else {
-                playCardSound(false);
+            if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
+                Log.d(LOGBIT, "got main image touch, mediaPlayer == " + mediaPlayer);
+                if (mediaPlayer != null) {
+                    killSound();
+                } else {
+                    playCardSound(false);
+                }
+                return true;
             }
-            return true;
+            return false;
         }
     };
 
