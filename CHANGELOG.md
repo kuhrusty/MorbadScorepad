@@ -19,6 +19,9 @@ format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
   ([issue #10](https://github.com/kuhrusty/MorbadScorepad/issues/10)).
 
 #### Changed
+- In the Skill List activity, now restoring the selected adventurer &
+  skill at startup
+  ([issue #8](https://github.com/kuhrusty/MorbadScorepad/issues/8)).
 - Fix a bug with undoing Danger deck card draws where, if you drew a
   card, did an undo, then shuffled, then undid again, you wound up at
   the post-draw state (which you'd already undone & not redone) rather
