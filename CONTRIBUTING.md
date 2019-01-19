@@ -199,3 +199,24 @@ these changes:
   attempt to load that adventurer-specific image (for an example of
   loading a Drawable from a resource *name* instead of ID, see
   `SkillListActivity.loadImage()`.
+
+### More blather about Drawables
+
+For the DangerDeckActivity background images, originally I did what I
+thought I was *supposed* to do, and had images of different densities.
+However, the result looked like crap on my tablet: it's a relatively
+low-*density* screen, so it used the low-density image... but scaled it
+up to match the screen resolution instead of choosing a higher-density
+version of the image better suited to the screen *resolution*.
+
+(So--using made-up numbers here--if a "low density" phone has a screen
+which is 240x360 pixels, and my tablet has a larger-but-still-"low
+density" screen which is 480x720 pixels, I think Android was choosing
+the "low density" 240x360 image and scaling it up to 480x720--which
+looked like crap--rather than just using the image appropriately sized
+for the screen.)
+
+So, I abandoned density-specific background images and just went with
+one higher resolution image, and let lower-resolution devices scale it
+down.  Arguably lame, but the scaled-*up* images really looked
+distractingly, head-achingly bad.
