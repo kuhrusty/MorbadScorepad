@@ -3,6 +3,11 @@
 All notable changes to this project will be documented in this file.  The
 format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 
+## Unreleased
+#### Added
+
+#### Changed
+
 ## [1.1] (Android versionCode 4) - 2019-01-18
 #### Added
 - **The Danger Deck activity is no longer developer-only.**
