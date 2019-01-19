@@ -14,7 +14,8 @@ https://github.com/kuhrusty/MorbadScorepad/issues
 * [Adding your own danger card recordings](#adding-your-own-danger-card-recordings)
 * [Adding new skill cards](#adding-new-skill-cards)
 * [Character Icons](#character-icons)
-<!-- Added by: rusty, at: 2018-12-29T01:00-08:00 -->
+* [More blather about Drawables](#more-blather-about-drawables)
+<!-- Added by: rusty, at: 2019-01-18T18:17-08:00 -->
 <!--te-->
 
 ### About the code
@@ -88,14 +89,9 @@ This is really easy, and can be done without editing any code.
 
 ### Adding your own danger card recordings
 
-One of the unfinished bits is a thing which is supposed to keep track of
-the danger card deck, and for fun I made it optionally play recordings
-of the cards being read.
+To add your own recordings to the Danger Deck activity (which are
+probably going to be better than mine!):
 
-To add your *own* recordings (which are probably going to be better than
-mine!):
-
-1. Enable developer options in Settings.
 1. In `app/src/main/res/values/strings.xml`, find
    `pref_danger_voice_set_titles`, and add an entry with a human-readable
    name for your new voice set.
@@ -114,7 +110,9 @@ mine!):
 1. Start the Danger Deck activity, and draw cards until the one with
    your sound comes up; confirm that you hear your sound instead of my
    `not_done.m4a` file, which plays when we can't find the audio file
-   for a danger card.
+   for a danger card.  (To skip through to the card with your sound,
+   use the "Draw Secondary" button to keep the "reshuffle danger deck"
+   cards from reshuffling; then tap the card to play its sound.)
 
 If that all works, go back and finish recording the rest of your danger
 card readings.  (**It would be cool** if you had different background
@@ -122,8 +120,8 @@ sounds: banjo music or buzzing insects for the wetlands, techtonic
 rumbling for the badlands, blowing wind for the highlands, etc.)
 
 I don't know that much about audio file formats, so I just went with
-whatever my phone's voice recorder used; the file sizes could probably
-be reduced.
+whatever my phone's voice recorder used; the sound quality could
+probably be improved *and* the file sizes could probably be reduced.
 
 ### Adding new skill cards
 
@@ -167,7 +165,9 @@ From https://developer.android.com/training/multiscreen/screendensities.html:
 > mdpi and finally a 75x75 image for ldpi devices.
 
 So, if we want skill cards to display at ~2" tall (call it 1.75), then
-mdpi would be 160 * 1.75 = 280dp.
+mdpi would be 160 * 1.75 = 280dp.  (**Why** did I choose that size??
+The original cards are ~2.5" tall, and I only cropped a little of the
+border when scanning them.  I should go back and fix this.)
 
 By the way, Android's layout stuff seems really dumb: when I want an
 image to take up half or a quarter of the available space or whatever,
