@@ -305,13 +305,17 @@ public class DangerDeckActivity extends AppCompatActivity {
      */
     private void checkPrefs() {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        audioPref = (prefs != null) ? prefs.getString("pref_danger_read_sound", null) : null;
-        if ((audioPref != null) && audioPref.equals("none")) audioPref = null;
+        audioPref = (prefs != null) ? prefs.getString(SettingsActivity.PREF_DANGER_READ_SOUND,
+                SettingsActivity.PREF_DANGER_READ_SOUND_VALUE_FULL) : null;
+        if ((audioPref != null) && audioPref.equals(SettingsActivity.PREF_DANGER_READ_SOUND_VALUE_NONE)) {
+            audioPref = null;
+        }
 
-        voicePref = (prefs != null) ? prefs.getString("pref_danger_voice_set", null) : null;
-        if (voicePref == null) voicePref = "rusty";  //  well, you know, a reasonable default.
+        voicePref = (prefs != null) ? prefs.getString(SettingsActivity.PREF_DANGER_VOICE_SET,
+                SettingsActivity.PREF_DANGER_VOICE_SET_DEFAULT) : null;
+        if (voicePref == null) voicePref = SettingsActivity.PREF_DANGER_VOICE_SET_DEFAULT;
 
-        confirmPref = (prefs != null) && prefs.getBoolean("pref_danger_confirm_updated", false);
+        confirmPref = (prefs != null) && prefs.getBoolean(SettingsActivity.PREF_DANGER_CONFIRM_UPDATED, false);
         if (!confirmPref) needConfirmDangerUpdate = false;
     }
 
