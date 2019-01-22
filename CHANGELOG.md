@@ -7,6 +7,10 @@ format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 #### Added
 
 #### Changed
+- In the Danger Deck activity, improve handling of sounds; listen for
+  completion on the MediaPlayer and clean it up as soon as it completes
+  so that the next tap causes us to play the sound again instead of
+  cleaning up the already-completed player.
 
 ## [1.1] (Android versionCode 4) - 2019-01-18
 #### Added

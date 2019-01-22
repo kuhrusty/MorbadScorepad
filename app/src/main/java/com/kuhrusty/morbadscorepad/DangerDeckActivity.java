@@ -34,7 +34,7 @@ import java.io.Writer;
 /**
  * Manages a view of the danger deck, with buttons for drawing a new card etc.
  */
-public class DangerDeckActivity extends AppCompatActivity {
+public class DangerDeckActivity extends AppCompatActivity implements MediaPlayer.OnCompletionListener {
     private static final String LOGBIT = "DangerDeckActivity";
 
     private static final String KEY_CONFIG = "config";
@@ -229,6 +229,7 @@ public class DangerDeckActivity extends AppCompatActivity {
         if (sound == 0) sound = R.raw.not_done;
         //  was getApplicationContext() instead of this
         mediaPlayer = MediaPlayer.create(this, sound);
+        mediaPlayer.setOnCompletionListener(this);
         mediaPlayer.start();
     }
 
@@ -240,6 +241,15 @@ public class DangerDeckActivity extends AppCompatActivity {
             mediaPlayer.release();
             mediaPlayer = null;
         }
+    }
+
+    /**
+     * Called when our MediaPlayer finishes playing its current sound.
+     */
+    @Override
+    public void onCompletion(MediaPlayer mediaPlayer) {
+        mediaPlayer.release();
+        if (this.mediaPlayer == mediaPlayer) this.mediaPlayer = null;
     }
 
     /**
