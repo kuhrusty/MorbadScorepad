@@ -11,6 +11,10 @@ format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
   completion on the MediaPlayer and clean it up as soon as it completes
   so that the next tap causes us to play the sound again instead of
   cleaning up the already-completed player.
+- Move the Danger Deck activity's background images from `drawable` to
+  `drawable-nodpi` for
+  ([issue #16](https://github.com/kuhrusty/MorbadScorepad/issues/16)).
+
 
 ## [1.1] (Android versionCode 4) - 2019-01-18
 #### Added
