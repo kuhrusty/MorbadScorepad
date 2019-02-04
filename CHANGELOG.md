@@ -3,6 +3,11 @@
 All notable changes to this project will be documented in this file.  The
 format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 
+## Unreleased
+#### Added
+#### Changed
+
+
 ## [1.1.1] (Android versionCode 6) - 2019-02-03
 #### Changed
 - In the Danger Deck activity, improve handling of sounds; listen for
