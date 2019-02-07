@@ -12,7 +12,7 @@
   }, {
     "name": "Beat Them Bloody",
     "id": "wb_badlands3",
-    "prev": [ "DEFEATED(Badlands)", "DEFEATED(Bandit Camp)", "DEFEATED(Watchtower)" ],
+    "prev": [ "DEFEATED(Badlands, Bandit Camp, Watchtower)" ],
     "next": [ "hod8", "hod14", "hod15" ],
     "pageNumber": 22
   }, {
