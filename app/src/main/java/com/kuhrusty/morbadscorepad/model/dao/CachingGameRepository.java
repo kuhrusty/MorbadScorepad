@@ -12,6 +12,7 @@ import com.kuhrusty.morbadscorepad.model.GameConfiguration;
 import com.kuhrusty.morbadscorepad.model.Map;
 import com.kuhrusty.morbadscorepad.model.Mission;
 
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -64,7 +65,7 @@ public class CachingGameRepository implements GameRepository {
     @Override
     public List<Mission> getMissions(Context context, GameConfiguration config) {
         if (!cacheIsValid(config, missions)) {
-            missions = wrapped.getMissions(context, config);
+            missions = Collections.unmodifiableList(wrapped.getMissions(context, config));
         } else {
             Log.d(LOGBIT, "returning " + missions.size() + " cached Missions");
         }
