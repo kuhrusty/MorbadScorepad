@@ -221,11 +221,11 @@ Toast.makeText(this, "openMapRoutes() doesn't do anything", Toast.LENGTH_SHORT).
     }
 
     /**
-     * Called when our scenario graph button is clicked on.  This should launch
-     * an activity which lets us view the graph of scenario connections.
+     * Called when our mission graph button is clicked on.  This should launch
+     * an activity which lets us view the graph of mission connections.
      */
-    public void openScenarioGraph(@Nullable View view) {
-Toast.makeText(this, "openScenarioGraph() doesn't do anything", Toast.LENGTH_SHORT).show();
+    public void openMissionGraph(@Nullable View view) {
+Toast.makeText(this, "openMissionGraph() doesn't do anything", Toast.LENGTH_SHORT).show();
     }
 
     /**

@@ -24,7 +24,7 @@
     <string name="no">No</string>
     <string name="skill_list_label">Skill List</string>
     <string name="map_route_label">Map Routes</string>
-    <string name="scenario_graph_label">Scenario Graph</string>
+    <string name="mission_graph_label">Mission Graph</string>
     <string name="danger_deck_label">Danger Deck</string>
     <string name="skill_list_all_item">* ALL SKILLS *</string>
     <string name="danger">DANGER</string>

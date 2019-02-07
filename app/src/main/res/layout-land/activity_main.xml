@@ -144,8 +144,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
-        android:onClick="openScenarioGraph"
-        android:text="@string/scenario_graph_label"
+        android:onClick="openMissionGraph"
+        android:text="@string/mission_graph_label"
         app:layout_constraintBottom_toTopOf="@+id/mapRouteButton"
         app:layout_constraintRight_toLeftOf="@+id/mainImage"/>
 
