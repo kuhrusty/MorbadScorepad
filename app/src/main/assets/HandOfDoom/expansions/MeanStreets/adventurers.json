@@ -1,0 +1,39 @@
+[
+  {
+    "name": "Fugitive Fop",
+    "classes": [ "Human", "Merchant", "Scholar" ],
+    "agi": 8,
+    "con": 6,
+    "mag": 7,
+    "mrl": 8,
+    "per": 8,
+    "str": 6
+  }, {
+    "name": "Mendicant Monk",
+    "classes": [ "Human", "Puritan", "Rogue" ],
+    "agi": 7,
+    "con": 9,
+    "mag": 6,
+    "mrl": 9,
+    "per": 5,
+    "str": 8
+  }, {
+    "name": "Sickly Soldier",
+    "classes": [ "Human", "Militant", "Rogue" ],
+    "agi": 7,
+    "con": 6,
+    "mag": 5,
+    "mrl": 8,
+    "per": 7,
+    "str": 8
+  }, {
+    "name": "Unlicensed Surgeon",
+    "classes": [ "Human", "Rogue", "Scholar" ],
+    "agi": 8,
+    "con": 7,
+    "mag": 7,
+    "mrl": 8,
+    "per": 7,
+    "str": 6
+  }
+]

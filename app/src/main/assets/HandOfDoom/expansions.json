@@ -22,5 +22,13 @@
     "id": "wb_wetlands",
     "name": "World Book - Tomb Lake & The Wetlands",
     "subdir": "WorldBookWetlands"
+  }, {
+    "id": "mean_streets",
+    "name": "Mean Streets",
+    "subdir": "MeanStreets"
+  }, {
+    "id": "city_scum",
+    "name": "City Scum",
+    "subdir": "BoosterCityScum"
   }
 ]

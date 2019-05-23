@@ -1,0 +1,17 @@
+[
+  {
+    "name": "The Deadly Smell of Disease",
+    "id": "ms1",
+    "prev": [ "START" ],
+    "next": [ "hod4", "hod5", "hod9", "hod16" ],
+    "pageNumber": 5
+  }, {
+    "name": "The River of Filth",
+    "id": "ms2",
+//  hoo, this one is tough; "can be used in place of "Establish a Base" if
+//  you're in Gutfish Ford.  So, this is not quite right.
+    "prev": [ "END(Gutfish Ford)" ],
+    "next": [ "hod8", "hod14" ],
+    "pageNumber": 9
+  }
+]

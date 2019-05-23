@@ -1,0 +1,13 @@
+//  See the comment at the top of the main danger.json for information about
+//  this file.
+[
+  {
+    "id": "highlands_outbreak"
+  },
+  {
+    "id": "lowlands_outbreak"
+  },
+  {
+    "id": "wetlands_outbreak"
+  }
+]

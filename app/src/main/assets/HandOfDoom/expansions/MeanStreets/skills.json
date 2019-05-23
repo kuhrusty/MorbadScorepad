@@ -1,0 +1,32 @@
+//  The list of Skill cards.
+//
+//  Note that the IDs are used in Android drawable IDs, so they can't contain
+//  upper-case characters.  We prepend "skill_" and "mastery_" to the IDs to
+//  get drawable IDs.
+[
+  {
+    "id": "bleeding",
+    "name": "Bleeding",
+    "req": "Scholar"
+  }, {
+    "id": "call_fire",
+    "name": "Call Fire",
+    "req": "Hunter or Militant"
+  }, {
+    "id": "dilettante",
+    "name": "Dilettante",
+    "req": "Scholar"
+  }, {
+    "id": "forlorn_hope",
+    "name": "Forlorn Hope",
+    "req": "Fighter, Militant, Puritan, or Wild"
+  }, {
+    "id": "polearm_discipline",
+    "name": "Polearm Discipline",
+    "req": "Militant"
+  }, {
+    "id": "to_the_front",
+    "name": "To The Front",
+    "req": "Fighter, Militant, Puritan, or Wild"
+  }
+]

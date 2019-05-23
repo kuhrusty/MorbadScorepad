@@ -1,0 +1,14 @@
+None of this stuff is tracked by Morbad Scorepad yet, but City Scum came with:
+- Settlement Encounter: Food Cart
+- Wetlands Monster: Slitherfish
+- Lowlands Monster: Leather Dwarf
+- Highlands Monster: Vermus Puppetteer
+- Highlands Monster: Gas Drek
+- Highlands Monster: Billywurst
+- Highlands Monster: Platter Pest
+- Law Monster: Snout Beast
+- Law Monster: Convict Conscript
+- Law Monster: Torture Monk
+- Sign of Power: The Gift
+- Loot: Gutter Milk
+- Loot: Pickle Blaster
