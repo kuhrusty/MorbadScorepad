@@ -6,6 +6,8 @@ format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 ## Unreleased
 #### Added
 #### Changed
+- In the Danger Deck activity, fiddle with the content & position of the
+  string showing how many cards are left in the draw pile.
 - In the Danger Deck activity, move button labels from the layout XML
   files to `strings.xml` (not sure why I didn't put them there in the
   first place).

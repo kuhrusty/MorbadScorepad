@@ -203,8 +203,7 @@ public class DangerDeckActivity extends AppCompatActivity implements MediaPlayer
         shuffleDrawBtn.setEnabled(deck.canRedo());
 
         //  temporary diagnostic bit
-        dangerIDTV.setText(((card != null) ? card.getID() : "null") + " (" +
-                deck.cardsInDrawPile() + " remaining)");
+        dangerIDTV.setText(deck.cardsInDrawPile() + " remaining");
     }
 
     /**

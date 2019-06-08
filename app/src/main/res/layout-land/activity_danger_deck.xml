@@ -180,10 +180,9 @@
         android:layout_height="wrap_content"
         android:text="TextView"
         android:textColor="@color/ddBrightYellow"
-        app:layout_constraintBottom_toBottomOf="@+id/helpButton"
-        app:layout_constraintLeft_toRightOf="@+id/settingsButton"
-        app:layout_constraintRight_toLeftOf="@+id/helpButton"
-        app:layout_constraintTop_toTopOf="@+id/helpButton"/>
+        app:layout_constraintTop_toBottomOf="@+id/cardImage"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
 
     <!--
     <ImageButton
