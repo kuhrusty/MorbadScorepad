@@ -8,6 +8,12 @@ format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 #### Changed
 
 
+## [1.2] (Android versionCode 8) - 2019-05-23
+#### Added
+- This adds support for the **Mean Streets** expansion!  New
+  adventurers, new skills, new missions, new danger cards!
+
+
 ## [1.1.1] (Android versionCode 6) - 2019-02-03
 #### Changed
 - In the Danger Deck activity, improve handling of sounds; listen for
