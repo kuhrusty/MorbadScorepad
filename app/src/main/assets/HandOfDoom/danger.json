@@ -12,18 +12,22 @@
 //  Highlands
   {
     "id": "bandit_camp",
+    "name": "The Bandit Camp",
     "location": "The Bandit Camp"
   },
   {
     "id": "pigskin_port",
+    "name": "Pigskin Port",
     "location": "Pigskin Port"
   },
   {
     "id": "watchtower",
+    "name": "The Watchtower",
     "location": "The Watchtower"
   },
   {
     "id": "temple_of_madness",
+    "name": "The Temple of Madness",
     "preamble": "Obscene mockeries of nature & reality gather within the horrific skull-edifice called",
     "location": "The Temple of Madness",
     "danger": [
@@ -37,14 +41,17 @@
   },
   {
     "id": "tunnel_of_terror",
+    "name": "Tunnel of Terror",
     "location": "Tunnel of Terror"
   },
   {
     "id": "slavers_pass",
+    "name": "Slaver's Pass",
     "location": "Slaver's Pass"
   },
   {
     "id": "foothills",
+    "name": "The Foothills",
     "preamble": "Robbers, mutants & worse harass travellers on the windblown Highland roads of",
     "location": "The Foothills",
     "doom": "The Windmill",
@@ -61,44 +68,54 @@
 //  Badlands
   {
     "id": "goblin_fortress",
+    "name": "The Goblin Fortress",
     "location": "The Goblin Fortress"
   },
   {
     "id": "burning_lakes",
+    "name": "The Burning Lakes",
     "location": "The Burning Lakes"
   },
   {
     "id": "wasteland",
+    "name": "The Wasteland",
     "location": "The Wasteland"
   },
   {
     "id": "skull_bridge",
+    "name": "Skull Bridge",
     "location": "Skull Bridge"
   },
   {
     "id": "blasted_heath",
+    "name": "The Blasted Heath",
     "location": "The Blasted Heath"
   },
   {
     "id": "hell_pit",
+    "name": "The Hell Pit",
     "location": "The Hell Pit"
   },
 
 //  Lowlands
   {
     "id": "bruttelburg",
+    "name": "Brüttelburg",
     "location": "Brüttelburg"
   },
   {
     "id": "holy_order",
+    "name": "The Holy Order",
     "location": "The Holy Order"
   },
   {
     "id": "hunt_lodge",
+    "name": "The Hunt Lodge",
     "location": "The Hunt Lodge"
   },
   {
     "id": "graveyard",
+    "name": "The Graveyard",
     "preamble": "Carrion-feeding vermin & depraved lunatic cults infest",
     "location": "The Graveyard",
     "danger": [
@@ -110,24 +127,29 @@
   },
   {
     "id": "catacombs",
+    "name": "The Catacombs",
     "location": "The Catacombs"
   },
   {
     "id": "fields",
+    "name": "The Fields",
     "location": "The Fields"
   },
   {
     "id": "witch_hill",
+    "name": "Witch Hill",
     "location": "Witch Hill"
   },
   {
     "id": "witchwood",
+    "name": "The Witchwood",
     "location": "The Witchwood"
   },
 
 //  Wetlands
   {
     "id": "gutfish_ford",
+    "name": "Gutfish Ford",
     "preamble": "Broken fishing nets, missing children & strange webbed prints in the mud panic the remote community at",
     "location": "Gutfish Ford",
     "danger": [
@@ -139,14 +161,17 @@
   },
   {
     "id": "stone_circle",
+    "name": "Stone Circle",
     "location": "Stone Circle"
   },
   {
     "id": "fishmonger_camp",
+    "name": "Fishmonger Camp",
     "location": "Fishmonger Camp"
   },
   {
     "id": "rotting_swamp",
+    "name": "The Rotting Swamp",
     "preamble": "Eerie howls of stalking beasts echo through the endless gloom of",
     "location": "The Rotting Swamp",
     "doom": "Dusk Falls",
@@ -161,24 +186,29 @@
   },
   {
     "id": "black_tree",
+    "name": "The Black Tree",
     "location": "The Black Tree"
   },
   {
     "id": "sunken_village",
+    "name": "The Sunken Village",
     "location": "The Sunken Village"
   },
   {
     "id": "tower_island",
+    "name": "Tower Island",
     "location": "Tower Island"
   },
   {
     "id": "tomb_lake",
+    "name": "Tomb Lake",
     "location": "Tomb Lake"
   },
 
 //  Special stuff
   {
     "id": "none1",
+    "name": "Devilry Afoot",
     "preamble": "The air feels thick & your hair stands on end... some devilry is afoot!",
     "danger": [
       { "value": 5 }
@@ -191,6 +221,7 @@
   },
   {
     "id": "none2",
+    "name": "Chill",
     "preamble": "You feel a chill run down your spine.",
     "danger": [
       { "value": 1 }
@@ -203,25 +234,30 @@
   },
   {
     "id": "none3",
+    "name": "Malignant Force",
     "preamble": "You've attracted the attention of an unmistakeable malignant force in",
     "location": "Your Current Space"
   },
   {
     "id": "none4",
+    "name": "Each Voidgate",
     "location": "Each Space with a Voidgate"
   },
   {
     "id": "none5",
+    "name": "Followed",
     "preamble": "You glance over your shoulder, certain that you're being followed through",
     "location": "Your Current Space"
   },
   {
     "id": "none6",
+    "name": "Uneasy Feeling",
     "preamble": "You have an uneasy feeling, like something horrible is about to happen",
     "reshuffle": true
   },
   {
     "id": "none7",
+    "name": "Watched",
     "preamble": "You can't shake the feeling that you're being watched by something in",
     "location": "Your Current Space"
   }

@@ -2,12 +2,15 @@
 //  this file.
 [
   {
-    "id": "highlands_outbreak"
+    "id": "highlands_outbreak",
+    "name": "Highlands Outbreak"
   },
   {
-    "id": "lowlands_outbreak"
+    "id": "lowlands_outbreak",
+    "name": "Lowlands Outbreak"
   },
   {
-    "id": "wetlands_outbreak"
+    "id": "wetlands_outbreak",
+    "name": "Wetlands Outbreak"
   }
 ]
