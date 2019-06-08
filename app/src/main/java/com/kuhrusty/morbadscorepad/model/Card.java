@@ -14,7 +14,13 @@ public class Card implements Expandable {
     public static Comparator<Card> NameComparator = new Comparator<Card>() {
         @Override
         public int compare(Card c1, Card c2) {
-            return c1.name.compareTo(c2.name);
+            String c1s = c1.getName();
+            String c2s = c2.getName();
+            if ((c1s == null) || (c2s == null)) return 0;
+            //  ugh, not localizable
+            if (c1s.startsWith("The ")) c1s = c1s.substring(4);
+            if (c2s.startsWith("The ")) c2s = c2s.substring(4);
+            return c1s.compareTo(c2s);
         }
     };
 
