@@ -28,6 +28,7 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
+import java.util.Set;
 
 /**
  * This keeps track of the order of a deck of cards and its discard pile, and an
@@ -48,11 +49,15 @@ public class DeckState<T extends Card> implements Parcelable {
         }
         boolean isShuffle() { return false; }
     }
+    //  We also use this for storing cards being added to/removed from the deck.
     private static class ShuffleEntry<T> extends LogEntry<T> {
         final T[] order;
-        ShuffleEntry(int tos, T[] order) {
+        //  how many cards have been removed; stored at high end of "order"
+        final int removed;
+        ShuffleEntry(int tos, int removed, T[] order) {
             super(tos);
             this.order = order;
+            this.removed = removed;
         }
         @Override
         boolean isShuffle() { return true; }
@@ -67,12 +72,14 @@ public class DeckState<T extends Card> implements Parcelable {
     public static class PackedLogEntry implements android.os.Parcelable {
         int draws;
         int tos;
+        int removed;
         int[] order;
 
         @Override
         public void writeToParcel(Parcel parcel, int i) {
             parcel.writeInt(draws);
             parcel.writeInt(tos);
+            parcel.writeInt(removed);
             parcel.writeIntArray(order);
         }
         public static final Creator<PackedLogEntry> CREATOR = new Creator<PackedLogEntry>() {
@@ -80,6 +87,7 @@ public class DeckState<T extends Card> implements Parcelable {
                 PackedLogEntry rv = new PackedLogEntry();
                 rv.draws = in.readInt();
                 rv.tos = in.readInt();
+                rv.removed = in.readInt();
                 rv.order = in.createIntArray();
                 return rv;
             }
@@ -92,6 +100,22 @@ public class DeckState<T extends Card> implements Parcelable {
             return 0;
         }
     }
+    //  to support any fmt = 1 files sitting around
+    public static class PackedLogEntryV1 extends PackedLogEntry {
+        public static final Creator<PackedLogEntryV1> CREATOR = new Creator<PackedLogEntryV1>() {
+            public PackedLogEntryV1 createFromParcel(Parcel in) {
+                PackedLogEntryV1 rv = new PackedLogEntryV1();
+                rv.draws = in.readInt();
+                rv.tos = in.readInt();
+                rv.removed = 0;
+                rv.order = in.createIntArray();
+                return rv;
+            }
+            public PackedLogEntryV1[] newArray(int size) {
+                return new PackedLogEntryV1[size];
+            }
+        };
+    }
 
     private Class<T> tclass;
     private Deck<T> deck;
@@ -101,6 +125,30 @@ public class DeckState<T extends Card> implements Parcelable {
     private int shuffleLogLimit = 5;  //  just a guess at what would be good
     private T[] order;  //  reference to order from last ShuffleEntry
     private int tos;  //  copied from last LogEntry
+    private int removed;  //  copied from last ShuffleEntry
+    //  So, in the variables above, "order" is the array of cards; tos points
+    //  to the top-of-stack (the card at the top of the draw deck); and
+    //  "removed" tells us how many entries have been removed from the deck
+    //  (those are stored at the high end of the array).  So, in a deck with 5
+    //  cards, it might look like this after shuffling:
+    //    4  card3
+    //    3  card1
+    //    2  card2
+    //    1  card5
+    //    0  card4
+    //    (tos = 4, removed = 0)
+    //  When a card is drawn, that's card3; tos = 3 tells us that card1 is at
+    //  the top of the draw pile.  If we remove card2 and card5, we're going to
+    //  wind up with this:
+    //    4  card2
+    //    3  card5
+    //    2  card3
+    //    1  card1
+    //    0  card4
+    //    (tos = 1, removed = 2)
+    //  That tells us that card1 is still at the top of the stack; card2 and
+    //  card5 have been removed from the deck, because removed == 2 and they're
+    //  the top 2 cards.
 
     private Random rand;
 
@@ -121,7 +169,8 @@ public class DeckState<T extends Card> implements Parcelable {
         }
         GameRepository grepos = RepositoryFactory.getGameRepository();
         String deckID = in.readString("id");
-        in.readInt("fmt", 1);  //  see comment in writeTo()
+        int fmt = in.readInt("fmt", 1);  //  see comment in writeTo()
+        if (fmt > 2) throw new BadDataException("I can't handle fmt " + fmt);
         String cn = in.readString("class");
         try {
             tclass = (Class<T>) getClass().getClassLoader().loadClass(cn);
@@ -146,6 +195,10 @@ throw new RuntimeException("RUSTY IS A GODDAMN BOZO");
             idMap.put(cards.get(ii).getID(), cards.get(ii));
         }
         tos = in.readInt("tos", -1);
+        removed = 0;
+        if (fmt > 1) {
+            removed = in.readInt("removed", 0);
+        }
         List<String> lut = in.readStrings("ids");
         if (lut.size() != cards.size()) {
             throw new BadDataException("read " + lut.size() + " card IDs, but " +
@@ -162,7 +215,8 @@ throw new RuntimeException("RUSTY IS A GODDAMN BOZO");
         shuffleLogLimit = in.readInt("logLimit", shuffleLogLimit);
         logpos = in.readInt("logpos", logpos);
         if (logpos >= 0) {
-            List<PackedLogEntry> ples = in.readList("log", PackedLogEntry.class);
+            List<? extends PackedLogEntry> ples = in.readList("log",
+                    fmt == 1 ? PackedLogEntryV1.class : PackedLogEntry.class);
             log = new ArrayList<>();
             //  The latest entry is at the start of the list, so let's walk
             //  backward through the packed entries.
@@ -175,7 +229,7 @@ throw new RuntimeException("RUSTY IS A GODDAMN BOZO");
                     eorder[jj] = order[ple.order[jj]];
                 }
                 int ttos = ple.tos;
-                log.add(new ShuffleEntry<>(ttos, eorder));
+                log.add(new ShuffleEntry<>(ttos, ple.removed, eorder));
                 for (int draw = ple.draws; draw > 0; --draw) {
                     log.add(new LogEntry<T>(--ttos));
                 }
@@ -187,11 +241,13 @@ throw new RuntimeException("RUSTY IS A GODDAMN BOZO");
         dest.writeString("id", deck.getID());
         //  put some format version number in case we change the structure
         //  later, and have saved JSON files hanging around in the old format.
-        dest.writeInt("fmt", 1);
+        //  - fmt 2 added the "removed" element.
+        dest.writeInt("fmt", 2);
         //  We don't actually care about the card class here; we're storing
         //  nothing about the card other than its ID.
         dest.writeString("class", tclass.getCanonicalName());
         dest.writeInt("tos", tos);
+        dest.writeInt("removed", removed);
         List<String> ids;
         java.util.Map<String, Integer> idMap = (log != null) ?
                 new java.util.HashMap<String, Integer>() : null;
@@ -218,6 +274,7 @@ throw new RuntimeException("RUSTY IS A GODDAMN BOZO");
                 if (log.get(ii).isShuffle()) {
                     ShuffleEntry<T> shuffle = (ShuffleEntry<T>)(log.get(ii));
                     ple.tos = shuffle.tos;
+                    ple.removed = shuffle.removed;
                     ple.order = new int[idMap.size()];
                     for (int jj = 0; jj < shuffle.order.length; ++jj) {
                         //  shuffle.order[] has our Card instances; idMap maps
@@ -243,6 +300,7 @@ throw new RuntimeException("RUSTY IS A GODDAMN BOZO");
     public void setDeck(Deck<T> deck) {
         this.deck = deck;
     }
+    public Deck<T> getDeck() { return deck; }
 
     /**
      * Sets the Random to use for shuffling.  You probably only care about this
@@ -302,7 +360,7 @@ throw new RuntimeException("RUSTY IS A GODDAMN BOZO");
             }
             tos = newOrder.size() - 1;
         } else {
-            if (!drawPileOnly) tos = order.length - 1;
+            if (!drawPileOnly) tos = order.length - 1 - removed;
             int ii = 0;
             //  We're only shuffling up to & including the current top of the
             //  draw pile.
@@ -314,7 +372,7 @@ throw new RuntimeException("RUSTY IS A GODDAMN BOZO");
                 }
             }
             //  This loop runs if tos < the entire deck; copy over the discards
-            //  in their current order.
+            //  & removed cards in their current order.
             while (ii < order.length) {
                 newOrder.add(order[ii++]);
             }
@@ -325,7 +383,7 @@ throw new RuntimeException("RUSTY IS A GODDAMN BOZO");
             if (log == null) {
                 log = new ArrayList<>(na.length * 2);
             }
-            log.add(new ShuffleEntry<>(tos, na));
+            log.add(new ShuffleEntry<>(tos, removed, na));
             logpos = log.size() - 1;
         }
         order = na;
@@ -334,14 +392,7 @@ throw new RuntimeException("RUSTY IS A GODDAMN BOZO");
         trimLog(shuffleLogLimit);
 
         if (Log.isLoggable(LOGBIT, Log.DEBUG)) {
-            StringBuilder buf = new StringBuilder();
-            buf.append("after shuffle(DrawPileOnly=").append(drawPileOnly).append("):\n");
-            for (int ii = order.length - 1; ii >= 0; --ii) {
-                buf.append("  ").append(order[ii].getID());
-                if (tos == ii) buf.append("  <-- TOS");
-                buf.append("\n");
-            }
-            Log.d(LOGBIT, buf.toString());
+            Log.d(LOGBIT, dump("after shuffle(DrawPileOnly=" + drawPileOnly + "):"));
         }
     }
 
@@ -378,7 +429,7 @@ throw new RuntimeException("RUSTY IS A GODDAMN BOZO");
      * is empty.
      */
     public T getTopDiscard() {
-        if ((order != null) && ((tos + 1) < order.length)) {
+        if ((order != null) && ((tos + 1) < (order.length - removed))) {
             return order[tos + 1];
         }
         return null;
@@ -400,7 +451,7 @@ throw new RuntimeException("RUSTY IS A GODDAMN BOZO");
         //  *did* happen, but it's the minimum which *could* have happened.
         int ttos = order.length - 1;
         log = new ArrayList<>(order.length * 2);
-        log.add(new ShuffleEntry<>(ttos, order));
+        log.add(new ShuffleEntry<>(ttos, removed, order));
         while (ttos > tos) {
             log.add(new LogEntry<T>(--ttos));
         }
@@ -446,6 +497,73 @@ throw new RuntimeException("RUSTY IS A GODDAMN BOZO");
     }
 
     /**
+     * Returns true if this changes the deck at all, false if the set of IDs
+     * matches what was already removed.  If a card had been removed in an
+     * earlier call, but is not included in the set this time, it will be added
+     * to the bottom of the discard pile.
+     *
+     * @param removedIDs must not be null, but may be empty.
+     */
+    public boolean setRemovedIDs(Set<String> removedIDs) {
+        //  Any chance there hasn't been a change?
+        if (removedIDs.size() == removed) {
+            boolean allGood = true;
+            for (int ii = order.length - removed; ii < order.length; ++ii) {
+                if (!removedIDs.contains(order[ii].getID())) {
+                    allGood = false;
+                    break;
+                }
+            }
+            if (allGood) return false;
+        }
+        //  We're going to create a new shuffle entry, and then walk through
+        //  the current order, either putting elements in the removed area at
+        //  the top of the stack, or in the main draw/discard area.
+        removeUndoneLogEntries();
+        T[] target = newArray(order.length);
+        int rpos = order.length - removedIDs.size();
+        int dpos = 0;
+        int tosAdj = 0;
+        for (int ii = 0; ii < order.length; ++ii) {
+            if (removedIDs.contains(order[ii].getID())) {
+                target[rpos++] = order[ii];
+                if (ii <= tos) --tosAdj;
+            } else {
+                target[dpos++] = order[ii];
+            }
+        }
+        tos += tosAdj;
+        removed = removedIDs.size();
+        order = target;
+
+        if (logpos != DISABLE_LOG) {
+            if (log == null) {
+                log = new ArrayList<>(target.length * 2);
+            }
+            log.add(new ShuffleEntry<>(tos, removed, target));
+            logpos = log.size() - 1;
+            trimLog(shuffleLogLimit);
+        }
+
+        if (Log.isLoggable(LOGBIT, Log.DEBUG)) {
+            Log.d(LOGBIT, dump("after setRemovedIDs()"));
+        }
+        return true;
+    }
+
+    /**
+     * Returns true if the card with the given ID has been removed from the
+     * deck.
+     */
+    public boolean isRemoved(String id) {
+        //  linear search, but should be a tiny list
+        for (int ii = order.length - removed; ii < order.length; ++ii) {
+            if (order[ii].getID().equals(id)) return true;
+        }
+        return false;
+    }
+
+    /**
      * Undoes the last operation (if any) and returns true if anything changed,
      * or false if there was nothing to undo.
      */
@@ -461,6 +579,7 @@ throw new RuntimeException("RUSTY IS A GODDAMN BOZO");
                 if (log.get(tlp).isShuffle()) {
                     ShuffleEntry<T> se = (ShuffleEntry<T>) (log.get(tlp));
                     order = se.order;
+                    removed = se.removed;
                     found = true;
                     break;
                 }
@@ -485,6 +604,7 @@ throw new NotDoneException("didn't find previous ShuffleEntry");
         if (log.get(logpos) instanceof ShuffleEntry) {
             ShuffleEntry<T> se = (ShuffleEntry<T>)(log.get(logpos));
             order = se.order;
+            removed = se.removed;
         }
         tos = log.get(logpos).tos;
         return true;
@@ -568,7 +688,7 @@ throw new NotDoneException("didn't find previous ShuffleEntry");
     /**
      * Treated as shuffle(), in which the cards are arranged in the specified
      * order.  Just as getOrder(), this probably is not useful outside unit
-     * tests.
+     * tests.  Note also that this un-removes any removed cards.
      *
      * @param cards must not be null, must not contain null elements, etc.
      */
@@ -576,12 +696,32 @@ throw new NotDoneException("didn't find previous ShuffleEntry");
         removeUndoneLogEntries();
         order = Arrays.copyOf(cards, cards.length);
         tos = order.length - 1;
+        removed = 0;
         if (logpos != DISABLE_LOG) {
             if (log == null) {
                 log = new ArrayList<LogEntry<T>>();
             }
-            log.add(new ShuffleEntry<T>(tos, order));
+            log.add(new ShuffleEntry<T>(tos, removed, order));
         }
+    }
+
+    /**
+     * Returns a description of the stack, for debugging
+     *
+     * @param msg optionally put at the start of the string
+     */
+    public String dump(String msg) {
+        StringBuilder buf = new StringBuilder();
+        if (msg != null) buf.append(msg).append("\n");
+        for (int ii = order.length - 1; ii >= 0; --ii) {
+            if ((removed > 0) && (ii + removed + 1 == order.length)) {
+                buf.append("^^^REMOVED^^^\n");
+            }
+            buf.append("  ").append(order[ii].getID());
+            if (tos == ii) buf.append("  <-- TOS");
+            buf.append("\n");
+        }
+        return buf.toString();
     }
 
     private T[] newArray(int size) {

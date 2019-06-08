@@ -1,10 +1,10 @@
-//  Used by DangerTest.testUndoAfterRead()
+//  This is the fmt 1 version of DangerTest.1.json, used by
+//  DangerTest.testReadV1()
 {
   "id": "danger",
-  "fmt": 2,
+  "fmt": 1,
   "class": "com.kuhrusty.morbadscorepad.model.Danger",
   "tos": 32,
-  "removed": 0,
   "ids": [
     "goblin_fortress",
     "wasteland",
@@ -49,7 +49,6 @@
     {
       "draws": 3,
       "tos": 35,
-      "removed": 0,
       "order": [
         0,
         1,

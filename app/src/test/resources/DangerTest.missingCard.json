@@ -2,9 +2,10 @@
 //  DangerTest.2.json, with a card deleted, to see how we handle that.
 {
   "id": "danger",
-  "fmt": 1,
+  "fmt": 2,
   "class": "com.kuhrusty.morbadscorepad.model.Danger",
   "tos": 34,
+  "removed": 0,
   "ids": [
     "wasteland",
     "fishmonger_camp",
@@ -48,6 +49,7 @@
     {
       "draws": 0,
       "tos": 32,
+      "removed": 0,
       "order": [
         28,
         20,
@@ -89,6 +91,7 @@
     {
       "draws": 3,
       "tos": 34,
+      "removed": 0,
       "order": [
         0,
         1,
@@ -130,6 +133,7 @@
     {
       "draws": 34,
       "tos": 34,
+      "removed": 0,
       "order": [
         3,
         0,

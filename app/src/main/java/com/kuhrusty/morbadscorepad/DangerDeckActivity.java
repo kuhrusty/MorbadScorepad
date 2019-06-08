@@ -8,6 +8,7 @@ import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -24,17 +25,20 @@ import com.kuhrusty.morbadscorepad.model.GameConfiguration;
 import com.kuhrusty.morbadscorepad.model.dao.GameRepository;
 import com.kuhrusty.morbadscorepad.model.dao.RepositoryFactory;
 import com.kuhrusty.morbadscorepad.model.json.JSONGameRepository;
+import com.kuhrusty.morbadscorepad.ui.RemovedCardListHandler;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
+import java.util.Set;
 
 /**
  * Manages a view of the danger deck, with buttons for drawing a new card etc.
  */
-public class DangerDeckActivity extends AppCompatActivity implements MediaPlayer.OnCompletionListener {
+public class DangerDeckActivity extends AppCompatActivity implements MediaPlayer.OnCompletionListener,
+        RemovedCardListHandler.CardListChangeListener {
     private static final String LOGBIT = "DangerDeckActivity";
 
     private static final String KEY_CONFIG = "config";
@@ -307,6 +311,23 @@ public class DangerDeckActivity extends AppCompatActivity implements MediaPlayer
     public void doShuffleAll(View view) {
         deck.shuffle();
         updateUI(true);
+    }
+
+    public void doAddRemoveCards(View view) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        new RemovedCardListHandler(builder, deck, this,
+                getString(R.string.danger_removed_cards),
+                getString(R.string.done), getString(R.string.never_mind));
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
+
+    /**
+     * Called when the user hits OK in the "remove cards" dialog.
+     */
+    @Override
+    public void cardListChanged(Set<String> removedCardIDs) {
+        if (deck.setRemovedIDs(removedCardIDs)) updateUI(true);
     }
 
     /**

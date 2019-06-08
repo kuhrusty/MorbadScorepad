@@ -205,6 +205,16 @@
         app:layout_constraintStart_toStartOf="parent"
         app:srcCompat="@android:drawable/ic_menu_manage"/>
 
+    <Button
+        android:id="@+id/removeCardsButton"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:text="@string/danger_btn_removed_cards"
+        android:onClick="doAddRemoveCards"
+        app:layout_constraintTop_toTopOf="@+id/settingsButton"
+        app:layout_constraintBottom_toBottomOf="@+id/settingsButton"
+        app:layout_constraintStart_toEndOf="@+id/settingsButton"/>
+
     <ImageButton
         android:id="@+id/helpButton"
         android:layout_width="wrap_content"

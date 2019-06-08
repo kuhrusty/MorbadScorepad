@@ -1,10 +1,10 @@
-//  Used by DangerTest.testCardStuff().  This is a Danger DeckState with no log.
+//  This is the fmt 1 version of DangerTest.3.json, used by
+//  DangerTest.testReadV1()
 {
   "id": "danger",
-  "fmt": 2,
+  "fmt": 1,
   "class": "com.kuhrusty.morbadscorepad.model.Danger",
   "tos": 33,
-  "removed": 0,
   "ids": [
     "sunken_village",
     "black_tree",

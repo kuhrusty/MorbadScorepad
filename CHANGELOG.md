@@ -5,6 +5,10 @@ format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 
 ## Unreleased
 #### Added
+- In the Danger Deck activity, add support for removing cards from the
+  deck, needed for the Mean Streets "The Deadly Smell of Disease"
+  mission ([issue #19](https://github.com/kuhrusty/MorbadScorepad/issues/19)).
+
 #### Changed
 - In the Danger Deck activity, fiddle with the content & position of the
   string showing how many cards are left in the draw pile.

@@ -23,12 +23,16 @@ import org.junit.rules.ExpectedException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.Collections;
 import java.util.List;
 import java.util.Random;
+import java.util.TreeSet;
 
 import static com.kuhrusty.morbadscorepad.TestUtil.compare;
+import static com.kuhrusty.morbadscorepad.TestUtil.snort;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
@@ -339,6 +343,100 @@ public class DangerTest {
         check(ds, 36, false, true, "witchwood", null);
     }
 
+    @Test
+    public void testRemoveCard() throws Exception {
+        //  This is the first part of testUndoAfterRead().
+        DeckState<Danger> ds = new DeckState<>(Danger.class, dangerDeck);
+        ds.setRandom(new Random(666));  //  so we get... repeatable results
+        ds.shuffle();
+        check(ds, 36, false, false, "witchwood", null);
+
+        ds.draw();
+        ds.draw();
+        ds.draw();
+        check(ds, 33, true, false, "none1", "foothills");
+
+        //  Now let's remove a couple cards.
+        Danger td = ds.peek();
+        assertEquals("none1", td.getID());
+        assertEquals("Devilry Afoot", td.getName());
+        assertFalse(ds.isRemoved("witchwood"));
+        assertFalse(ds.isRemoved("none1"));
+        assertFalse(ds.isRemoved("watchtower"));
+        assertFalse(ds.setRemovedIDs(Collections.EMPTY_SET));
+
+        TreeSet<String> ids = new TreeSet<>();
+        ids.add("watchtower");
+        assertTrue(ds.setRemovedIDs(ids));
+        check(ds, 32, true, false, "none1", "foothills");
+        assertFalse(ds.isRemoved("witchwood"));
+        assertFalse(ds.isRemoved("none1"));
+        assertTrue(ds.isRemoved("watchtower"));
+        assertFalse(ds.setRemovedIDs(ids));
+
+        ids.add("none1");
+        assertTrue(ds.setRemovedIDs(ids));
+        assertFalse(ds.isRemoved("witchwood"));
+        assertTrue(ds.isRemoved("none1"));
+        assertTrue(ds.isRemoved("watchtower"));
+        assertFalse(ds.setRemovedIDs(ids));
+        ds.undo();
+        ds.undo();
+        //  Should be back to before our first remove.
+        check(ds, 33, true, true, "none1", "foothills");
+
+        ids.clear();
+        ids.add("none1");
+        ids.add("tunnel_of_terror");
+        assertTrue(ds.setRemovedIDs(ids));
+        check(ds, 31, true, false, "watchtower", "foothills");
+        assertFalse(ds.isRemoved("witchwood"));
+        assertTrue(ds.isRemoved("none1"));
+        assertFalse(ds.isRemoved("watchtower"));
+        assertTrue(ds.isRemoved("tunnel_of_terror"));
+
+        ds.shuffle();
+        check(ds, 34, true, false, "pigskin_port", null);
+        for (int ii = 0; ii < 34; ++ii) {
+            td = ds.draw();
+            assertNotEquals("none1", td.getID());
+            assertNotEquals("tunnel_of_terror", td.getID());
+        }
+        assertNull(ds.draw());
+        assertNull(ds.draw());
+        ds.shuffle();
+        check(ds, 34, true, false, "none3", null);
+
+        ids.add("blasted_heath");
+        assertTrue(ds.setRemovedIDs(ids));
+        check(ds, 33, true, false, "none3", null);
+        ds.draw();
+        check(ds, 32, true, false, "foothills", "none3");
+
+        //  Save our deck state to file
+        Gson gson = JSONGameRepository.newGsonBuilder().setPrettyPrinting().create();
+        String outfile = "build/tmp/DangerDeckActivity.deck.json";
+        FileWriter fw = new FileWriter(outfile);
+        gson.toJson(ds, fw);
+        fw.close();
+        compare("DangerTest.4.json", outfile, true, false);
+
+        //  Load our deck state from file
+        try {
+            Util.setContextAndConfig(context, config);
+            ds = (DeckState<Danger>) (gson.fromJson(new FileReader(outfile), DeckState.class));
+        } finally {
+            Util.setContextAndConfig(null, null);
+        }
+
+        check(ds, 32, true, false, "foothills", "none3");
+        ds.undo();
+        ds.undo();
+        check(ds, 34, true, true, "none3", null);
+        ds.draw();
+        check(ds, 33, true, false, "blasted_heath", "none3");
+    }
+
     /**
      * DeckStateActivity writes its DeckState to file when shutting down; it
      * needs to handle the case where a card ID has changed or been removed
@@ -346,7 +444,7 @@ public class DangerTest {
      */
     @Test
     public void testBadDangerCardID() throws Exception {
-        String json = TestUtil.snort("DangerTest.badID.json", true, true, false);
+        String json = snort("DangerTest.badID.json", true, true, false);
         Gson gson = JSONGameRepository.newGsonBuilder().create();
 
         Util.setContextAndConfig(context, config);
@@ -361,7 +459,7 @@ public class DangerTest {
      */
     @Test
     public void testMissingDangerCard() throws Exception {
-        String json = TestUtil.snort("DangerTest.missingCard.json", true, true, false);
+        String json = snort("DangerTest.missingCard.json", true, true, false);
         Gson gson = JSONGameRepository.newGsonBuilder().create();
 
         Util.setContextAndConfig(context, config);
@@ -377,7 +475,7 @@ public class DangerTest {
      */
     @Test
     public void testMissingContext() throws Exception {
-        String json = TestUtil.snort("DangerTest.1.json", true, true, false);
+        String json = snort("DangerTest.1.json", true, true, false);
         Gson gson = JSONGameRepository.newGsonBuilder().create();
 
         expectThrown.expect(RuntimeException.class);
@@ -407,6 +505,43 @@ public class DangerTest {
         //assertNull(ds2.getOrder());
         //assertNull(ds2.getTopDiscard());
         //assertNull(ds2.peek());
+    }
+
+    /**
+     * Confirm that we can read v1 DeckState files.
+     */
+    @Test
+    public void testReadV1() throws Exception {
+        checkV1V2("DangerTest.1v1.json", "DangerTest.1.json");
+        checkV1V2("DangerTest.2v1.json", "DangerTest.2.json");
+        checkV1V2("DangerTest.3v1.json", "DangerTest.3.json");
+    }
+
+    /**
+     * Reads a V1 DeckState file, writes it, compares its contents to a V2
+     * DeckState file.
+     */
+    private void checkV1V2(String v1filename, String v2filename) throws Exception {
+        Gson gson = JSONGameRepository.newGsonBuilder().setPrettyPrinting().create();
+
+        //  read v1 file
+        String v1json = snort(v1filename, true, true, false);
+        DeckState<Danger> ds = null;
+        try {
+            Util.setContextAndConfig(context, config);
+            ds = (DeckState<Danger>) (gson.fromJson(v1json, DeckState.class));
+        } finally {
+            Util.setContextAndConfig(null, null);
+        }
+
+        //  Save our deck state to file
+        String outfile = "build/tmp/DangerDeckActivity.deck.json";
+        FileWriter fw = new FileWriter(outfile);
+        gson.toJson(ds, fw);
+        fw.close();
+
+        //  Confirm that the written file matches the v2 contents
+        compare(v2filename, outfile, true, false);
     }
 
     private void check(Danger card, String expectID) {

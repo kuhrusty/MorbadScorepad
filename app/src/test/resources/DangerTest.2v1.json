@@ -1,19 +1,17 @@
-//  Used by DangerTest.testMissingDangerCardID(); this is a copy of
-//  DangerTest.2.json, with a bad/bogus/unrecognized card ID, to see how we
-//  handle that.
+//  This is the fmt 1 version of DangerTest.2.json, used by
+//  DangerTest.testReadV1()
 {
   "id": "danger",
-  "fmt": 2,
+  "fmt": 1,
   "class": "com.kuhrusty.morbadscorepad.model.Danger",
   "tos": 35,
-  "removed": 0,
   "ids": [
     "wasteland",
     "fishmonger_camp",
     "none4",
     "goblin_fortress",
     "burning_lakes",
-    "fnub",
+    "catacombs",
     "fields",
     "tower_island",
     "sunken_village",
@@ -51,7 +49,6 @@
     {
       "draws": 0,
       "tos": 32,
-      "removed": 0,
       "order": [
         28,
         20,
@@ -94,7 +91,6 @@
     {
       "draws": 3,
       "tos": 35,
-      "removed": 0,
       "order": [
         0,
         1,
@@ -137,7 +133,6 @@
     {
       "draws": 35,
       "tos": 35,
-      "removed": 0,
       "order": [
         3,
         0,
