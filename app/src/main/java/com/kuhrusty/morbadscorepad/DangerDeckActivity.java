@@ -96,7 +96,7 @@ public class DangerDeckActivity extends AppCompatActivity implements MediaPlayer
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_danger_deck);
 
-        checkPrefs();
+        checkPrefs(false);
         if (audioPref != null) {
             //  When people hit the volume buttons, we want to change the media
             //  volume, not the ringtone volume.
@@ -137,9 +137,7 @@ public class DangerDeckActivity extends AppCompatActivity implements MediaPlayer
         }
         if (deck == null) {
             Log.d(LOGBIT, "onCreate() creating new deck state");
-            grepos.getCards(this, config, Deck.DANGER, Danger.class);
-            deck = new DeckState<>(Danger.class, grepos.getDeck(this, config, Deck.DANGER, Danger.class));
-            deck.shuffle();
+            deck = newDeck();
         }
 
         dangerIV = findViewById(R.id.cardImage);
@@ -179,7 +177,7 @@ public class DangerDeckActivity extends AppCompatActivity implements MediaPlayer
     @Override
     public void onResume() {
         super.onResume();
-        checkPrefs();
+        checkPrefs(true);
         confirmBtn.setVisibility(confirmPref ? View.VISIBLE : View.GONE);
         //  if they had confirmPref turned on, they pressed drawBtn, drawBtn
         //  became disabled, they opened settings, and turned off confirmPref,
@@ -333,7 +331,7 @@ public class DangerDeckActivity extends AppCompatActivity implements MediaPlayer
     /**
      * Called when we think preferences might have changed.
      */
-    private void checkPrefs() {
+    private void checkPrefs(boolean isReload) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         audioPref = (prefs != null) ? prefs.getString(SettingsActivity.PREF_DANGER_READ_SOUND,
                 SettingsActivity.PREF_DANGER_READ_SOUND_VALUE_FULL) : null;
@@ -347,6 +345,18 @@ public class DangerDeckActivity extends AppCompatActivity implements MediaPlayer
 
         confirmPref = (prefs != null) && prefs.getBoolean(SettingsActivity.PREF_DANGER_CONFIRM_UPDATED, false);
         if (!confirmPref) needConfirmDangerUpdate = false;
+
+        //  The set of cards in the Danger deck may have changed if they
+        //  enabled/disabled expansions which contain Danger cards.
+        if (config != null) {
+            //  make sure we pick up new prefs
+            Log.d(LOGBIT, "checkPrefs() building new config");
+            config = new GameConfiguration(this, prefs, grepos);
+        }
+        if (isReload) {
+            Log.d(LOGBIT, "checkPrefs() reloading deck state");
+            if (!loadDeckStateFromFile()) updateUI(true);
+        }
     }
 
     //  originally I had a button which did this; I removed that when I added
@@ -389,6 +399,7 @@ public class DangerDeckActivity extends AppCompatActivity implements MediaPlayer
         try {
             fw = new OutputStreamWriter(openFileOutput(DECK_STATE_FILENAME, Context.MODE_PRIVATE));
             gson.toJson(deck, fw);
+            Log.d(LOGBIT, "wrote " + deck.getOrder().length + " cards to file");
         } catch (IOException ioe) {
             Log.w(LOGBIT, ioe);
         } finally {
@@ -403,21 +414,26 @@ public class DangerDeckActivity extends AppCompatActivity implements MediaPlayer
     }
 
     /**
-     * This is just here to keep some clutter out of onCreate().
+     * This is just here to keep some clutter out of onCreate().  Returns true
+     * if we successfully read, false if we had to build a new deck.
      */
-    private void loadDeckStateFromFile() {
+    private boolean loadDeckStateFromFile() {
         Gson gson = JSONGameRepository.newGsonBuilder().create();
         FileReader fr = null;
         try {
             Util.setContextAndConfig(this, config);
             fr = new FileReader(openFileInput(DECK_STATE_FILENAME).getFD());
             deck = gson.fromJson(fr, DeckState.class);
+            Log.d(LOGBIT, "read " + deck.getOrder().length + " cards from file");
+            return true;
         } catch (Exception ex) {
             if (!(ex instanceof FileNotFoundException)) {
                 Log.e(LOGBIT, "couldn't restore danger deck from file", ex);
                 Toast.makeText(this, R.string.err_restore_bad_danger_deck,
                         Toast.LENGTH_LONG).show();
             }
+            deck = newDeck();
+            return false;
         } finally {
             Util.setContextAndConfig(null, null);
             if (fr != null) {
@@ -428,5 +444,15 @@ public class DangerDeckActivity extends AppCompatActivity implements MediaPlayer
                 }
             }
         }
+    }
+
+    /**
+     * Generates a new, shuffled deck.
+     */
+    private DeckState<Danger> newDeck() {
+        grepos.getCards(this, config, Deck.DANGER, Danger.class);
+        DeckState<Danger> rv = new DeckState<>(Danger.class, grepos.getDeck(this, config, Deck.DANGER, Danger.class));
+        rv.shuffle();
+        return rv;
     }
 }

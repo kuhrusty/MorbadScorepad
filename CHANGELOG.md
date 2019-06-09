@@ -12,6 +12,9 @@ format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 #### Changed
 - In the Danger Deck activity, fiddle with the content & position of the
   string showing how many cards are left in the draw pile.
+- In the Danger Deck activity, reload the deck from file when we think
+  the selected set of expansions might have changed
+  ([issue #20](https://github.com/kuhrusty/MorbadScorepad/issues/20)).
 - In the Danger Deck activity, move button labels from the layout XML
   files to `strings.xml` (not sure why I didn't put them there in the
   first place).
