@@ -34,12 +34,34 @@ public class Skill extends Card {
      * @return A new list, or <code>allSkills</code>.
      */
     public static List<Skill> filterSkills(List<Skill> allSkills, AdventurerSheet adventurer) {
+        return filterSkills(allSkills, adventurer, 0);
+    }
+
+    /**
+     * Returns a list which contains only the Skills which are applicable to the
+     * given adventurer.
+     *
+     * @param allSkills the set of skills you want filtered.
+     * @param adventurer may be null; in that case, <code>allSkills</code> is
+     *                   returned.
+     * @param xp the XP limit, or 0 for no limit.  If not 0, then only skills
+     *           which cost this amount or less will be returned.
+     * @return A new list, or <code>allSkills</code>.
+     */
+    public static List<Skill> filterSkills(List<Skill> allSkills, AdventurerSheet adventurer, int xp) {
         if (adventurer == null) {
-            return allSkills;
+            if (xp == 0) return allSkills;
+            List<Skill> rv = new ArrayList<>(allSkills.size());
+            for (Skill ts : allSkills) {
+                if (xp >= ts.xp) rv.add(ts);
+            }
+            return rv;
         }
         List<Skill> rv = new ArrayList<>(allSkills.size());
         for (Skill ts : allSkills) {
-            if (ts.getRequirements().passes(adventurer)) rv.add(ts);
+            if (ts.getRequirements().passes(adventurer)) {
+                if ((xp == 0) || (xp >= ts.xp)) rv.add(ts);
+            }
         }
         return rv;
     }
@@ -49,9 +71,15 @@ public class Skill extends Card {
     //  probably ditch the requiredClass stuff and convert those arrays back
     //  into a single String
     private String req;
+    private int xp;
     //  transient so that it gets ignored by Gson.  This is our "compiled" req
     //  string.
     private transient Requirement<AdventurerSheet> creq;
+
+    /**
+     * The experience points required for gaining or mastering this skill.
+     */
+    public int getXP() { return xp; }
 
     /**
      * Returns the Requirements an adventurer must meet to have this skill; if

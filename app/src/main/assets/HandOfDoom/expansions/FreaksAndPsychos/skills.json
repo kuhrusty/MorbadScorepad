@@ -9,62 +9,77 @@
   {
     "id": "black_market",
     "name": "Black Market",
-    "req": "Merchant or Rogue"
+    "req": "Merchant or Rogue",
+    "xp": 8
   }, {
     "id": "claws",
     "name": "Claws",
-    "req": "Reptilian, Warlock, or Lycanthrope"
+    "req": "Reptilian, Warlock, or Lycanthrope",
+    "xp": 6
   }, {
     "id": "counter",
     "name": "Counter",
-    "req": "AGI 8"
+    "req": "AGI 8",
+    "xp": 10
   }, {
     "id": "dead_eye_shot",
     "name": "Dead Eye Shot",
-    "req": "Hunter, Militant, or Wild"
+    "req": "Hunter, Militant, or Wild",
+    "xp": 13
   }, {
     "id": "dopesmoker",
     "name": "Dopesmoker",
-    "req": "MAG 6"
+    "req": "MAG 6",
+    "xp": 6
   }, {
     "id": "exploit",
     "name": "Exploit",
-    "req": "Fighter, Hunter, Militant, or Rogue"
+    "req": "Fighter, Hunter, Militant, or Rogue",
+    "xp": 10
   }, {
     "id": "find_weakness",
     "name": "Find Weakness",
-    "req": "Fighter, Hunter, Scholar, or Wild"
+    "req": "Fighter, Hunter, Scholar, or Wild",
+    "xp": 8
   }, {
     "id": "illusory_double",
     "name": "Illusory Double",
-    "req": "Reptilian or Wizard"
+    "req": "Reptilian or Wizard",
+    "xp": 10
   }, {
     "id": "looter",
     "name": "Looter",
-    "req": "Merchant or Rogue"
+    "req": "Merchant or Rogue",
+    "xp": 8
   }, {
     "id": "lurker",
     "name": "Lurker",
-    "req": "AGI 7 and PER 7"
+    "req": "AGI 7 and PER 7",
+    "xp": 6
   }, {
     "id": "martial_discipline",
     "name": "Martial Discipline",
-    "req": "Militant or Fighter"
+    "req": "Militant or Fighter",
+    "xp": 8
   }, {
     "id": "misdirection",
     "name": "Misdirection",
-    "req": "Performer, Reptilian, or Wizard"
+    "req": "Performer, Reptilian, or Wizard",
+    "xp": 8
   }, {
     "id": "performance",
     "name": "Performance",
-    "req": "Performer"
+    "req": "Performer",
+    "xp": 6
   }, {
     "id": "repulsion",
     "name": "Repulsion",
-    "req": "Wizard"
+    "req": "Wizard",
+    "xp": 6
   }, {
     "id": "transcendence",
     "name": "Transcendence",
-    "req": "MRL 9 or MAG 9"
+    "req": "MRL 9 or MAG 9",
+    "xp": 6
   }
 ]

@@ -9,146 +9,182 @@
   {
     "id": "alchemy",
     "name": "Alchemy",
-    "req": "Scholar"
+    "req": "Scholar",
+    "xp": 8
   }, {
     "id": "backstab",
     "name": "Backstab",
-    "req": "Hunter or Rogue"
+    "req": "Hunter or Rogue",
+    "xp": 10
   }, {
     "id": "black_market",
     "name": "Black Market",
-    "req": "Merchant or Rogue"
+    "req": "Merchant or Rogue",
+    "xp": 8
   }, {
     "id": "blood_curse",
     "name": "Blood Curse",
-    "req": "Warlock"
+    "req": "Warlock",
+    "xp": 8
   }, {
     "id": "burly",
     "name": "Burly",
-    "req": "STR 8"
+    "req": "STR 8",
+    "xp": 6
   }, {
     "id": "combat_reflexes",
     "name": "Combat Reflexes",
-    "req": "Hunter or Rogue"
+    "req": "Hunter or Rogue",
+    "xp": 13
   }, {
     "id": "counter",
     "name": "Counter",
-    "req": "AGI 8"
+    "req": "AGI 8",
+    "xp": 10
   }, {
     "id": "dauntless",
     "name": "Dauntless",
-    "req": "MRL 8"
+    "req": "MRL 8",
+    "xp": 6
   }, {
     "id": "decay",
     "name": "Decay",
-    "req": "Warlock"
+    "req": "Warlock",
+    "xp": 8
   }, {
     "id": "drain_life",
     "name": "Drain Life",
-    "req": "Warlock"
+    "req": "Warlock",
+    "xp": 10
   }, {
     "id": "exterminator",
     "name": "Exterminator",
-    "req": "Fighter, Hunter, or Wild"
+    "req": "Fighter, Hunter, or Wild",
+    "xp": 8
   }, {
     "id": "ferocious_charge",
     "name": "Ferocious Charge",
-    "req": "STR 8"
+    "req": "STR 8",
+    "xp": 8
   }, {
     "id": "fieldcraft",
     "name": "Fieldcraft",
-    "req": "Wild"
+    "req": "Wild",
+    "xp": 6
   }, {
     "id": "find_weakness",
     "name": "Find Weakness",
-    "req": "Fighter, Hunter, Scholar, or Wild"
+    "req": "Fighter, Hunter, Scholar, or Wild",
+    "xp": 8
   }, {
     "id": "foe_killer",
     "name": "Foe Killer",
-    "req": "Fighter, Hunter, Militant"
+    "req": "Fighter, Hunter, Militant",
+    "xp": 8
   }, {
     "id": "goblin_slayer",
     "name": "Goblin Slayer",
-    "req": "Fighter, Hunter, Wild"
+    "req": "Fighter, Hunter, Wild",
+    "xp": 8
   }, {
     "id": "gourmet",
     "name": "Gourmet",
-    "req": "MRL <9"
+    "req": "MRL <9",
+    "xp": 6
   }, {
     "id": "immunity",
     "name": "Immunity",
-    "req": "Rogue, Scholar, Warlock, or Wild"
+    "req": "Rogue, Scholar, Warlock, or Wild",
+    "xp": 8
   }, {
     "id": "inquisitor",
     "name": "Inquisitor",
-    "req": "Puritan"
+    "req": "Puritan",
+    "xp": 10
   }, {
     "id": "intimidate",
     "name": "Intimidate",
-    "req": "MRL 8 or STR 8"
+    "req": "MRL 8 or STR 8",
+    "xp": 8
   }, {
     "id": "levitate",
     "name": "Levitate",
-    "req": "MAG 9"
+    "req": "MAG 9",
+    "xp": 6
   }, {
     "id": "looter",
     "name": "Looter",
-    "req": "Merchant or Rogue"
+    "req": "Merchant or Rogue",
+    "xp": 8
   }, {
     "id": "magic_missile",
     "name": "Magic Missile",
-    "req": "Wizard"
+    "req": "Wizard",
+    "xp": 8
   }, {
     "id": "mend_wounds",
     "name": "Mend Wounds",
-    "req": "Scholar or Wild"
+    "req": "Scholar or Wild",
+    "xp": 8
   }, {
     "id": "mist_form",
     "name": "Mist Form",
-    "req": "Warlock or Wizard"
+    "req": "Warlock or Wizard",
+    "xp": 8
   }, {
     "id": "mystic_shield",
     "name": "Mystic Shield",
-    "req": "Wizard"
+    "req": "Wizard",
+    "xp": 10
   }, {
     "id": "provoke",
     "name": "Provoke",
-    "req": "MRL 6"
+    "req": "MRL 6",
+    "xp": 6
   }, {
     "id": "rage",
     "name": "Rage",
-    "req": "STR 8"
+    "req": "STR 8",
+    "xp": 10
   }, {
     "id": "rebuke",
     "name": "Rebuke",
-    "req": "Puritan or Warlock"
+    "req": "Puritan or Warlock",
+    "xp": 10
   }, {
     "id": "shrug_off_pain",
     "name": "Shrug Off Pain",
-    "req": "CON 8 or MRL 9"
+    "req": "CON 8 or MRL 9",
+    "xp": 8
   }, {
     "id": "sixth_sense",
     "name": "Sixth Sense",
-    "req": "MAG 8 or PER 8"
+    "req": "MAG 8 or PER 8",
+    "xp": 8
   }, {
     "id": "sneak_attack",
     "name": "Sneak Attack",
-    "req": "PER 8"
+    "req": "PER 8",
+    "xp": 8
   }, {
     "id": "track",
     "name": "Track",
-    "req": "Hunter or Wild"
+    "req": "Hunter or Wild",
+    "xp": 6
   }, {
     "id": "transmute",
     "name": "Transmute",
-    "req": "Scholar"
+    "req": "Scholar",
+    "xp": 8
   }, {
     "id": "voidwalker",
     "name": "Voidwalker",
-    "req": "Void Witch"
+    "req": "Void Witch",
+    "xp": 8
   }, {
     "id": "warding",
     "name": "Warding",
-    "req": "Puritan or Warlock"
+    "req": "Puritan or Warlock",
+    "xp": 10
   }
 ]

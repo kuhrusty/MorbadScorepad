@@ -9,50 +9,62 @@
   {
     "id": "bloodlust",
     "name": "Bloodlust",
-    "req": "Warlock or Wild"
+    "req": "Warlock or Wild",
+    "xp": 13
   }, {
     "id": "claws",
     "name": "Claws",
-    "req": "Reptilian, Warlock, or Lycanthrope"
+    "req": "Reptilian, Warlock, or Lycanthrope",
+    "xp": 6
   }, {
     "id": "immunity",
     "name": "Immunity",
-    "req": "Rogue, Scholar, Warlock, or Wild"
+    "req": "Rogue, Scholar, Warlock, or Wild",
+    "xp": 8
   }, {
     "id": "lycanthropy",
     "name": "Lycanthropy",
-    "req": "Lycanthrope"
+    "req": "Lycanthrope",
+    "xp": 13
   }, {
     "id": "martial_discipline",
     "name": "Martial Discipline",
-    "req": "Militant or Fighter"
+    "req": "Militant or Fighter",
+    "xp": 8
   }, {
     "id": "meditation",
     "name": "Meditation",
-    "req": "Wizard"
+    "req": "Wizard",
+    "xp": 6
   }, {
     "id": "performance",
     "name": "Performance",
-    "req": "Performer"
+    "req": "Performer",
+    "xp": 6
   }, {
     "id": "provoke",
     "name": "Provoke",
-    "req": "MRL 6"
+    "req": "MRL 6",
+    "xp": 6
   }, {
     "id": "river_rat",
     "name": "River Rat",
-    "req": "Merchant, Rogue, or Wild"
+    "req": "Merchant, Rogue, or Wild",
+    "xp": 6
   }, {
     "id": "shieldwall",
     "name": "Shieldwall",
-    "req": "STR 8"
+    "req": "STR 8",
+    "xp": 8
   }, {
     "id": "shock_wave",
     "name": "Shock Wave",
-    "req": "Wizard"
+    "req": "Wizard",
+    "xp": 10
   }, {
     "id": "streetwise",
     "name": "Streetwise",
-    "req": "Merchant, Rogue, or Performer"
+    "req": "Merchant, Rogue, or Performer",
+    "xp": 6
   }
 ]

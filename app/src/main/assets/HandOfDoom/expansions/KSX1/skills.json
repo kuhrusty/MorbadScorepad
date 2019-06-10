@@ -10,16 +10,19 @@
     "id": "exploit",
     "name": "Exploit",
 //  copied from FreaksAndPsychos; not sure it's correct
-    "req": "Fighter, Hunter, Militant, or Rogue"
+    "req": "Fighter, Hunter, Militant, or Rogue",
+    "xp": 10
   }, {
     "id": "gourmet",
     "name": "Gourmet",
 //  copied from the base skills.json; not sure it's correct
-    "req": "MRL <9"
+    "req": "MRL <9",
+    "xp": 6
   }, {
     "id": "sneak_attack",
     "name": "Sneak Attack",
 //  copied from the base skills.json; not sure it's correct
-    "req": "PER 8"
+    "req": "PER 8",
+    "xp": 8
   }
 ]

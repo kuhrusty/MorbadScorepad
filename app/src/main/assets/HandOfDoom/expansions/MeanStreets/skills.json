@@ -7,26 +7,32 @@
   {
     "id": "bleeding",
     "name": "Bleeding",
-    "req": "Scholar"
+    "req": "Scholar",
+    "xp": 8
   }, {
     "id": "call_fire",
     "name": "Call Fire",
-    "req": "Hunter or Militant"
+    "req": "Hunter or Militant",
+    "xp": 8
   }, {
     "id": "dilettante",
     "name": "Dilettante",
-    "req": "Scholar"
+    "req": "Scholar",
+    "xp": 6
   }, {
     "id": "forlorn_hope",
     "name": "Forlorn Hope",
-    "req": "Fighter, Militant, Puritan, or Wild"
+    "req": "Fighter, Militant, Puritan, or Wild",
+    "xp": 8
   }, {
     "id": "polearm_discipline",
     "name": "Polearm Discipline",
-    "req": "Militant"
+    "req": "Militant",
+    "xp": 8
   }, {
     "id": "to_the_front",
     "name": "To The Front",
-    "req": "Fighter, Militant, Puritan, or Wild"
+    "req": "Fighter, Militant, Puritan, or Wild",
+    "xp": 8
   }
 ]
