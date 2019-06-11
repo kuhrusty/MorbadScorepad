@@ -3,7 +3,7 @@
 All notable changes to this project will be documented in this file.  The
 format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 
-## Unreleased
+## [1.3] (Android versionCode 10) - 2019-06-10
 #### Added
 - In the Danger Deck activity, add support for removing cards from the
   deck, needed for the Mean Streets "The Deadly Smell of Disease"
@@ -11,20 +11,21 @@ format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 - In the Skill List activity, add support for filtering skills by the
   amount of XP you have
   ([issue #18](https://github.com/kuhrusty/MorbadScorepad/issues/18)).
+  As part of this, fiddle with the layout in landscape orientation.
 
 #### Changed
 - In the Danger Deck activity, fiddle with the content & position of the
   string showing how many cards are left in the draw pile.
+- In the Skill List activity, add an icon indicating that the list of
+  adventurers is something you can actually click on.  This trivial task
+  took me about 6 hours; see the angry comments in the
+  `SpinnerAlternative` class.
 - In the Danger Deck activity, reload the deck from file when we think
   the selected set of expansions might have changed
   ([issue #20](https://github.com/kuhrusty/MorbadScorepad/issues/20)).
 - In the Danger Deck activity, move button labels from the layout XML
   files to `strings.xml` (not sure why I didn't put them there in the
   first place).
-- In the Skill List activity, add an icon indicating that the list of
-  adventurers is something you can actually click on.  This trivial task
-  took me about 6 hours; see the angry comments in the
-  `SpinnerAlternative` class.
 
 
 ## [1.2] (Android versionCode 8) - 2019-05-23
