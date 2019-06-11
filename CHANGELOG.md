@@ -21,6 +21,10 @@ format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 - In the Danger Deck activity, move button labels from the layout XML
   files to `strings.xml` (not sure why I didn't put them there in the
   first place).
+- In the Skill List activity, add an icon indicating that the list of
+  adventurers is something you can actually click on.  This trivial task
+  took me about 6 hours; see the angry comments in the
+  `SpinnerAlternative` class.
 
 
 ## [1.2] (Android versionCode 8) - 2019-05-23

@@ -8,12 +8,18 @@
     android:background="@color/black"
     tools:context="com.kuhrusty.morbadscorepad.SkillListActivity">
 
-    <Spinner
+    <TextView
         android:id="@+id/character"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:background="@color/ddYellow"
+        android:fontFamily="@font/caslon_antique_bold"
+        android:gravity="left|center_vertical"
+        android:padding="8dp"
+        android:textColor="@color/black"
+        android:textSize="24sp"
+        android:drawableRight="@android:drawable/arrow_down_float"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toLeftOf="@+id/xp"
         app:layout_constraintTop_toTopOf="parent"/>

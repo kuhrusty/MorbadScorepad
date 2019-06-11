@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--  The reason for layout_width="480dp" instead of WRAP_CONTENT or
+      MATCH_PARENT is that we want the TextView wide enough to display the
+      longest adventurer name (currently "MERCENARY ALCHEMIST", I think), but
+      we don't *know* that's the longest name when the popup window is being
+      laid out, because it's farther down in the list than RecyclerView
+      initially creates Views for.  So, uhh... stupidly hard-code some fixed
+      size, I guess.  -->
+<!--  also, might want @color/ddYellow instead of @color/ddBrightYellow.  -->
+<!--  was android:fontFamily="@font/dominican" -->
+<TextView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/adventurer"
+    android:layout_width="480dp"
+    android:layout_height="wrap_content"
+    android:layout_weight="1"
+    android:fontFamily="@font/caslon_antique_bold"
+    android:paddingBottom="8dp"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp"
+    android:paddingTop="8dp"
+    android:background="@color/ddBrightYellow"
+    android:textColor="@color/black"
+    android:textSize="20sp"
+    android:textStyle="normal"
+    android:singleLine="true"/>

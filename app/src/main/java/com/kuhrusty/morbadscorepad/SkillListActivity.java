@@ -62,12 +62,11 @@ public class SkillListActivity extends AppCompatActivity {
     private View selectedRow = null;
     private ImageView skillIV;
     private ImageView masteryIV;
-    private String allSkillsItemLabel;
+    private TextView adventurerTV;
     private TextView xpTV;
 
     private String selectedAdventurer;  //  may be null, even when skill is not
     private String selectedSkillID;  //  may be null
-    private String restoringSkillID;  //  ugh, only used during onCreate()
     private int selectedXP = 0;
 
     private class SkillRowSelectionListener implements View.OnClickListener {
@@ -87,7 +86,7 @@ public class SkillListActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_skill_list);
-        allSkillsItemLabel = getString(R.string.skill_list_all_item);
+        adventurerTV = findViewById(R.id.character);
         xpTV = findViewById(R.id.xpTextView);
 
         if (savedInstanceState != null) {
@@ -99,8 +98,6 @@ public class SkillListActivity extends AppCompatActivity {
             //  can we get these guys from file?
             loadStateFromFile();
         }
-        String savedAdventurer = selectedAdventurer;
-        restoringSkillID = selectedSkillID;
 
         if (config == null) {
             config = new GameConfiguration(this, PreferenceManager.getDefaultSharedPreferences(this), grepos);
@@ -116,8 +113,8 @@ public class SkillListActivity extends AppCompatActivity {
         rsl = new SkillRowSelectionListener();
 
         List<AdventurerSheet> al = grepos.getAdventurerSheets(this, config);
-        String[] aa = new String[al.size() + 1];
-        aa[0] = allSkillsItemLabel;
+        final String[] aa = new String[al.size() + 1];
+        aa[0] = getString(R.string.skill_list_all_item);
         for (int ii = 1; ii < aa.length; ++ii) {
             //  We added the "ALL" element, so aa[ii] will be al[ii - 1]
             AdventurerSheet ta = al.get(ii - 1);
@@ -133,51 +130,17 @@ public class SkillListActivity extends AppCompatActivity {
 
         //  Fill out some UI stuff
         table = findViewById(R.id.skillList);
-        Spinner characterChooser = findViewById(R.id.character);
-        ArrayAdapter<String> adapter =
-                new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, aa) {
-                    //  ugh, all this is just to set the $%#$!! font!?
+
+        SpinnerAlternative.createRecyclerViewPopup(this, findViewById(R.id.character),
+                R.layout.row_adventurer, aa, new SpinnerAlternative.ItemSelectionListener() {
                     @Override
-                    public View getView(int position, View convertView, ViewGroup parent) {
-                        View tv = super.getView(position, convertView, parent);
-                        ((TextView)tv).setTextAppearance(SkillListActivity.this, R.style.AdventurerSpinner);
-                        return tv;
+                    public void itemSelected(int idx) {
+                        selectedAdventurer = aa[idx];
+                        updateSelectedAdventurer();
+                        updateSkillList();
                     }
-                    @Override
-                    public View getDropDownView(int position,  View convertView,  ViewGroup parent) {
-                        View tv = super.getDropDownView(position, convertView, parent);
-                        ((TextView)tv).setTextAppearance(SkillListActivity.this, R.style.AdventurerSpinner);
-                        return tv;
-                    }
-        };
-        characterChooser.setAdapter(adapter);
-        characterChooser.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view,
-                                       int position, long id) {
-                String ts = adapterView.getSelectedItem().toString();
-                Log.d(LOGBIT, ts + " selected");
-                selectedAdventurer = ((ts != null) &&
-                        (!ts.equals(allSkillsItemLabel))) ? ts : null;
-                //  Well, this is a ridiculous kludge.  During startup, we want
-                //  to restore the skill they were looking at last time this was
-                //  running.  However, we get *two* selection events during
-                //  startup (even without the explicit
-                //  characterChooser.setSelection(pos); below); the first is
-                //  with view == null, so let's continue to remember the skill
-                //  ID we want to restore during the *second* selection event.
-                //  After that, we'll forget the skill ID we were restoring, so
-                //  that when the *user* clicks on the spinner, we just select
-                //  that adventurer's first skill.
-                selectedSkillID = restoringSkillID;
-                if (view != null) restoringSkillID = null;
-                updateSkillList();
-            }
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-                Log.d(LOGBIT, "nothing selected");
-            }
-        });
+                });
+        updateSelectedAdventurer();
 
         SpinnerAlternative.createRecyclerViewPopup(this, findViewById(R.id.xp),
                 R.layout.row_xp, xpa, new SpinnerAlternative.ItemSelectionListener() {
@@ -190,11 +153,7 @@ public class SkillListActivity extends AppCompatActivity {
                 });
         updateSelectedXP();
 
-        if (savedAdventurer != null) {
-            selectedAdventurer = savedAdventurer;
-            int pos = adapter.getPosition(selectedAdventurer);
-            if (pos != -1) characterChooser.setSelection(pos);
-        }
+        updateSkillList();
     }
 
     @Override
@@ -214,6 +173,11 @@ public class SkillListActivity extends AppCompatActivity {
             savedInstanceState.putString(KEY_SELECTED_SKILL, selectedSkillID);
         }
         savedInstanceState.putInt(KEY_SELECTED_XP, selectedXP);
+    }
+
+    private void updateSelectedAdventurer() {
+        adventurerTV.setText(selectedAdventurer == null ?
+                getString(R.string.skill_list_all_item) : selectedAdventurer);
     }
 
     private void updateSelectedXP() {
