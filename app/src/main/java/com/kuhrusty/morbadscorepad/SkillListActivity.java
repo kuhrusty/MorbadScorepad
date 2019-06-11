@@ -23,6 +23,7 @@ import com.kuhrusty.morbadscorepad.model.GameConfiguration;
 import com.kuhrusty.morbadscorepad.model.Skill;
 import com.kuhrusty.morbadscorepad.model.dao.GameRepository;
 import com.kuhrusty.morbadscorepad.model.dao.RepositoryFactory;
+import com.kuhrusty.morbadscorepad.ui.SpinnerAlternative;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -42,6 +43,7 @@ public class SkillListActivity extends AppCompatActivity {
 
     private static final String KEY_SELECTED_ADVENTURER = "SkillListActivity.selectedAdventurer";
     private static final String KEY_SELECTED_SKILL = "SkillListActivity.selectedSkill";
+    private static final String KEY_SELECTED_XP = "SkillListActivity.selectedXP";
     /**
      * Because we expect the user to navigate away from this activity (like to
      * fiddle with the danger deck), we can't always count on
@@ -61,10 +63,12 @@ public class SkillListActivity extends AppCompatActivity {
     private ImageView skillIV;
     private ImageView masteryIV;
     private String allSkillsItemLabel;
+    private TextView xpTV;
 
     private String selectedAdventurer;  //  may be null, even when skill is not
     private String selectedSkillID;  //  may be null
     private String restoringSkillID;  //  ugh, only used during onCreate()
+    private int selectedXP = 0;
 
     private class SkillRowSelectionListener implements View.OnClickListener {
         @Override
@@ -84,10 +88,12 @@ public class SkillListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_skill_list);
         allSkillsItemLabel = getString(R.string.skill_list_all_item);
+        xpTV = findViewById(R.id.xpTextView);
 
         if (savedInstanceState != null) {
             selectedAdventurer = savedInstanceState.getString(KEY_SELECTED_ADVENTURER);
             selectedSkillID = savedInstanceState.getString(KEY_SELECTED_SKILL);
+            selectedXP = savedInstanceState.getInt(KEY_SELECTED_XP);
         }
         if (selectedSkillID == null) {
             //  can we get these guys from file?
@@ -118,6 +124,11 @@ public class SkillListActivity extends AppCompatActivity {
             //  well, the names on the sheets are all upper-case; let's do that here
             aa[ii] = ta.getName().toUpperCase();
             characterMap.put(aa[ii], ta);
+        }
+        String[] xpa = new String[22];  //  max XP on an adventurer sheet is 21
+        xpa[0] = getString(R.string.xp_any);
+        for (int ii = 1; ii < xpa.length; ++ii) {
+            xpa[ii] = Integer.toString(ii);
         }
 
         //  Fill out some UI stuff
@@ -167,6 +178,18 @@ public class SkillListActivity extends AppCompatActivity {
                 Log.d(LOGBIT, "nothing selected");
             }
         });
+
+        SpinnerAlternative.createRecyclerViewPopup(this, findViewById(R.id.xp),
+                R.layout.row_xp, xpa, new SpinnerAlternative.ItemSelectionListener() {
+                    @Override
+                    public void itemSelected(int idx) {
+                        selectedXP = idx;
+                        updateSelectedXP();
+                        updateSkillList();
+                    }
+                });
+        updateSelectedXP();
+
         if (savedAdventurer != null) {
             selectedAdventurer = savedAdventurer;
             int pos = adapter.getPosition(selectedAdventurer);
@@ -190,15 +213,27 @@ public class SkillListActivity extends AppCompatActivity {
         if (selectedSkillID != null) {
             savedInstanceState.putString(KEY_SELECTED_SKILL, selectedSkillID);
         }
+        savedInstanceState.putInt(KEY_SELECTED_XP, selectedXP);
+    }
+
+    private void updateSelectedXP() {
+        xpTV.setText(selectedXP == 0 ?
+                getString(R.string.xp_any) : Integer.toString(selectedXP));
     }
 
     private void updateSkillList() {
         AdventurerSheet ta = (selectedAdventurer != null) ?
                 characterMap.get(selectedAdventurer) : null;
-        if (ta != null) {
-            filteredSkills = Skill.filterSkills(allSkills, ta);
+        if ((ta != null) || (selectedXP > 0)) {
+            filteredSkills = Skill.filterSkills(allSkills, ta, selectedXP);
         } else {
             filteredSkills = allSkills;
+        }
+        if (filteredSkills.size() == 0) {
+            filteredSkills.add(new Skill(null, getString(R.string.no_skills_available)));
+            //  Also need to do something with the images, but... ehh.  An
+            //  alternative would be to not let them choose a value lower than
+            //  the lowest-XP skill in the otherwise filtered list.
         }
 
         //  Having a row for each skill in allSkills & toggling their visibility
@@ -255,7 +290,7 @@ public class SkillListActivity extends AppCompatActivity {
         Writer out = null;
         try {
             out = new OutputStreamWriter(openFileOutput(STATE_FILENAME, Context.MODE_PRIVATE));
-            out.write("1\t" + selectedAdventurer + "\t" + selectedSkillID + "\n");
+            out.write("1\t" + selectedAdventurer + "\t" + selectedSkillID + "\t" + selectedXP + "\n");
         } catch (IOException ioe) {
             Log.w(LOGBIT, ioe);
         } finally {
@@ -293,15 +328,20 @@ public class SkillListActivity extends AppCompatActivity {
         }
         if (line == null) return;
         //  Real classy: we expect, tab-delimited, a version number, an
-        //  adventurer, and a skill ID.  If we find anything unexpected, bail,
-        //  because it really doesn't matter if their state can't be restored
-        //  this one time.
+        //  adventurer, a skill ID, and an XP value.  If we find anything
+        //  unexpected, bail, because it really doesn't matter if their state
+        //  can't be restored this one time.
         String[] bits = line.split("\t");
-        if (bits.length != 3) return;
+        if (bits.length != 4) return;
         selectedAdventurer = bits[1];
         selectedSkillID = bits[2];
         if ((selectedAdventurer != null) && selectedAdventurer.equals("null")) {
             selectedAdventurer = null;
+        }
+        try {
+            selectedXP = Integer.parseInt(bits[3]);
+        } catch (NumberFormatException nfe) {
+            //  yeah, whatever
         }
     }
 }

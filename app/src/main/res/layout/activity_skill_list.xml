@@ -17,9 +17,48 @@
         android:layout_marginTop="8dp"
         android:layout_weight="1"
         android:background="@color/ddYellow"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/xp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"/>
+
+    <LinearLayout
+        android:id="@+id/xp"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:gravity="center"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="@id/character"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/character">
+
+        <TextView
+            android:id="@+id/xpTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@color/ddLightBlue"
+            android:fontFamily="@font/caslon_antique_bold"
+            android:gravity="right|center_vertical"
+            android:paddingLeft="8dp"
+            android:text="@string/xp_any"
+            android:textColor="@color/black"
+            android:textSize="24sp"/>
+
+        <!--  0xf0030 is the XP icon in the DD icons font. -->
+        <TextView
+            android:id="@+id/icon"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@color/ddLightBlue"
+            android:fontFamily="@font/dungeon_degenerates_icons"
+            android:gravity="left|center_vertical"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
+            android:text="&#xf0030;"
+            android:textColor="@color/black"
+            android:textSize="24sp"/>
+    </LinearLayout>
 
     <ScrollView
         android:id="@+id/skillListScroll"

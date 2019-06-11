@@ -10,4 +10,7 @@
     <item type="id" name="isTown" />
     <item type="id" name="otherWidgetID" />
 
+    <!--  Used in, uhh, SpinnerAlternative.java. -->
+    <item type="id" name="SpinnerAlternativeIndex" />
+
 </resources>

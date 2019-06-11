@@ -75,6 +75,9 @@
     <string name="danger_btn_map_updated">Map\nUpdated</string>
     <string name="danger_btn_removed_cards">Remove Cards</string>
 
+    <string name="no_skills_available">* No Skills *</string>
+    <string name="xp_any">ANY</string>
+
     <string name="pref_expansions">Expansions</string>
     <string name="pref_expansions_summary">Cards, Adventurers, etc. from un-selected expansions won\'t be shown</string>
 

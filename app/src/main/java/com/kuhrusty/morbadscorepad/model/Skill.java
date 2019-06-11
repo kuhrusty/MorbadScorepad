@@ -10,6 +10,12 @@ import java.util.List;
  */
 public class Skill extends Card {
 
+    public Skill() {
+    }
+    public Skill(String id, String name) {
+        super(id, name);
+    }
+
     /**
      * For determining whether a given Skill matches a given name.
      */

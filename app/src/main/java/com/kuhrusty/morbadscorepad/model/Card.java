@@ -11,6 +11,13 @@ public class Card implements Expandable {
     private String name;
     private String id;
 
+    public Card() {
+    }
+    public Card(String id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+
     public static Comparator<Card> NameComparator = new Comparator<Card>() {
         @Override
         public int compare(Card c1, Card c2) {
