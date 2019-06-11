@@ -3,6 +3,11 @@
 All notable changes to this project will be documented in this file.  The
 format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 
+## Unreleased
+#### Added
+#### Changed
+
+
 ## [1.3] (Android versionCode 10) - 2019-06-10
 #### Added
 - In the Danger Deck activity, add support for removing cards from the
