@@ -23,9 +23,9 @@ available.
 ### Skill List
 
 This shows the fronts & backs of the available skills for a given
-adventurer.  If everyone at the table has a device with the app,
-then no one has to sit around waiting for someone to finish looking at
-the skill deck.
+adventurer.  (You can also filter by XP cost.)  If everyone at the table
+has a device with the app, then no one has to sit around waiting for
+someone to finish looking at the skill deck.
 
 ![Skill List](extras/screenshot.skill.jpg)
 
@@ -40,6 +40,7 @@ yourself.  Some features:
   [here](https://github.com/kuhrusty/MorbadScorepad/blob/master/CONTRIBUTING.md#adding-your-own-danger-card-recordings)
   for instructions on adding your own recordings!)
 - You can **undo & redo** card draws and shuffles.
+- You can remove cards from the deck (needed for some missions' rewards).
 - Deck state is remembered across app restarts.
 - In Settings, there's an option to disable the primary draw button
   until you confirm that you've updated danger levels on the map after
