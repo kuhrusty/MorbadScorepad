@@ -9,6 +9,8 @@
   (`DangerDeckActivity.playCardSound()`)
 - Dynamically generating preferences based on data read from file
   (`SettingsActivity.updateExpansionPrefs()`)
+- Working around my inability to get the Android `Spinner` class to do
+  what I want (`SpinnerAlternative`) 
 
 ### Unit test stuff
 
