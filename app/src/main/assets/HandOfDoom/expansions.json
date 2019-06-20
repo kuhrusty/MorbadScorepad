@@ -3,6 +3,10 @@
 //  doesn't match an expansion which the user has selected as having in play.
 [
   {
+    "id": "hod_ks",
+    "name": "Hand of Doom Kickstarter Exclusives",
+    "subdir": "KSX1"
+  }, {
     "id": "cp1",
     "name": "Adventurer Expansion",
     "subdir": "CharacterPack1"
@@ -10,10 +14,6 @@
     "id": "cp2",
     "name": "Freaks & Psychos",
     "subdir": "FreaksAndPsychos"
-  }, {
-    "id": "hod_ks",
-    "name": "Hand of Doom Kickstarter Exclusives",
-    "subdir": "KSX1"
   }, {
     "id": "wb_badlands",
     "name": "World Book - The Badlands & Beyond",

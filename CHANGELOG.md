@@ -6,6 +6,8 @@ format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 ## Unreleased
 #### Added
 #### Changed
+- Fiddle with expansion order (put Hand of Doom KS Exclusives first, as
+  it was, chronologically).
 
 
 ## [1.3] (Android versionCode 10) - 2019-06-10
