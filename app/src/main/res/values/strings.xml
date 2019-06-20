@@ -54,16 +54,9 @@
         <item>5</item>
     </string-array>
 
-    <string name="dialog_title_error">Error</string>
-    <string name="dialog_msg_no_help">Couldn\'t set up help file cache!</string>
-
-    <string name="copyright_warning_title">Warning!</string>
-    <string name="copyright_warning">Note that all of the images &amp; text in this app are copyright GOBLINKO, not me, and are used without permission because DUNGEON DEGENERATES is bad-ass.  I\'m probably going to jail.</string>
-    <string name="copyright_warning_ok">Or getting burned on Witch Hill</string>
-
-    <string name="expansions_warning_title">Oh yeah</string>
-    <string name="expansions_warning">Make sure you go into Settings and select your expansions!</string>
-    <string name="expansions_warning_ok">OK</string>
+    <string name="expansions_warning_title">Expansions!</string>
+    <string name="expansions_warning">Make sure you go into Settings (the wrench icon button on the left) and select your expansions!</string>
+    <string name="expansions_warning_ok">Got it!</string>
 
     <string name="danger_removed_cards">Removed Cards</string>
     <string name="danger_btn_undo">Undo</string>
@@ -89,8 +82,8 @@
     <string name="pref_campaign_store_discards_summary">Not needed if you only play one campaign at a time; see help</string>
     <string name="pref_scenario_graph_hide_names">Hide unplayed scenario names</string>
     <string name="pref_scenario_graph_hide_names_summary">Turn off if you don\'t want to see the names of scenarios you haven\'t played in the scenario graph</string>
-    <string name="pref_copyright_warning_shown">Copyright warning shown</string>
-    <string name="pref_copyright_warning_shown_summary">Turn off if you want to see the warning about me going to jail again</string>
+    <string name="pref_expansion_warning_shown">Expansions reminder shown</string>
+    <string name="pref_expansion_warning_shown_summary">Turn off if you want to see the reminder about choosing your expansions again</string>
     <string name="pref_scenario_graph">Scenario Graph</string>
     <string name="pref_other">Other</string>
     <string name="pref_campaign">Save/Load Campaign</string>

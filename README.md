@@ -1,8 +1,12 @@
 # Morbad Scorepad
 
-This is a support app for the massively awesome **DUNGEON DEGENERATES:
-HAND OF DOOM** boardgame; if you don't know what that is, you're in the
-wrong place.  *(Like, in **life**.)*
+**All copyrighted assets are owned by [GOBLINKO](https://goblinkomegamall.com/).**
+
+This is a fan-made support app for the massively awesome **DUNGEON
+DEGENERATES: HAND OF DOOM** boardgame, available
+[here](https://goblinkomegamall.com/collections/dungeon-degenerates);
+see also [BoardGameGeek](https://boardgamegeek.com/boardgame/210232) for
+rules questions etc.
 
 This has two functional bits: the **Skill List** and the **Danger Deck**.
 (Originally, I started writing this to record games in progress, but it
@@ -10,9 +14,6 @@ turns out that taking photos of the board & characters is pretty easy.)
 
 For notes on checking out & building the code, see
 [CONTRIBUTING](CONTRIBUTING.md).
-
-Note that this contains massive amounts of graphics & text which **are
-not mine;** it's all owned by GOBLINKO.
 
 ### Choose your expansions!
 

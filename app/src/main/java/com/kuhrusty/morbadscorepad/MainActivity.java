@@ -49,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
     public void onResume() {
         super.onResume();
         updateButtonVisibility();  //  Preferences may have changed.
-        showCopyrightWarning();
+        showExpansionWarning();
     }
 
     @Override
@@ -285,40 +285,29 @@ Toast.makeText(this, "openMissionGraph() doesn't do anything", Toast.LENGTH_SHOR
      * Pop up a confirmation dialog the first time we run, then save the fact
      * that we did that.
      */
-    private void showCopyrightWarning() {
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        String key = "pref_copyright_warning_shown";  //  not exactly a *preference*...
-        boolean shown = false;
+    private void showExpansionWarning() {
+        final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        final String key = "pref_expansion_warning_shown";  //  not exactly a *preference*...
         if ((prefs != null) && (!prefs.getBoolean(key, false))) {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setTitle(R.string.copyright_warning_title);
-            builder.setMessage(R.string.copyright_warning);
-            builder.setPositiveButton(R.string.copyright_warning_ok, new DialogInterface.OnClickListener() {
+            builder.setTitle(R.string.expansions_warning_title);
+            builder.setMessage(R.string.expansions_warning);
+            builder.setPositiveButton(R.string.expansions_warning_ok, new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int id) {
-                    //  That went so well, let's pop up another note
-                    AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-                    builder.setTitle(R.string.expansions_warning_title);
-                    builder.setMessage(R.string.expansions_warning);
-                    builder.setPositiveButton(R.string.expansions_warning_ok, new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int id) {
-                            //  thanks for clicking, I guess
-                        }
-                    });
-                    AlertDialog dialog2 = builder.create();
-                    dialog2.show();
+                    //  Originally this write was done without an
+                    //  OnClickListener, after dialog.show(), but that caused
+                    //  the dialog to go away if the user rotated the screen
+                    //  while it was displayed.
+                    SharedPreferences.Editor editor = prefs.edit();
+                    editor.putBoolean(key, true);
+                    //  apply() instead of commit() because we don't care when it gets
+                    //  written to storage.
+                    editor.apply();
                 }
             });
             builder.setCancelable(false);  //  force them through positive button onClick()
             AlertDialog dialog = builder.create();
             dialog.show();
-            shown = true;
-        }
-        if ((prefs != null) && shown) {
-            SharedPreferences.Editor editor = prefs.edit();
-            editor.putBoolean(key, true);
-            //  apply() instead of commit() because we don't care when it gets
-            //  written to storage.
-            editor.apply();
         }
     }
 }

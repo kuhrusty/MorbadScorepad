@@ -89,11 +89,11 @@
     <PreferenceCategory android:key="pref_other"
                         android:title="@string/pref_other">
         <!--  Not exactly a preference; this stores whether we've shown the warning
-              about me going to jail.  -->
+              about selecting expansions.  -->
         <SwitchPreference
-            android:key="pref_copyright_warning_shown"
-            android:title="@string/pref_copyright_warning_shown"
-            android:summary="@string/pref_copyright_warning_shown_summary"
+            android:key="pref_expansion_warning_shown"
+            android:title="@string/pref_expansion_warning_shown"
+            android:summary="@string/pref_expansion_warning_shown_summary"
             android:defaultValue="false"
             android:dependency="pref_developer" />
     </PreferenceCategory>
