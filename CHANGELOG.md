@@ -11,8 +11,8 @@ format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 ## [1.3] (Android versionCode 10) - 2019-06-10
 #### Added
 - In the Danger Deck activity, add support for removing cards from the
-  deck, needed for the Mean Streets "The Deadly Smell of Disease"
-  mission ([issue #19](https://github.com/kuhrusty/MorbadScorepad/issues/19)).
+  deck, needed for some missions' rewards
+  ([issue #19](https://github.com/kuhrusty/MorbadScorepad/issues/19)).
 - In the Skill List activity, add support for filtering skills by the
   amount of XP you have
   ([issue #18](https://github.com/kuhrusty/MorbadScorepad/issues/18)).
