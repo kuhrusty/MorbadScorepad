@@ -3,8 +3,7 @@
 All notable changes to this project will be documented in this file.  The
 format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 
-## Unreleased
-#### Added
+## [1.3.1] (Android versionCode 12) - 2019-06-19
 #### Changed
 - Remove copyright warning, as we now have permission from GOBLINKO!
 - Fiddle with expansion order (put Hand of Doom KS Exclusives first, as
