@@ -9,6 +9,17 @@
 
         <item name="buttonStyle">@style/AppTheme.Button</item>
         <item name="imageButtonStyle">@style/AppTheme.ImageButton</item>
+
+        <!--  See if we can use our Dominican/Caslon Antique font for our
+              dialog titles.  If you think such a simple customization would be
+              a quick trip to the API documentation rather than a three-hour
+              rathole of Googling & experimenting with crap cobbled together
+              from different Stack Overflow posts, then let me be the first to
+              welcome you to Android development.  This approach came from
+              https://stackoverflow.com/questions/11921216/
+        <item name="android:windowTitleStyle">@style/DialogWindowTitle_Custom</item>
+        you know what, screw it, Google wins this round; I give up.
+        -->
     </style>
 
     <style name="AppTheme.NoActionBar">
