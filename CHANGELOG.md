@@ -9,6 +9,10 @@ format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 - Remove copyright warning, as we now have permission from GOBLINKO!
 - Fiddle with expansion order (put Hand of Doom KS Exclusives first, as
   it was, chronologically).
+- Replace PNG card scans with JPEGs to reduce the size of the APK; see
+  [issue #22](https://github.com/kuhrusty/MorbadScorepad/issues/22) for
+  way more blather about this than you want, unless you're a fan of
+  autodoofusication.
 
 
 ## [1.3] (Android versionCode 10) - 2019-06-10
