@@ -2,6 +2,9 @@
 
 **All copyrighted assets are owned by [GOBLINKO](https://goblinkomegamall.com/).**
 
+**This is available as a free download in the
+[Google Play Store](https://play.google.com/store/apps/details?id=com.kuhrusty.morbadscorepad).**
+
 This is a fan-made support app for the massively awesome **DUNGEON
 DEGENERATES: HAND OF DOOM** boardgame, available
 [here](https://goblinkomegamall.com/collections/dungeon-degenerates);
