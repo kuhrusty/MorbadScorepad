@@ -6,11 +6,8 @@
           android:color, and TextView ignores row_fg.xml if its items are
           android:drawable.  Whatever, man.  -->
 
-    <!--  If you make changes in here, you may need to duplicate them in
-          row_bg_from_dilettante.xml.  -->
-
     <item
-        android:drawable="@color/ddYellow"
+        android:drawable="@color/ddOrange"
         android:state_selected="false"/>
     <item
         android:drawable="@color/ddMagenta"

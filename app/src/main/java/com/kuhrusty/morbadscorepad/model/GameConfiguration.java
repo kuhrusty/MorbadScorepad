@@ -72,7 +72,8 @@ public class GameConfiguration implements Parcelable {
     }
 
     /**
-     * For creating bogus configurations in unit tests.
+     * For creating bogus configurations in unit tests.  If "all" is passed as
+     * the only expansion ID, all expansions will be added.
      */
     public GameConfiguration(Context context, String dataDirectory,
                              GameRepository grepos, String... expansionIDs) {
@@ -81,17 +82,24 @@ public class GameConfiguration implements Parcelable {
         if ((expansionIDs == null) || (expansionIDs.length == 0)) return;
         List<Expansion> allExpansions = grepos.getExpansions(context, this);
         if (allExpansions != null) {
-            for (String expansionID : expansionIDs) {
-                Expansion expansion = null;
+            if (expansionIDs[0].equals("all")) {
+                expansions = new HashMap<>();
                 for (Expansion te : allExpansions) {
-                    if (expansionID.equals(te.getID())) {
-                        expansion = te;
-                        break;
-                    }
+                    expansions.put(te.getID(), te);
                 }
-                if (expansion != null) {
-                    if (expansions == null) expansions = new HashMap<>();
-                    expansions.put(expansionID, expansion);
+            } else {
+                for (String expansionID : expansionIDs) {
+                    Expansion expansion = null;
+                    for (Expansion te : allExpansions) {
+                        if (expansionID.equals(te.getID())) {
+                            expansion = te;
+                            break;
+                        }
+                    }
+                    if (expansion != null) {
+                        if (expansions == null) expansions = new HashMap<>();
+                        expansions.put(expansionID, expansion);
+                    }
                 }
             }
         }
@@ -128,6 +136,14 @@ public class GameConfiguration implements Parcelable {
      */
     public boolean hasExpansion(String expansionID) {
         return (expansions != null) && (expansions.containsKey(expansionID));
+    }
+
+    /**
+     * Returns the number of expansions in use; probably only interesting in
+     * unit tests.
+     */
+    public int getExpansionCount() {
+        return (expansions != null) ? expansions.size() : 0;
     }
 
     /**

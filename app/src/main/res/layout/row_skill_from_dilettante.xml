@@ -1,11 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+So, inflating row_skill.xml and calling
+row.setBackground(getResources().getDrawable(R.drawable.row_bg_from_dilettante))
+didn't work; in some cases, selected rows wouldn't restore their un-selected
+color when setSelected(false) was called.  So, instead, we duplicate the
+entire row_skill.xml just to override android:background on the TableRow.  ARGHH
+
+(also overriding the TextView's textColor)
+-->
 <TableRow xmlns:android="http://schemas.android.com/apk/res/android"
           android:layout_width="match_parent"
           android:layout_height="wrap_content"
-          android:background="@drawable/row_bg">
-
-    <!--  Ugh, if you make changes in here, you have to duplicate them in
-          row_skill_from_dilettante.xml, because Android.  -->
+          android:background="@drawable/row_bg_from_dilettante">
 
     <!--  was android:fontFamily="@font/dominican" -->
     <TextView
@@ -17,7 +23,7 @@
         android:paddingBottom="2sp"
         android:paddingLeft="8dp"
         android:paddingTop="2sp"
-        android:textColor="@drawable/row_fg"
+        android:textColor="@drawable/row_fg_from_dilettante"
         android:textSize="20sp"
         android:textStyle="normal"/>
 

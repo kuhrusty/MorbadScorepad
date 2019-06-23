@@ -65,6 +65,18 @@ public abstract class Req implements Requirement<AdventurerSheet> {
             }
             return false;
         }
+
+        /**
+         * Returns true if the given className is one of the classes required
+         * by this skill (used by Skill.DilettanteRequirement).
+         */
+        public boolean contains(String className) {
+            for (int ii = 0; ii < classes.length; ++ii) {
+                if (classes[ii].equals(className)) return true;
+            }
+            return false;
+        }
+
         @Override
         public String toString() {
             return Util.oxfordComma("or", (Object[])classes);

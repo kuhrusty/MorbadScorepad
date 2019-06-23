@@ -1,5 +1,7 @@
 package com.kuhrusty.morbadscorepad.model;
 
+import android.util.Log;
+
 import com.kuhrusty.morbadscorepad.Req;
 import com.kuhrusty.morbadscorepad.Requirement;
 
@@ -27,6 +29,42 @@ public class Skill extends Card {
         @Override
         public boolean passes(Skill skill) {
             return (skill != null) && lookingFor.equals(skill.getName());
+        }
+    };
+
+    /**
+     * Passes skills which require Fighter, Hunter, Merchant, Militant,
+     * Performer, or Rogue.
+     */
+    public static final Requirement<Skill> DilettanteRequirement = new Requirement<Skill>() {
+        @Override
+        public boolean passes(Skill skill) {
+            if ((skill == null) || skill.getID().equals("dilettante")) return false;
+            Requirement<AdventurerSheet> reqs = skill.getRequirements();
+            if (reqs.equals(Req.Passes)) return false;
+            if (reqs instanceof Req.ClassRequirement) {
+                Req.ClassRequirement cr = (Req.ClassRequirement)reqs;
+                //  suspicious hard-coding
+                return cr.contains("Fighter") ||
+                       cr.contains("Hunter") ||
+                       cr.contains("Merchant") ||
+                       cr.contains("Militant") ||
+                       cr.contains("Performer") ||
+                       cr.contains("Rogue");
+            } else if (reqs instanceof Req.StatRequirement) {
+                return false;
+            } else if (reqs instanceof Requirement.BranchRequirement) {
+                //  What this *should* do is recurse through the branches of
+                //  this reqs' tree.  However, currently, none of the and/or
+                //  requirements are affected by Dilettante; if new skills are
+                //  added for which that's not the case, the unit test failure
+                //  "should" cause someone to fix this.
+                return false;
+            } else {
+                Log.e("DilettanteRequirement",
+                        "not handling requirement \"" + reqs + "\"");
+                return false;
+            }
         }
     };
 

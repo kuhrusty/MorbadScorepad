@@ -108,4 +108,35 @@ public class RequirementTest {
         ts = Skill.filterSkills(skills, bothGood);
         assertNotNull(Util.find(ts, lurker));
     }
+
+    /**
+     * Dilettante gives you access to skills whose requirements you might not
+     * otherwise meet.
+     */
+    @Test
+    public void testDilettanteRequirement() {
+        Context context = TestUtil.mockContext();
+        GameRepository grepos = new CachingGameRepository(new JSONGameRepository2());
+        GameConfiguration config = new GameConfiguration(context, "HandOfDoom", grepos, "all");
+
+        //  If this line fails, you've added an expansion, and haven't confirmed
+        //  that Skill.DilettanteRequirement works correctly for any new skills
+        //  included in that expansion.
+        assertEquals(7, config.getExpansionCount());
+
+        List<Skill> skills = grepos.getCards(context, config, "skill", Skill.class);
+
+        //  Similarly, if this line fails, then the new expansion you've added
+        //  contains new skills, and you need to confirm that
+        //  Skill.DilettanteRequirement gives the right answer for them.
+        assertEquals(72, skills.size());
+
+        int pass = 0;
+        for (int ii = 0; ii < skills.size(); ++ii) {
+            if (Skill.DilettanteRequirement.passes(skills.get(ii))) {
+                ++pass;
+            }
+        }
+        assertEquals(28, pass);
+    }
 }

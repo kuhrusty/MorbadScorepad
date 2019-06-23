@@ -20,9 +20,20 @@
         android:textColor="@color/black"
         android:textSize="24sp"
         android:drawableRight="@android:drawable/arrow_down_float"
-        app:layout_constraintEnd_toStartOf="@+id/xp"
+        app:layout_constraintEnd_toStartOf="@+id/options"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"/>
+
+    <ImageView
+        android:id="@+id/options"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:background="@color/ddOrange"
+        android:padding="8dp"
+        app:layout_constraintBottom_toBottomOf="@id/character"
+        app:layout_constraintEnd_toStartOf="@+id/xp"
+        app:layout_constraintTop_toTopOf="@id/character"
+        app:srcCompat="@android:drawable/ic_menu_preferences"/>
 
     <LinearLayout
         android:id="@+id/xp"

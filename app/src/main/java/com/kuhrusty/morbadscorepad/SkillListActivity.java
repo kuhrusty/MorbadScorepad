@@ -7,11 +7,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ImageView;
-import android.widget.Spinner;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -33,6 +29,7 @@ import java.io.Writer;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+import java.util.TreeSet;
 
 /**
  * Displays a list of available characters and the set of skills available for
@@ -43,6 +40,7 @@ public class SkillListActivity extends AppCompatActivity {
 
     private static final String KEY_SELECTED_ADVENTURER = "SkillListActivity.selectedAdventurer";
     private static final String KEY_SELECTED_SKILL = "SkillListActivity.selectedSkill";
+    private static final String KEY_SHOW_DILETTANTE_SKILLS = "SkillListActivity.showDilettanteSkills";
     private static final String KEY_SELECTED_XP = "SkillListActivity.selectedXP";
     /**
      * Because we expect the user to navigate away from this activity (like to
@@ -51,6 +49,9 @@ public class SkillListActivity extends AppCompatActivity {
      * so use a file when those guys aren't in the saved instance state.  Ugh.
      */
     private static final String STATE_FILENAME = "SkillListActivity.skill.txt";
+
+    private static final String OPTION_DILETTANTE = "dilettante";
+    private static final String SKILL_ID_DILETTANTE = "dilettante";
 
     private GameConfiguration config;
     private GameRepository grepos = RepositoryFactory.getGameRepository();
@@ -63,10 +64,13 @@ public class SkillListActivity extends AppCompatActivity {
     private ImageView skillIV;
     private ImageView masteryIV;
     private TextView adventurerTV;
+    private View optionsV;
     private TextView xpTV;
 
     private String selectedAdventurer;  //  may be null, even when skill is not
     private String selectedSkillID;  //  may be null
+    private boolean haveDilettante = false;
+    private boolean showDilettanteSkills = false;
     private int selectedXP = 0;
 
     private class SkillRowSelectionListener implements View.OnClickListener {
@@ -87,11 +91,13 @@ public class SkillListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_skill_list);
         adventurerTV = findViewById(R.id.character);
+        optionsV = findViewById(R.id.options);
         xpTV = findViewById(R.id.xpTextView);
 
         if (savedInstanceState != null) {
             selectedAdventurer = savedInstanceState.getString(KEY_SELECTED_ADVENTURER);
             selectedSkillID = savedInstanceState.getString(KEY_SELECTED_SKILL);
+            showDilettanteSkills = savedInstanceState.getBoolean(KEY_SHOW_DILETTANTE_SKILLS, false);
             selectedXP = savedInstanceState.getInt(KEY_SELECTED_XP);
         }
         if (selectedSkillID == null) {
@@ -127,6 +133,16 @@ public class SkillListActivity extends AppCompatActivity {
         for (int ii = 1; ii < xpa.length; ++ii) {
             xpa[ii] = Integer.toString(ii);
         }
+        //  Really the set of options should vary based on the selected
+        //  adventurer, but at the moment we only have one option anyway.
+        final SpinnerAlternative.CheckBoxRow[] options = new SpinnerAlternative.CheckBoxRow[1];
+        //  Horrible hard-coding: the "DILETTANTE" string here should come from
+        //  the skill list.  Also, if the user doesn't have an expansion with
+        //  the Dilettante skill, then haveDilettante will never be set to true
+        //  in updateSkillList(), and so optionsV will never have its visibility
+        //  set to VISIBLE.  Not fragile at all!!
+        options[0] = new SpinnerAlternative.CheckBoxRow(showDilettanteSkills,
+                "DILETTANTE", OPTION_DILETTANTE);
 
         //  Fill out some UI stuff
         table = findViewById(R.id.skillList);
@@ -135,12 +151,28 @@ public class SkillListActivity extends AppCompatActivity {
                 R.layout.row_adventurer, aa, new SpinnerAlternative.ItemSelectionListener() {
                     @Override
                     public void itemSelected(int idx) {
-                        selectedAdventurer = aa[idx];
+                        selectedAdventurer = (idx > 0) ? aa[idx] : null;
                         updateSelectedAdventurer();
                         updateSkillList();
                     }
                 });
         updateSelectedAdventurer();
+
+        SpinnerAlternative.createRecyclerViewCheckBoxPopup(this, optionsV,
+                R.layout.row_option, options, new SpinnerAlternative.ItemSelectionListener() {
+                    @Override
+                    public void itemSelected(int idx) {
+                        SpinnerAlternative.CheckBoxRow cbr = options[idx];
+                        if (cbr.id.equals(OPTION_DILETTANTE)) {
+                            showDilettanteSkills = !showDilettanteSkills;
+                            cbr.checked = showDilettanteSkills;
+                            updateSkillList();
+                        } else {
+                            Log.w(LOGBIT, "not handling option \"" + cbr.id + "\"");
+                        }
+                    }
+                });
+        //  updateSkillList() will call updateOptions()
 
         SpinnerAlternative.createRecyclerViewPopup(this, findViewById(R.id.xp),
                 R.layout.row_xp, xpa, new SpinnerAlternative.ItemSelectionListener() {
@@ -172,12 +204,28 @@ public class SkillListActivity extends AppCompatActivity {
         if (selectedSkillID != null) {
             savedInstanceState.putString(KEY_SELECTED_SKILL, selectedSkillID);
         }
+        savedInstanceState.putBoolean(KEY_SHOW_DILETTANTE_SKILLS, showDilettanteSkills);
         savedInstanceState.putInt(KEY_SELECTED_XP, selectedXP);
     }
 
     private void updateSelectedAdventurer() {
         adventurerTV.setText(selectedAdventurer == null ?
                 getString(R.string.skill_list_all_item) : selectedAdventurer);
+
+    }
+
+    private void updateOptions() {
+        if (optionsV == null) return;
+        int is = optionsV.getVisibility();
+        int want = haveDilettante && (selectedAdventurer != null) ?
+                View.VISIBLE : View.GONE;
+        if (want != is) {
+            optionsV.setVisibility(want);
+            //  Sometimes we wind up with adventurer names which split across
+            //  two lines, but only one line gets displayed.
+            //well, some time during development, that problem solved itself?
+            //adventurerTV.requestLayout();
+        }
     }
 
     private void updateSelectedXP() {
@@ -188,8 +236,44 @@ public class SkillListActivity extends AppCompatActivity {
     private void updateSkillList() {
         AdventurerSheet ta = (selectedAdventurer != null) ?
                 characterMap.get(selectedAdventurer) : null;
+        TreeSet<String> dilettanteSkills = null;
         if ((ta != null) || (selectedXP > 0)) {
             filteredSkills = Skill.filterSkills(allSkills, ta, selectedXP);
+            //  If Dilettante is in the list of available skills, and
+            //  showDilettanteSkills is true, then show skills which are
+            //  available through the Dilettante skill.  Note that we're
+            //  deliberately doing this before filtering by XP; maybe in the
+            //  future there'll be a skill available through Dilettante which
+            //  costs less than Dilettante itself, and if we did this *after*
+            //  filtering by XP, Dilettante might be removed from our list.
+            haveDilettante = false;
+            for (int ii = 0; ii < filteredSkills.size(); ++ii) {
+                if (filteredSkills.get(ii).getID().equals(SKILL_ID_DILETTANTE)) {
+                    haveDilettante = true;
+                    break;
+                }
+            }
+            if (showDilettanteSkills && haveDilettante) {
+                TreeSet<String> fsids = new TreeSet<String>();
+                for (int ii = 0; ii < filteredSkills.size(); ++ii) {
+                    fsids.add(filteredSkills.get(ii).getID());
+                }
+                dilettanteSkills = new TreeSet<>();
+                for (int ii = 0; ii < allSkills.size(); ++ii) {
+                    Skill ts = allSkills.get(ii);
+                    if ((!fsids.contains(ts.getID())) &&
+                        (Skill.DilettanteRequirement.passes(ts))) {
+                        filteredSkills.add(ts);
+                        //  so that it'll get highlighted below.
+                        dilettanteSkills.add(ts.getID());
+                    }
+                }
+                if (!dilettanteSkills.isEmpty()) {
+                    //  that means we added an element to filteredSkills, so we
+                    //  better sort it again.
+                    Collections.sort(filteredSkills, Skill.NameComparator);
+                }
+            }
         } else {
             filteredSkills = allSkills;
         }
@@ -204,7 +288,11 @@ public class SkillListActivity extends AppCompatActivity {
         //  doesn't work, so remove them all & recreate them.  Ugh.
         table.removeAllViews();
         for (Skill ts : filteredSkills) {
-            TableRow row = (TableRow) LayoutInflater.from(this).inflate(R.layout.row_skill, null);
+            int layout = R.layout.row_skill;
+            if ((dilettanteSkills != null) && (dilettanteSkills.contains(ts.getID()))) {
+                layout = R.layout.row_skill_from_dilettante;
+            }
+            TableRow row = (TableRow) LayoutInflater.from(this).inflate(layout, null);
             //  well, the names on the cards are all upper-case; let's do that here
             ((TextView) row.findViewById(R.id.skill_name)).setText(ts.getName().toUpperCase());
             row.setSelected(false);
@@ -216,6 +304,7 @@ public class SkillListActivity extends AppCompatActivity {
         if ((selectedSkillID == null) || (!restoreSelectedSkill(selectedSkillID))) {
             table.getChildAt(0).callOnClick();
         }
+        updateOptions();
     }
 
     /**
@@ -254,7 +343,8 @@ public class SkillListActivity extends AppCompatActivity {
         Writer out = null;
         try {
             out = new OutputStreamWriter(openFileOutput(STATE_FILENAME, Context.MODE_PRIVATE));
-            out.write("1\t" + selectedAdventurer + "\t" + selectedSkillID + "\t" + selectedXP + "\n");
+            out.write("1\t" + selectedAdventurer + "\t" + selectedSkillID +
+                    "\t" + (showDilettanteSkills ? "1" : "0") + "\t" + selectedXP + "\n");
         } catch (IOException ioe) {
             Log.w(LOGBIT, ioe);
         } finally {
@@ -292,18 +382,20 @@ public class SkillListActivity extends AppCompatActivity {
         }
         if (line == null) return;
         //  Real classy: we expect, tab-delimited, a version number, an
-        //  adventurer, a skill ID, and an XP value.  If we find anything
+        //  adventurer, a skill ID, a 0/1 to indicate whether the Dilettante
+        //  option is selected, and an XP value.  If we find anything
         //  unexpected, bail, because it really doesn't matter if their state
         //  can't be restored this one time.
         String[] bits = line.split("\t");
-        if (bits.length != 4) return;
+        if (bits.length != 5) return;
         selectedAdventurer = bits[1];
-        selectedSkillID = bits[2];
         if ((selectedAdventurer != null) && selectedAdventurer.equals("null")) {
             selectedAdventurer = null;
         }
+        selectedSkillID = bits[2];
+        showDilettanteSkills = bits[3].equals("1");
         try {
-            selectedXP = Integer.parseInt(bits[3]);
+            selectedXP = Integer.parseInt(bits[4]);
         } catch (NumberFormatException nfe) {
             //  yeah, whatever
         }

@@ -4,15 +4,13 @@
     <!--  Note that these items have android:color, while row_bg.xml items
           have android:drawable; see the note there for more blather.  -->
 
-    <!--  If you make changes in here, you may need to duplicate them in
-          row_fg_from_dilettante.xml.  -->
-
     <item
         android:color="@color/black"
         android:state_selected="false"/>
 
+    <!--  to match row_bg_from_dilettante.xml  -->
     <item
-        android:color="@color/ddYellow"
+        android:color="@color/ddOrange"
         android:state_selected="true"/>
 
 </selector>
