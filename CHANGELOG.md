@@ -3,8 +3,7 @@
 All notable changes to this project will be documented in this file.  The
 format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 
-## Unreleased
-#### Added
+## [1.3.3] (Android versionCode 16) - 2019-06-24
 #### Changed
 - In the Skill List activity, fix a bug where Dilettante skills weren't
   being filtered by XP
