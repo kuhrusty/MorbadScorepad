@@ -9,6 +9,9 @@ format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 - In the Skill List activity, fix a bug where Dilettante skills weren't
   being filtered by XP
   ([issue #29](https://github.com/kuhrusty/MorbadScorepad/issues/29)).
+- Update to Android SDK 28
+  ([issue #28](https://github.com/kuhrusty/MorbadScorepad/issues/28),
+  weirdly enough).
 
 
 ## [1.3.2] (Android versionCode 14) - 2019-06-23
