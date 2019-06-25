@@ -261,7 +261,8 @@ public class SkillListActivity extends AppCompatActivity {
                 dilettanteSkills = new TreeSet<>();
                 for (int ii = 0; ii < allSkills.size(); ++ii) {
                     Skill ts = allSkills.get(ii);
-                    if ((!fsids.contains(ts.getID())) &&
+                    if (((selectedXP == 0 ) || (ts.getXP() <= selectedXP)) &&
+                        (!fsids.contains(ts.getID())) &&
                         (Skill.DilettanteRequirement.passes(ts))) {
                         filteredSkills.add(ts);
                         //  so that it'll get highlighted below.
