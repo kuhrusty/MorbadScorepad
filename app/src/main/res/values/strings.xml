@@ -58,6 +58,10 @@
     <string name="expansions_warning">Make sure you go into Settings (the wrench icon button on the left) and select your expansions!</string>
     <string name="expansions_warning_ok">Got it!</string>
 
+    <string name="skill_list_long_click_help_title">New!</string>
+    <string name="skill_list_long_click_help">If you long-click on a skill in the list, you can highlight it (if it\'s a skill you\'re considering taking) or hide it (if you know you won\'t take it, or have already taken it).  An orange wrench button at the top of the screen will let you get hidden skills back.</string>
+    <string name="skill_list_long_click_help_ok">That\'s pretty cool!</string>
+
     <string name="danger_removed_cards">Removed Cards</string>
     <string name="danger_btn_undo">Undo</string>
     <string name="danger_btn_redo">Redo</string>
@@ -70,6 +74,11 @@
 
     <string name="no_skills_available">* No Skills *</string>
     <string name="xp_any">ANY</string>
+    <string name="skill_list_option_dilettante">DILETTANTE</string>
+    <string name="skill_list_option_show_hidden">SHOW HIDDEN SKILLS</string>
+    <string name="skill_list_option_clear_hidden">CLEAR HIDDEN SKILLS</string>
+    <string name="skill_row_option_highlight">HIGHLIGHT</string>
+    <string name="skill_row_option_hide">HIDE</string>
 
     <string name="pref_expansions">Expansions</string>
     <string name="pref_expansions_summary">Cards, Adventurers, etc. from un-selected expansions won\'t be shown</string>
@@ -84,6 +93,8 @@
     <string name="pref_scenario_graph_hide_names_summary">Turn off if you don\'t want to see the names of scenarios you haven\'t played in the scenario graph</string>
     <string name="pref_expansion_warning_shown">Expansions reminder shown</string>
     <string name="pref_expansion_warning_shown_summary">Turn off if you want to see the reminder about choosing your expansions again</string>
+    <string name="pref_skill_list_long_click_help_shown">Skill List long click help shown</string>
+    <string name="pref_skill_list_long_click_help_shown_summary">Turn off if you want to see the reminder about long-clicking skills in the Skill List again</string>
     <string name="pref_scenario_graph">Scenario Graph</string>
     <string name="pref_other">Other</string>
     <string name="pref_campaign">Save/Load Campaign</string>

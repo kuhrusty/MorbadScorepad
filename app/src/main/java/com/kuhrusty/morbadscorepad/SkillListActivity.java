@@ -19,6 +19,9 @@ import com.kuhrusty.morbadscorepad.model.GameConfiguration;
 import com.kuhrusty.morbadscorepad.model.Skill;
 import com.kuhrusty.morbadscorepad.model.dao.GameRepository;
 import com.kuhrusty.morbadscorepad.model.dao.RepositoryFactory;
+import com.kuhrusty.morbadscorepad.ui.OneTimeDialog;
+import com.kuhrusty.morbadscorepad.ui.SkillOptionsPopup;
+import com.kuhrusty.morbadscorepad.ui.SkillRowPopup;
 import com.kuhrusty.morbadscorepad.ui.SpinnerAlternative;
 
 import java.io.BufferedReader;
@@ -26,22 +29,31 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+import java.util.TreeMap;
 import java.util.TreeSet;
 
 /**
  * Displays a list of available characters and the set of skills available for
  * the selected character.
  */
-public class SkillListActivity extends AppCompatActivity {
+public class SkillListActivity extends AppCompatActivity
+    implements SkillRowPopup.Listener, SkillOptionsPopup.Listener {
     private static final String LOGBIT = "SkillListActivity";
+
+    //  not exactly a *preference*...
+    public static final String PREF_ONBOARDING = "pref_skill_list_long_click_help_shown";
 
     private static final String KEY_SELECTED_ADVENTURER = "SkillListActivity.selectedAdventurer";
     private static final String KEY_SELECTED_SKILL = "SkillListActivity.selectedSkill";
     private static final String KEY_SHOW_DILETTANTE_SKILLS = "SkillListActivity.showDilettanteSkills";
+    private static final String KEY_SHOW_HIDDEN_SKILLS = "SkillListActivity.showHiddenSkills";
     private static final String KEY_SELECTED_XP = "SkillListActivity.selectedXP";
+    private static final String KEY_HIDDEN_SKILLS = "SkillListActivity.hiddenSkills";
+    private static final String KEY_HIGHLIGHTED_SKILLS = "SkillListActivity.highlightedSkills";
     /**
      * Because we expect the user to navigate away from this activity (like to
      * fiddle with the danger deck), we can't always count on
@@ -50,16 +62,17 @@ public class SkillListActivity extends AppCompatActivity {
      */
     private static final String STATE_FILENAME = "SkillListActivity.skill.txt";
 
-    private static final String OPTION_DILETTANTE = "dilettante";
     private static final String SKILL_ID_DILETTANTE = "dilettante";
 
     private GameConfiguration config;
     private GameRepository grepos = RepositoryFactory.getGameRepository();
     private HashMap<String, AdventurerSheet> characterMap = new HashMap<>();
     private List<Skill> allSkills;
+    private TreeMap<String, Skill> allSkillsByID = new TreeMap<>();
     private List<Skill> filteredSkills;
     private TableLayout table;
-    private SkillRowSelectionListener rsl;
+    private SkillRowSelectionListener rsl = new SkillRowSelectionListener();
+    private SkillRowLongClickListener rlcl = new SkillRowLongClickListener();
     private View selectedRow = null;
     private ImageView skillIV;
     private ImageView masteryIV;
@@ -71,7 +84,10 @@ public class SkillListActivity extends AppCompatActivity {
     private String selectedSkillID;  //  may be null
     private boolean haveDilettante = false;
     private boolean showDilettanteSkills = false;
+    private boolean showHiddenSkills = false;
     private int selectedXP = 0;
+    private TreeSet<String> hiddenSkills = new TreeSet<>();  //  skill IDs
+    private TreeSet<String> highlightedSkills = new TreeSet<>();  //  skill IDs
 
     private class SkillRowSelectionListener implements View.OnClickListener {
         @Override
@@ -83,6 +99,17 @@ public class SkillListActivity extends AppCompatActivity {
             if (selectedRow != null) selectedRow.setSelected(false);
             view.setSelected(true);
             selectedRow = view;
+        }
+    }
+    private class SkillRowLongClickListener implements View.OnLongClickListener {
+        @Override
+        public boolean onLongClick(View view) {
+            String skillID = (String)(view.getTag(R.id.skillID));
+            Skill ts = allSkillsByID.get(skillID);
+            SkillRowPopup.showPopup(view, skillID, ts != null ? ts.getName().toUpperCase() : "",
+                    highlightedSkills.contains(skillID),
+                    hiddenSkills.contains(skillID), SkillListActivity.this);
+            return true;
         }
     }
 
@@ -98,7 +125,14 @@ public class SkillListActivity extends AppCompatActivity {
             selectedAdventurer = savedInstanceState.getString(KEY_SELECTED_ADVENTURER);
             selectedSkillID = savedInstanceState.getString(KEY_SELECTED_SKILL);
             showDilettanteSkills = savedInstanceState.getBoolean(KEY_SHOW_DILETTANTE_SKILLS, false);
+            showHiddenSkills = savedInstanceState.getBoolean(KEY_SHOW_HIDDEN_SKILLS, false);
             selectedXP = savedInstanceState.getInt(KEY_SELECTED_XP);
+            hiddenSkills.clear();
+            String ts = savedInstanceState.getString(KEY_HIDDEN_SKILLS, "");
+            if (ts.length() > 0) hiddenSkills.addAll(Arrays.asList(ts.split("\t")));
+            highlightedSkills.clear();
+            ts = savedInstanceState.getString(KEY_HIGHLIGHTED_SKILLS, "");
+            if (ts.length() > 0) highlightedSkills.addAll(Arrays.asList(ts.split("\t")));
         }
         if (selectedSkillID == null) {
             //  can we get these guys from file?
@@ -108,15 +142,16 @@ public class SkillListActivity extends AppCompatActivity {
         if (config == null) {
             config = new GameConfiguration(this, PreferenceManager.getDefaultSharedPreferences(this), grepos);
         }
+        allSkillsByID.clear();
         allSkills = grepos.getCards(this, config, Deck.SKILL, Skill.class);
         Collections.sort(allSkills, Card.NameComparator);
         //  well, my friends keep complaining because there are duplicates...
         //  but that's because there *are* duplicates!
         grrrRemoveDuplicateSkills(allSkills);
+        for (Skill ts : allSkills) allSkillsByID.put(ts.getID(), ts);
         filteredSkills = allSkills;
         skillIV = findViewById(R.id.skillImage);
         masteryIV = findViewById(R.id.masteryImage);
-        rsl = new SkillRowSelectionListener();
 
         List<AdventurerSheet> al = grepos.getAdventurerSheets(this, config);
         final String[] aa = new String[al.size() + 1];
@@ -133,16 +168,6 @@ public class SkillListActivity extends AppCompatActivity {
         for (int ii = 1; ii < xpa.length; ++ii) {
             xpa[ii] = Integer.toString(ii);
         }
-        //  Really the set of options should vary based on the selected
-        //  adventurer, but at the moment we only have one option anyway.
-        final SpinnerAlternative.CheckBoxRow[] options = new SpinnerAlternative.CheckBoxRow[1];
-        //  Horrible hard-coding: the "DILETTANTE" string here should come from
-        //  the skill list.  Also, if the user doesn't have an expansion with
-        //  the Dilettante skill, then haveDilettante will never be set to true
-        //  in updateSkillList(), and so optionsV will never have its visibility
-        //  set to VISIBLE.  Not fragile at all!!
-        options[0] = new SpinnerAlternative.CheckBoxRow(showDilettanteSkills,
-                "DILETTANTE", OPTION_DILETTANTE);
 
         //  Fill out some UI stuff
         table = findViewById(R.id.skillList);
@@ -158,21 +183,16 @@ public class SkillListActivity extends AppCompatActivity {
                 });
         updateSelectedAdventurer();
 
-        SpinnerAlternative.createRecyclerViewCheckBoxPopup(this, optionsV,
-                R.layout.row_option, options, new SpinnerAlternative.ItemSelectionListener() {
-                    @Override
-                    public void itemSelected(int idx) {
-                        SpinnerAlternative.CheckBoxRow cbr = options[idx];
-                        if (cbr.id.equals(OPTION_DILETTANTE)) {
-                            showDilettanteSkills = !showDilettanteSkills;
-                            cbr.checked = showDilettanteSkills;
-                            updateSkillList();
-                        } else {
-                            Log.w(LOGBIT, "not handling option \"" + cbr.id + "\"");
-                        }
-                    }
-                });
-        //  updateSkillList() will call updateOptions()
+        optionsV.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                SkillOptionsPopup.showPopup(view,
+                        (haveDilettante && (selectedAdventurer != null)),
+                        showDilettanteSkills,
+                        (hiddenSkills.size() > 0), showHiddenSkills,
+                        SkillListActivity.this);
+            }
+        });
 
         SpinnerAlternative.createRecyclerViewPopup(this, findViewById(R.id.xp),
                 R.layout.row_xp, xpa, new SpinnerAlternative.ItemSelectionListener() {
@@ -186,6 +206,15 @@ public class SkillListActivity extends AppCompatActivity {
         updateSelectedXP();
 
         updateSkillList();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        OneTimeDialog.showMaybe(this, PREF_ONBOARDING,
+                R.string.skill_list_long_click_help_title,
+                R.string.skill_list_long_click_help,
+                R.string.skill_list_long_click_help_ok);
     }
 
     @Override
@@ -205,7 +234,41 @@ public class SkillListActivity extends AppCompatActivity {
             savedInstanceState.putString(KEY_SELECTED_SKILL, selectedSkillID);
         }
         savedInstanceState.putBoolean(KEY_SHOW_DILETTANTE_SKILLS, showDilettanteSkills);
+        savedInstanceState.putBoolean(KEY_SHOW_HIDDEN_SKILLS, showHiddenSkills);
         savedInstanceState.putInt(KEY_SELECTED_XP, selectedXP);
+        savedInstanceState.putString(KEY_HIDDEN_SKILLS, Util.join("\t", hiddenSkills));
+        savedInstanceState.putString(KEY_HIGHLIGHTED_SKILLS, Util.join("\t", highlightedSkills));
+    }
+
+    @Override
+    public void toggleHighlightSkill(String skillID) {
+        if (!highlightedSkills.remove(skillID)) highlightedSkills.add(skillID);
+        updateSkillList();
+    }
+
+    @Override
+    public void toggleHideSkill(String skillID) {
+        if (!hiddenSkills.remove(skillID)) hiddenSkills.add(skillID);
+        updateSkillList();
+    }
+
+    @Override
+    public void toggleDilettanteSkills() {
+        showDilettanteSkills = !showDilettanteSkills;
+        updateSkillList();
+    }
+
+    @Override
+    public void toggleShowHiddenSkills() {
+        showHiddenSkills = !showHiddenSkills;
+        updateSkillList();
+    }
+
+    @Override
+    public void clearHiddenSkills() {
+        hiddenSkills.clear();
+        showHiddenSkills = false;
+        updateSkillList();
     }
 
     private void updateSelectedAdventurer() {
@@ -214,11 +277,13 @@ public class SkillListActivity extends AppCompatActivity {
 
     }
 
+    //  Note that this duplicates some of the logic in showOptionsPopup(), as
+    //  far as whether or not we *have* options to show.
     private void updateOptions() {
         if (optionsV == null) return;
         int is = optionsV.getVisibility();
-        int want = haveDilettante && (selectedAdventurer != null) ?
-                View.VISIBLE : View.GONE;
+        int want = ((haveDilettante && (selectedAdventurer != null)) ||
+                    (hiddenSkills.size() > 0)) ? View.VISIBLE : View.GONE;
         if (want != is) {
             optionsV.setVisibility(want);
             //  Sometimes we wind up with adventurer names which split across
@@ -289,16 +354,34 @@ public class SkillListActivity extends AppCompatActivity {
         //  doesn't work, so remove them all & recreate them.  Ugh.
         table.removeAllViews();
         for (Skill ts : filteredSkills) {
+            if ((!showHiddenSkills) && hiddenSkills.contains(ts.getID())) continue;
+
             int layout = R.layout.row_skill;
-            if ((dilettanteSkills != null) && (dilettanteSkills.contains(ts.getID()))) {
-                layout = R.layout.row_skill_from_dilettante;
+            int fg, bg;
+            if (highlightedSkills.contains(ts.getID())) {
+                fg = hiddenSkills.contains(ts.getID()) ?
+                        R.color.row_fg_hidden : R.color.row_fg_highlighted;
+                bg = R.drawable.row_bg_highlighted;
+            } else if ((dilettanteSkills != null) && (dilettanteSkills.contains(ts.getID()))) {
+                fg = hiddenSkills.contains(ts.getID()) ?
+                        R.color.row_fg_hidden : R.color.row_fg_from_dilettante;
+                bg = R.drawable.row_bg_from_dilettante;
+            } else {
+                fg = hiddenSkills.contains(ts.getID()) ?
+                        R.color.row_fg_hidden : R.color.row_fg;
+                bg = R.drawable.row_bg;
             }
             TableRow row = (TableRow) LayoutInflater.from(this).inflate(layout, null);
+            TextView tv = row.findViewById(R.id.skill_name);
             //  well, the names on the cards are all upper-case; let's do that here
-            ((TextView) row.findViewById(R.id.skill_name)).setText(ts.getName().toUpperCase());
+            tv.setText(ts.getName().toUpperCase());
+            tv.setTextColor(getResources().getColorStateList(fg));
+            row.setBackgroundResource(bg);
             row.setSelected(false);
             row.setTag(R.id.skillID, ts.getID());
             row.setOnClickListener(rsl);
+            row.setLongClickable(true);
+            row.setOnLongClickListener(rlcl);
             table.addView(row);
         }
         table.requestLayout();  //  necessary?
@@ -345,7 +428,11 @@ public class SkillListActivity extends AppCompatActivity {
         try {
             out = new OutputStreamWriter(openFileOutput(STATE_FILENAME, Context.MODE_PRIVATE));
             out.write("1\t" + selectedAdventurer + "\t" + selectedSkillID +
-                    "\t" + (showDilettanteSkills ? "1" : "0") + "\t" + selectedXP + "\n");
+                    "\t" + (showDilettanteSkills ? "1" : "0") +
+                    "\t" + (showHiddenSkills ? "1" : "0") +
+                    "\t" + selectedXP + "\n");
+            out.write(Util.join("\t", hiddenSkills) + "\n");
+            out.write(Util.join("\t", highlightedSkills) + "\n");
         } catch (IOException ioe) {
             Log.w(LOGBIT, ioe);
         } finally {
@@ -365,9 +452,13 @@ public class SkillListActivity extends AppCompatActivity {
     private void loadStateFromFile() {
         BufferedReader in = null;
         String line = null;
+        String hidden = null;
+        String highlighted = null;
         try {
             in = new BufferedReader(new FileReader(openFileInput(STATE_FILENAME).getFD()));
             line = in.readLine();
+            hidden = in.readLine();
+            highlighted = in.readLine();
         } catch (Exception ex) {
             //  we don't really care; the first time this runs, we expect
             //  FileNotFoundException, and after that, if we can't read the
@@ -388,17 +479,26 @@ public class SkillListActivity extends AppCompatActivity {
         //  unexpected, bail, because it really doesn't matter if their state
         //  can't be restored this one time.
         String[] bits = line.split("\t");
-        if (bits.length != 5) return;
+        if (bits.length != 6) return;
         selectedAdventurer = bits[1];
         if ((selectedAdventurer != null) && selectedAdventurer.equals("null")) {
             selectedAdventurer = null;
         }
         selectedSkillID = bits[2];
         showDilettanteSkills = bits[3].equals("1");
+        showHiddenSkills = bits[4].equals("1");
         try {
-            selectedXP = Integer.parseInt(bits[4]);
+            selectedXP = Integer.parseInt(bits[5]);
         } catch (NumberFormatException nfe) {
             //  yeah, whatever
+        }
+        hiddenSkills.clear();
+        if ((hidden != null) && (hidden.length() > 0)) {
+            hiddenSkills.addAll(Arrays.asList(hidden.split("\t")));
+        }
+        highlightedSkills.clear();
+        if ((highlighted != null) && (highlighted.length() > 0)) {
+            highlightedSkills.addAll(Arrays.asList(highlighted.split("\t")));
         }
     }
 }

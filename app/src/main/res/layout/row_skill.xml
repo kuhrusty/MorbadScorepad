@@ -4,9 +4,6 @@
           android:layout_height="wrap_content"
           android:background="@drawable/row_bg">
 
-    <!--  Ugh, if you make changes in here, you have to duplicate them in
-          row_skill_from_dilettante.xml, because Android.  -->
-
     <!--  was android:fontFamily="@font/dominican" -->
     <TextView
         android:id="@+id/skill_name"
@@ -17,7 +14,7 @@
         android:paddingBottom="2sp"
         android:paddingLeft="8dp"
         android:paddingTop="2sp"
-        android:textColor="@drawable/row_fg"
+        android:textColor="@color/row_fg"
         android:textSize="20sp"
         android:textStyle="normal"/>
 

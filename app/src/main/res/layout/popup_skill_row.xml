@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:background="@color/ddBrightYellow">
+
+    <TextView
+        android:id="@+id/skill_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="8sp"
+        android:fontFamily="@font/caslon_antique_bold"
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        android:textStyle="normal"/>
+
+    <!--  really seems dumb to duplicate all these text attributes; if only
+          Android had support for, you know, STYLES or THEMES or something -->
+    <CheckBox
+        android:id="@+id/highlight"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="8sp"
+        android:paddingBottom="8sp"
+        android:fontFamily="@font/caslon_antique_bold"
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        android:textStyle="normal"
+        android:text="@string/skill_row_option_highlight"/>
+
+    <CheckBox
+        android:id="@+id/hide"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="8sp"
+        android:paddingBottom="8sp"
+        android:fontFamily="@font/caslon_antique_bold"
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        android:textStyle="normal"
+        android:text="@string/skill_row_option_hide"/>
+
+</LinearLayout>

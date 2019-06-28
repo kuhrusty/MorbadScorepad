@@ -5,6 +5,11 @@ format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 
 ## Unreleased
 #### Added
+- In the Skill List activity, long-clicking on a skill name will let you
+  highlight it (if it's a skill you're considering taking) or hide it
+  (if it's a skill you know you *won't* take, or you've already taken)
+  ([issue #30](https://github.com/kuhrusty/MorbadScorepad/issues/30)).
+
 #### Changed
 
 

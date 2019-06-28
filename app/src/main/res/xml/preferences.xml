@@ -95,6 +95,11 @@
             android:title="@string/pref_expansion_warning_shown"
             android:summary="@string/pref_expansion_warning_shown_summary"
             android:defaultValue="false" />
+        <SwitchPreference
+            android:key="pref_skill_list_long_click_help_shown"
+            android:title="@string/pref_skill_list_long_click_help_shown"
+            android:summary="@string/pref_skill_list_long_click_help_shown_summary"
+            android:defaultValue="false" />
     </PreferenceCategory>
 
 </PreferenceScreen>

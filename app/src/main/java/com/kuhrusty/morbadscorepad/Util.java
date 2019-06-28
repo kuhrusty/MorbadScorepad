@@ -134,6 +134,18 @@ public class Util {
     }
 
     /**
+     * <i>This</i> exists... just in API level 26.  Sheesh.
+     */
+    public static String join(String delimiter, Iterable it) {
+        StringBuilder buf = new StringBuilder();
+        for (Object obj : it) {
+            if (buf.length() > 0) buf.append(delimiter);
+            buf.append(obj.toString());
+        }
+        return buf.toString();
+    }
+
+    /**
      * Returns true if the pref_developer preference is true.
      *
      * @param context must not be null.

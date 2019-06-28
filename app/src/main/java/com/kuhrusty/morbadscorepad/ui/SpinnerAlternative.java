@@ -9,7 +9,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.CheckBox;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
@@ -91,61 +90,6 @@ public abstract class SpinnerAlternative {
         return popupWindow;
     }
 
-    /**
-     * Creates a PopupWindow containing a RecyclerView whose elements will be
-     * CheckBoxes.
-     *
-     * @param context
-     * @param listenForClicksOn if not null, then an OnClickListener will be
-     *                          added which displays the PopupWindow, which is
-     *                          kind of the whole point.
-     * @param checkBoxLayoutResID the resource ID for a layout file containing
-     *                            a row in the RecyclerView.  The only reason
-     *                            this has to be a CheckBox is that that's what
-     *                            we expect to pull out of it in
-     *                            CheckBoxHolderAdapter.onCreateViewHolder();
-     *                            you could probably make a version of this
-     *                            which takes a RecyclerView.Adapter to handle
-     *                            arbitrary views in the row.
-     * @param values the CheckBoxRow values which will be displayed.
-     * @param listener if not null, will be notified when someone clicks on an
-     *                 item in the list.  This is also kind of the whole point.
-     * @return the PopupWindow, just because that's what the article linked to
-     *         above was returning.
-     */
-    public static PopupWindow createRecyclerViewCheckBoxPopup(Context context,
-                                                      View listenForClicksOn,
-                                                      int checkBoxLayoutResID,
-                                                      CheckBoxRow[] values,
-                                                      ItemSelectionListener listener) {
-        //  really seems like I could've done this with less duplicate code;
-        //  this is a complete copy of createRecyclerViewPopup().  See also the
-        //  comment on CheckBoxHolder.
-        RecyclerView listView = new RecyclerView(context);
-        //listView.setHasFixedSize(true);
-        listView.setLayoutManager(new LinearLayoutManager(context));
-
-        final PopupWindow popupWindow = new PopupWindow(listView, WRAP_CONTENT, WRAP_CONTENT);
-
-        if (listenForClicksOn != null) {
-            listenForClicksOn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    popupWindow.showAsDropDown(view, 0, 0);
-                }
-            });
-        }
-
-        listView.setAdapter(new CheckBoxHolderAdapter(
-                new PopupClickListener(popupWindow, listener),
-                checkBoxLayoutResID, values));
-
-        // some other visual settings
-        popupWindow.setFocusable(true);
-
-        return popupWindow;
-    }
-
     public interface ItemSelectionListener {
         /**
          * Called when an item in the list passed to createRecyclerViewPopup()
@@ -193,17 +137,6 @@ public abstract class SpinnerAlternative {
             view = v;
         }
     }
-    //  Sigh... I did try a single ViewHolder<VC extends View> version instead
-    //  of having two versions of everything, but it wound up not saving much
-    //  code, as TextViewHolderAdapter/CheckBoxHolderAdapter both needed their
-    //  own onCreateViewHolder()/onBindViewHolder().
-    public static class CheckBoxHolder extends RecyclerView.ViewHolder {
-        public CheckBox view;
-        public CheckBoxHolder(CheckBox v) {
-            super(v);
-            view = v;
-        }
-    }
 
     //  This was originally pasted from
     //  https://developer.android.com/guide/topics/ui/layout/recyclerview
@@ -241,55 +174,6 @@ public abstract class SpinnerAlternative {
         @Override
         public int getItemCount() {
             return values.length;
-        }
-    }
-
-    public static class CheckBoxHolderAdapter extends RecyclerView.Adapter<CheckBoxHolder> {
-        private final View.OnClickListener clickListener;
-        private final int layoutResID;
-        private final CheckBoxRow[] values;
-        public CheckBoxHolderAdapter(View.OnClickListener clickListener,
-                                     int layoutResID, CheckBoxRow[] values) {
-            this.clickListener = clickListener;
-            this.layoutResID = layoutResID;
-            this.values = values;
-        }
-
-        // Create new views (invoked by the layout manager)
-        @Override
-        public CheckBoxHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            // create a new view
-            CheckBox cb = (CheckBox) LayoutInflater.from(parent.getContext())
-                    .inflate(layoutResID, parent, false);
-            cb.setOnClickListener(clickListener);
-            return new CheckBoxHolder(cb);
-        }
-
-        // Replace the contents of a view (invoked by the layout manager)
-        @Override
-        public void onBindViewHolder(CheckBoxHolder holder, int position) {
-            // - get element from your dataset at this position
-            // - replace the contents of the view with that element
-            holder.view.setChecked(values[position].checked);
-            holder.view.setText(values[position].label);
-            holder.view.setTag(R.id.SpinnerAlternativeIndex, Integer.valueOf(position));
-        }
-
-        // Return the size of your dataset (invoked by the layout manager)
-        @Override
-        public int getItemCount() {
-            return values.length;
-        }
-    }
-
-    public static class CheckBoxRow {
-        public boolean checked;
-        public final String label;
-        public final String id;
-        public CheckBoxRow(boolean checked, String label, String id) {
-            this.checked = checked;
-            this.label = label;
-            this.id = id;
         }
     }
 }
