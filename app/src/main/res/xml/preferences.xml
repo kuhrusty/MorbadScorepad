@@ -94,8 +94,7 @@
             android:key="pref_expansion_warning_shown"
             android:title="@string/pref_expansion_warning_shown"
             android:summary="@string/pref_expansion_warning_shown_summary"
-            android:defaultValue="false"
-            android:dependency="pref_developer" />
+            android:defaultValue="false" />
     </PreferenceCategory>
 
 </PreferenceScreen>
