@@ -1,16 +1,12 @@
 package com.kuhrusty.morbadscorepad;
 
 import android.Manifest;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -18,6 +14,7 @@ import android.widget.Toast;
 
 import com.kuhrusty.morbadscorepad.model.Adventurer;
 import com.kuhrusty.morbadscorepad.model.Campaign;
+import com.kuhrusty.morbadscorepad.ui.OneTimeDialog;
 
 public class MainActivity extends AppCompatActivity {
     private static final String LOGBIT = "MainActivity";
@@ -49,7 +46,9 @@ public class MainActivity extends AppCompatActivity {
     public void onResume() {
         super.onResume();
         updateButtonVisibility();  //  Preferences may have changed.
-        showExpansionWarning();
+        OneTimeDialog.showMaybe(this, "pref_expansion_warning_shown",
+                R.string.expansions_warning_title, R.string.expansions_warning,
+                R.string.expansions_warning_ok);
     }
 
     @Override
@@ -278,36 +277,6 @@ Toast.makeText(this, "openMissionGraph() doesn't do anything", Toast.LENGTH_SHOR
         View tv = findViewById(id);
         if (tv != null) {
             tv.setVisibility(visibility);
-        }
-    }
-
-    /**
-     * Pop up a confirmation dialog the first time we run, then save the fact
-     * that we did that.
-     */
-    private void showExpansionWarning() {
-        final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        final String key = "pref_expansion_warning_shown";  //  not exactly a *preference*...
-        if ((prefs != null) && (!prefs.getBoolean(key, false))) {
-            AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setTitle(R.string.expansions_warning_title);
-            builder.setMessage(R.string.expansions_warning);
-            builder.setPositiveButton(R.string.expansions_warning_ok, new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int id) {
-                    //  Originally this write was done without an
-                    //  OnClickListener, after dialog.show(), but that caused
-                    //  the dialog to go away if the user rotated the screen
-                    //  while it was displayed.
-                    SharedPreferences.Editor editor = prefs.edit();
-                    editor.putBoolean(key, true);
-                    //  apply() instead of commit() because we don't care when it gets
-                    //  written to storage.
-                    editor.apply();
-                }
-            });
-            builder.setCancelable(false);  //  force them through positive button onClick()
-            AlertDialog dialog = builder.create();
-            dialog.show();
         }
     }
 }
