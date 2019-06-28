@@ -136,6 +136,10 @@ public class RequirementTest {
             if (Skill.DilettanteRequirement.passes(skills.get(ii))) {
                 ++pass;
             }
+            //  As long as we're in here...  SkillListActivity creates a
+            //  placeholder Skill with ID "none."  We need that to not be a real
+            //  skill.
+            assertFalse(skills.get(ii).getID().equals("none"));
         }
         assertEquals(28, pass);
     }

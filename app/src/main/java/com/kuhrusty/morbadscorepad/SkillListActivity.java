@@ -344,7 +344,7 @@ public class SkillListActivity extends AppCompatActivity
             filteredSkills = allSkills;
         }
         if (filteredSkills.size() == 0) {
-            filteredSkills.add(new Skill(null, getString(R.string.no_skills_available)));
+            filteredSkills.add(new Skill("none", getString(R.string.no_skills_available)));
             //  Also need to do something with the images, but... ehh.  An
             //  alternative would be to not let them choose a value lower than
             //  the lowest-XP skill in the otherwise filtered list.
@@ -380,8 +380,10 @@ public class SkillListActivity extends AppCompatActivity
             row.setSelected(false);
             row.setTag(R.id.skillID, ts.getID());
             row.setOnClickListener(rsl);
-            row.setLongClickable(true);
-            row.setOnLongClickListener(rlcl);
+            if (!ts.getID().equals("none")) {
+                row.setLongClickable(true);
+                row.setOnLongClickListener(rlcl);
+            }
             table.addView(row);
         }
         table.requestLayout();  //  necessary?
