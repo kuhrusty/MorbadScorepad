@@ -7,13 +7,11 @@
           android:drawable.  Whatever, man.  -->
 
     <!--  If you make changes in here, you may need to duplicate them in
-          row_bg_from_dilettante.xml.  -->
+          row_bg_from_dilettante.xml and row_bg_highlighted.xml.  -->
 
-    <item
-        android:drawable="@color/ddYellow"
-        android:state_selected="false"/>
-    <item
-        android:drawable="@color/ddMagenta"
-        android:state_selected="true"/>
+    <item android:drawable="@color/ddMagenta"
+          android:state_selected="true"/>
+
+    <item android:drawable="@color/ddYellow"/>
 
 </selector>
