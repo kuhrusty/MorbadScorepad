@@ -7,12 +7,9 @@
     <!--  If you make changes in here, you may need to duplicate them in
           row_fg_from_dilettante.xml.  -->
 
-    <item
-        android:color="@color/black"
-        android:state_selected="false"/>
+    <item android:drawable="@color/ddYellow"
+          android:state_selected="true"/>
 
-    <item
-        android:color="@color/ddYellow"
-        android:state_selected="true"/>
+    <item android:drawable="@color/black"/>
 
 </selector>
