@@ -3,14 +3,12 @@
 All notable changes to this project will be documented in this file.  The
 format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 
-## Unreleased
+## [1.3.4] (Android versionCode 18) - 2019-06-27
 #### Added
 - In the Skill List activity, long-clicking on a skill name will let you
   highlight it (if it's a skill you're considering taking) or hide it
   (if it's a skill you know you *won't* take, or you've already taken)
   ([issue #30](https://github.com/kuhrusty/MorbadScorepad/issues/30)).
-
-#### Changed
 
 
 ## [1.3.3] (Android versionCode 16) - 2019-06-24
