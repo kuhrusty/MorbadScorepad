@@ -70,6 +70,7 @@ public class SkillListActivity extends AppCompatActivity
     private List<Skill> allSkills;
     private TreeMap<String, Skill> allSkillsByID = new TreeMap<>();
     private List<Skill> filteredSkills;
+    private boolean haveHiddenSkillsInFilteredList = false;
     private TableLayout table;
     private SkillRowSelectionListener rsl = new SkillRowSelectionListener();
     private SkillRowLongClickListener rlcl = new SkillRowLongClickListener();
@@ -189,7 +190,7 @@ public class SkillListActivity extends AppCompatActivity
                 SkillOptionsPopup.showPopup(view,
                         (haveDilettante && (selectedAdventurer != null)),
                         showDilettanteSkills,
-                        (hiddenSkills.size() > 0), showHiddenSkills,
+                        haveHiddenSkillsInFilteredList, showHiddenSkills,
                         SkillListActivity.this);
             }
         });
@@ -277,13 +278,14 @@ public class SkillListActivity extends AppCompatActivity
 
     }
 
-    //  Note that this duplicates some of the logic in showOptionsPopup(), as
-    //  far as whether or not we *have* options to show.
+    //  Note that this duplicates some of the logic in our call to
+    //  SkillOptionsPopup.showPopup(), as far as whether or not we *have*
+    //  options to show.
     private void updateOptions() {
         if (optionsV == null) return;
         int is = optionsV.getVisibility();
         int want = ((haveDilettante && (selectedAdventurer != null)) ||
-                    (hiddenSkills.size() > 0)) ? View.VISIBLE : View.GONE;
+                    haveHiddenSkillsInFilteredList) ? View.VISIBLE : View.GONE;
         if (want != is) {
             optionsV.setVisibility(want);
             //  Sometimes we wind up with adventurer names which split across
@@ -343,32 +345,45 @@ public class SkillListActivity extends AppCompatActivity
         } else {
             filteredSkills = allSkills;
         }
-        if (filteredSkills.size() == 0) {
+        //  If we're not showing hidden skills, and there might be *no* skills
+        //  visible (because the number of hiddenSkills >= the  number of
+        //  filteredSkills), see if any of the filteredSkills are visible.  If
+        //  none are, we need to add our "no skills" placeholder (which we need
+        //  to add anyway if there are 0 filteredSkills).
+        boolean needPlaceholder = (filteredSkills.size() == 0);
+        if ((!showHiddenSkills) && (hiddenSkills.size() >= filteredSkills.size())) {
+            needPlaceholder = true;
+            for (int ii = 0; ii < filteredSkills.size(); ++ii) {
+                if (!hiddenSkills.contains(filteredSkills.get(ii).getID())) {
+                    needPlaceholder = false;
+                    break;
+                }
+            }
+        }
+        if (needPlaceholder) {
             filteredSkills.add(new Skill("none", getString(R.string.no_skills_available)));
-            //  Also need to do something with the images, but... ehh.  An
-            //  alternative would be to not let them choose a value lower than
-            //  the lowest-XP skill in the otherwise filtered list.
+            //  Also need to do something with the images, but... ehh.
         }
 
         //  Having a row for each skill in allSkills & toggling their visibility
         //  doesn't work, so remove them all & recreate them.  Ugh.
         table.removeAllViews();
+        haveHiddenSkillsInFilteredList = false;
         for (Skill ts : filteredSkills) {
-            if ((!showHiddenSkills) && hiddenSkills.contains(ts.getID())) continue;
+            boolean hidden = hiddenSkills.contains(ts.getID());
+            if (hidden) haveHiddenSkillsInFilteredList = true;
+            if ((!showHiddenSkills) && hidden) continue;
 
             int layout = R.layout.row_skill;
             int fg, bg;
             if (highlightedSkills.contains(ts.getID())) {
-                fg = hiddenSkills.contains(ts.getID()) ?
-                        R.color.row_fg_hidden : R.color.row_fg_highlighted;
+                fg = hidden ? R.color.row_fg_hidden : R.color.row_fg_highlighted;
                 bg = R.drawable.row_bg_highlighted;
             } else if ((dilettanteSkills != null) && (dilettanteSkills.contains(ts.getID()))) {
-                fg = hiddenSkills.contains(ts.getID()) ?
-                        R.color.row_fg_hidden : R.color.row_fg_from_dilettante;
+                fg = hidden ? R.color.row_fg_hidden : R.color.row_fg_from_dilettante;
                 bg = R.drawable.row_bg_from_dilettante;
             } else {
-                fg = hiddenSkills.contains(ts.getID()) ?
-                        R.color.row_fg_hidden : R.color.row_fg;
+                fg = hidden ? R.color.row_fg_hidden : R.color.row_fg;
                 bg = R.drawable.row_bg;
             }
             TableRow row = (TableRow) LayoutInflater.from(this).inflate(layout, null);
