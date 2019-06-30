@@ -3,12 +3,10 @@
 All notable changes to this project will be documented in this file.  The
 format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 
-## Unreleased
+## [1.3.5] (Android versionCode 20) - 2019-06-29
 #### Added
 - In the Skill List activity, as long as we're letting people highlight
   skills, let's add a second color.
-
-#### Changed
 
 
 ## [1.3.4] (Android versionCode 18) - 2019-06-27
