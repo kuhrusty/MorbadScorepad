@@ -5,6 +5,9 @@ format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 
 ## Unreleased
 #### Added
+- In the Skill List activity, as long as we're letting people highlight
+  skills, let's add a second color.
+
 #### Changed
 
 

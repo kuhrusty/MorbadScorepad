@@ -20,13 +20,17 @@ public abstract class SkillRowPopup {
      * @param clickedOn the View which was clicked on to trigger this popup.
      * @param skillID the skill in question
      * @param skillName the name of the skill to display
-     * @param highlighted true if this skill row is currently highlighted
+     * @param highlightedYellow true if this skill row is currently highlighted
+     *                          yellow
+     * @param highlightedGreen true if this skill row is currently highlighted
+     *                         green
      * @param hidden true if this skill row is currently hidden
      * @param listener the Listener to notify when a selection has been made
      *                 and the popup window has been dismissed.
      */
     public static void showPopup(View clickedOn, String skillID, String skillName,
-                boolean highlighted, boolean hidden, Listener listener) {
+                                 boolean highlightedYellow, boolean highlightedGreen,
+                                 boolean hidden, Listener listener) {
         PopupWindow popupWindow = new PopupWindow(clickedOn.getContext());
         PopupClickListener pcl = new PopupClickListener(popupWindow, skillID, listener);
 
@@ -36,8 +40,12 @@ public abstract class SkillRowPopup {
         TextView tv = parent.findViewById(R.id.skill_name);
         tv.setText(skillName);
 
-        CheckBox cb = parent.findViewById(R.id.highlight);
-        cb.setChecked(highlighted);
+        CheckBox cb = parent.findViewById(R.id.highlightYellow);
+        cb.setChecked(highlightedYellow);
+        cb.setOnClickListener(pcl);
+
+        cb = parent.findViewById(R.id.highlightGreen);
+        cb.setChecked(highlightedGreen);
         cb.setOnClickListener(pcl);
 
         cb = parent.findViewById(R.id.hide);
@@ -81,9 +89,13 @@ public abstract class SkillRowPopup {
 
     public interface Listener {
         /**
-         * Called when the "highlight" checkbox is toggled.
+         * Called when the "highlight yellow" checkbox is toggled.
          */
-        void toggleHighlightSkill(String skillID);
+        void toggleYellowSkill(String skillID);
+        /**
+         * Called when the "highlight green" checkbox is toggled.
+         */
+        void toggleGreenSkill(String skillID);
         /**
          * Called when the "hide" checkbox is toggled.
          */
@@ -115,8 +127,10 @@ public abstract class SkillRowPopup {
             // dismiss the pop up
             popupToDismiss.dismiss();
 
-            if (view.getId() == R.id.highlight) {
-                listener.toggleHighlightSkill(skillID);
+            if (view.getId() == R.id.highlightYellow) {
+                listener.toggleYellowSkill(skillID);
+            } else if (view.getId() == R.id.highlightGreen) {
+                listener.toggleGreenSkill(skillID);
             } else if (view.getId() == R.id.hide) {
                 listener.toggleHideSkill(skillID);
             } else {

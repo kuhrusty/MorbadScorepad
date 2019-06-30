@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <!--  to match row_bg_highlighted.xml  -->
-    <item android:color="@color/ddLightGreen"
+    <!--  to match row_bg_yellow.xml  -->
+    <item android:color="@color/ddBrightYellow"
           android:state_selected="true"/>
 
     <item android:color="@color/black"/>

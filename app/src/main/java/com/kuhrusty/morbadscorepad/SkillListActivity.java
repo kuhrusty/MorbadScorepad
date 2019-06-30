@@ -53,7 +53,8 @@ public class SkillListActivity extends AppCompatActivity
     private static final String KEY_SHOW_HIDDEN_SKILLS = "SkillListActivity.showHiddenSkills";
     private static final String KEY_SELECTED_XP = "SkillListActivity.selectedXP";
     private static final String KEY_HIDDEN_SKILLS = "SkillListActivity.hiddenSkills";
-    private static final String KEY_HIGHLIGHTED_SKILLS = "SkillListActivity.highlightedSkills";
+    private static final String KEY_HIGHLIGHT_YELLOW_SKILLS = "SkillListActivity.yellowSkills";
+    private static final String KEY_HIGHLIGHT_GREEN_SKILLS = "SkillListActivity.greenSkills";
     /**
      * Because we expect the user to navigate away from this activity (like to
      * fiddle with the danger deck), we can't always count on
@@ -88,7 +89,8 @@ public class SkillListActivity extends AppCompatActivity
     private boolean showHiddenSkills = false;
     private int selectedXP = 0;
     private TreeSet<String> hiddenSkills = new TreeSet<>();  //  skill IDs
-    private TreeSet<String> highlightedSkills = new TreeSet<>();  //  skill IDs
+    private TreeSet<String> yellowSkills = new TreeSet<>();  //  skill IDs
+    private TreeSet<String> greenSkills = new TreeSet<>();  //  skill IDs
 
     private class SkillRowSelectionListener implements View.OnClickListener {
         @Override
@@ -108,7 +110,7 @@ public class SkillListActivity extends AppCompatActivity
             String skillID = (String)(view.getTag(R.id.skillID));
             Skill ts = allSkillsByID.get(skillID);
             SkillRowPopup.showPopup(view, skillID, ts != null ? ts.getName().toUpperCase() : "",
-                    highlightedSkills.contains(skillID),
+                    yellowSkills.contains(skillID), greenSkills.contains(skillID),
                     hiddenSkills.contains(skillID), SkillListActivity.this);
             return true;
         }
@@ -131,9 +133,12 @@ public class SkillListActivity extends AppCompatActivity
             hiddenSkills.clear();
             String ts = savedInstanceState.getString(KEY_HIDDEN_SKILLS, "");
             if (ts.length() > 0) hiddenSkills.addAll(Arrays.asList(ts.split("\t")));
-            highlightedSkills.clear();
-            ts = savedInstanceState.getString(KEY_HIGHLIGHTED_SKILLS, "");
-            if (ts.length() > 0) highlightedSkills.addAll(Arrays.asList(ts.split("\t")));
+            yellowSkills.clear();
+            ts = savedInstanceState.getString(KEY_HIGHLIGHT_YELLOW_SKILLS, "");
+            if (ts.length() > 0) yellowSkills.addAll(Arrays.asList(ts.split("\t")));
+            greenSkills.clear();
+            ts = savedInstanceState.getString(KEY_HIGHLIGHT_GREEN_SKILLS, "");
+            if (ts.length() > 0) greenSkills.addAll(Arrays.asList(ts.split("\t")));
         }
         if (selectedSkillID == null) {
             //  can we get these guys from file?
@@ -238,12 +243,25 @@ public class SkillListActivity extends AppCompatActivity
         savedInstanceState.putBoolean(KEY_SHOW_HIDDEN_SKILLS, showHiddenSkills);
         savedInstanceState.putInt(KEY_SELECTED_XP, selectedXP);
         savedInstanceState.putString(KEY_HIDDEN_SKILLS, Util.join("\t", hiddenSkills));
-        savedInstanceState.putString(KEY_HIGHLIGHTED_SKILLS, Util.join("\t", highlightedSkills));
+        savedInstanceState.putString(KEY_HIGHLIGHT_YELLOW_SKILLS, Util.join("\t", yellowSkills));
+        savedInstanceState.putString(KEY_HIGHLIGHT_GREEN_SKILLS, Util.join("\t", greenSkills));
     }
 
     @Override
-    public void toggleHighlightSkill(String skillID) {
-        if (!highlightedSkills.remove(skillID)) highlightedSkills.add(skillID);
+    public void toggleYellowSkill(String skillID) {
+        if (!yellowSkills.remove(skillID)) {
+            yellowSkills.add(skillID);
+            greenSkills.remove(skillID);
+        }
+        updateSkillList();
+    }
+
+    @Override
+    public void toggleGreenSkill(String skillID) {
+        if (!greenSkills.remove(skillID)) {
+            greenSkills.add(skillID);
+            yellowSkills.remove(skillID);
+        }
         updateSkillList();
     }
 
@@ -376,9 +394,12 @@ public class SkillListActivity extends AppCompatActivity
 
             int layout = R.layout.row_skill;
             int fg, bg;
-            if (highlightedSkills.contains(ts.getID())) {
-                fg = hidden ? R.color.row_fg_hidden : R.color.row_fg_highlighted;
-                bg = R.drawable.row_bg_highlighted;
+            if (yellowSkills.contains(ts.getID())) {
+                fg = hidden ? R.color.row_fg_hidden : R.color.row_fg_yellow;
+                bg = R.drawable.row_bg_yellow;
+            } else if (greenSkills.contains(ts.getID())) {
+                fg = hidden ? R.color.row_fg_hidden : R.color.row_fg_green;
+                bg = R.drawable.row_bg_green;
             } else if ((dilettanteSkills != null) && (dilettanteSkills.contains(ts.getID()))) {
                 fg = hidden ? R.color.row_fg_hidden : R.color.row_fg_from_dilettante;
                 bg = R.drawable.row_bg_from_dilettante;
@@ -444,12 +465,13 @@ public class SkillListActivity extends AppCompatActivity
         Writer out = null;
         try {
             out = new OutputStreamWriter(openFileOutput(STATE_FILENAME, Context.MODE_PRIVATE));
-            out.write("1\t" + selectedAdventurer + "\t" + selectedSkillID +
+            out.write("2\t" + selectedAdventurer + "\t" + selectedSkillID +
                     "\t" + (showDilettanteSkills ? "1" : "0") +
                     "\t" + (showHiddenSkills ? "1" : "0") +
                     "\t" + selectedXP + "\n");
             out.write(Util.join("\t", hiddenSkills) + "\n");
-            out.write(Util.join("\t", highlightedSkills) + "\n");
+            out.write(Util.join("\t", yellowSkills) + "\n");
+            out.write(Util.join("\t", greenSkills) + "\n");
         } catch (IOException ioe) {
             Log.w(LOGBIT, ioe);
         } finally {
@@ -470,12 +492,14 @@ public class SkillListActivity extends AppCompatActivity
         BufferedReader in = null;
         String line = null;
         String hidden = null;
-        String highlighted = null;
+        String yellow = null;
+        String green = null;
         try {
             in = new BufferedReader(new FileReader(openFileInput(STATE_FILENAME).getFD()));
             line = in.readLine();
             hidden = in.readLine();
-            highlighted = in.readLine();
+            yellow = in.readLine();
+            green = in.readLine();
         } catch (Exception ex) {
             //  we don't really care; the first time this runs, we expect
             //  FileNotFoundException, and after that, if we can't read the
@@ -497,6 +521,13 @@ public class SkillListActivity extends AppCompatActivity
         //  can't be restored this one time.
         String[] bits = line.split("\t");
         if (bits.length != 6) return;
+        int fmt = 0;
+        try {
+            fmt = Integer.parseInt(bits[0]);
+        } catch (NumberFormatException nfe) {
+            //  well, we're confused.  logging a message might be nice.
+            return;
+        }
         selectedAdventurer = bits[1];
         if ((selectedAdventurer != null) && selectedAdventurer.equals("null")) {
             selectedAdventurer = null;
@@ -513,9 +544,21 @@ public class SkillListActivity extends AppCompatActivity
         if ((hidden != null) && (hidden.length() > 0)) {
             hiddenSkills.addAll(Arrays.asList(hidden.split("\t")));
         }
-        highlightedSkills.clear();
-        if ((highlighted != null) && (highlighted.length() > 0)) {
-            highlightedSkills.addAll(Arrays.asList(highlighted.split("\t")));
+        if (fmt == 1) {
+            //  In format 1, we had only one line of highlighted skills, and
+            //  it was green.  Why not just read green before yellow?  Because
+            //  if I add blue later, I want them in rainbow order.  DO NOT MOCK
+            //  MY OCD
+            green = yellow;  //  may be null
+            yellow = null;
+        }
+        yellowSkills.clear();
+        if ((yellow != null) && (yellow.length() > 0)) {
+            yellowSkills.addAll(Arrays.asList(yellow.split("\t")));
+        }
+        greenSkills.clear();
+        if ((green != null) && (green.length() > 0)) {
+            greenSkills.addAll(Arrays.asList(green.split("\t")));
         }
     }
 }
