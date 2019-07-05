@@ -1,16 +1,20 @@
 package com.kuhrusty.morbadscorepad;
 
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.ImageView;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.kuhrusty.morbadscorepad.model.AdventurerSheet;
 import com.kuhrusty.morbadscorepad.model.Card;
@@ -44,6 +48,20 @@ public class SkillListActivity extends AppCompatActivity
     implements SkillRowPopup.Listener, SkillOptionsPopup.Listener {
     private static final String LOGBIT = "SkillListActivity";
 
+    //  ISSUE #9: generate skill card images instead of using scans
+    //
+    //  This is real classy.  Because we "know" there's no settings button in
+    //  this activity, we'll check prefs once at startup, and load a layout
+    //  using ImageView vs. a layout using WebView with Stephan's CardRenderer
+    //  for displaying the skill cards (so, you can't switch back & forth while
+    //  the activity is running).
+    //
+    //  Once you switch over to Stephan's version completely, remove this
+    //  preference, skillIV, and masteryIV, move the changes from
+    //  layout/activity_skill_list_wv into layout/activity_skill_list, and
+    //  remove layout/activity_skill_list_wv.
+    public static final String PREF_WEBVIEW = "pref_skill_list_use_webview";
+
     //  not exactly a *preference*...
     public static final String PREF_ONBOARDING = "pref_skill_list_long_click_help_shown";
 
@@ -76,8 +94,11 @@ public class SkillListActivity extends AppCompatActivity
     private SkillRowSelectionListener rsl = new SkillRowSelectionListener();
     private SkillRowLongClickListener rlcl = new SkillRowLongClickListener();
     private View selectedRow = null;
+    //  Either these two ImageViews will be null, or the two WebViews will be null.
     private ImageView skillIV;
     private ImageView masteryIV;
+    private WebView skillWV;
+    private WebView masteryWV;
     private TextView adventurerTV;
     private View optionsV;
     private TextView xpTV;
@@ -97,8 +118,12 @@ public class SkillListActivity extends AppCompatActivity
         public void onClick(View view) {
             String skillID = (String)(view.getTag(R.id.skillID));
             selectedSkillID = skillID;
-            loadImage(skillIV, "skill_" + skillID);
-            loadImage(masteryIV, "mastery_" + skillID);
+            if (skillWV != null) {
+Toast.makeText(SkillListActivity.this, "onClick(\"" + skillID + "\") doesn't do anything yet", Toast.LENGTH_SHORT).show();
+            } else {
+                loadImage(skillIV, "skill_" + skillID);
+                loadImage(masteryIV, "mastery_" + skillID);
+            }
             if (selectedRow != null) selectedRow.setSelected(false);
             view.setSelected(true);
             selectedRow = view;
@@ -119,7 +144,12 @@ public class SkillListActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_skill_list);
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        if ((prefs != null) && (prefs.getBoolean(PREF_WEBVIEW, false))) {
+            setContentView(R.layout.activity_skill_list_wv);
+        } else {
+            setContentView(R.layout.activity_skill_list);
+        }
         adventurerTV = findViewById(R.id.character);
         optionsV = findViewById(R.id.options);
         xpTV = findViewById(R.id.xpTextView);
@@ -158,6 +188,10 @@ public class SkillListActivity extends AppCompatActivity
         filteredSkills = allSkills;
         skillIV = findViewById(R.id.skillImage);
         masteryIV = findViewById(R.id.masteryImage);
+        skillWV = findViewById(R.id.skillView);
+        masteryWV = findViewById(R.id.masteryView);
+        if (skillWV != null) initWebViewStuff(skillWV);
+        if (masteryWV != null) initWebViewStuff(masteryWV);
 
         List<AdventurerSheet> al = grepos.getAdventurerSheets(this, config);
         final String[] aa = new String[al.size() + 1];
@@ -459,6 +493,19 @@ public class SkillListActivity extends AppCompatActivity
     private void loadImage(ImageView iv, String resID) {
         int id = getResources().getIdentifier(resID, "drawable", getPackageName());
         iv.setImageDrawable(getResources().getDrawable((id != 0) ? id : R.drawable.skill_no_image));
+    }
+
+    private void initWebViewStuff(WebView wv) {
+        //  is this necessary, or is returning false the default?
+        wv.setWebViewClient(new WebViewClient() {
+            @Override public boolean shouldOverrideUrlLoading(WebView view,
+                                                              String url) {
+                Log.w(LOGBIT, "shouldOverrideUrlLoading(view, " + url + ") returning false");
+                return false;
+            }
+        });
+        wv.getSettings().setJavaScriptEnabled(true);
+        wv.loadUrl("file:///android_asset/CardRenderer/skill.html");
     }
 
     private void saveStateToFile() {

@@ -63,6 +63,16 @@
             android:title="@string/pref_data_dir"/>
     </PreferenceCategory>
 
+    <PreferenceCategory android:key="pref_skill_list_activity"
+                        android:title="@string/pref_skill_list_activity"
+                        android:dependency="pref_developer" >
+        <SwitchPreference
+            android:key="pref_skill_list_use_webview"
+            android:title="@string/pref_skill_list_use_webview"
+            android:summary="@string/pref_skill_list_use_webview_summary"
+            android:defaultValue="false"/>
+    </PreferenceCategory>
+
     <PreferenceCategory android:key="pref_campaign"
                         android:title="@string/pref_campaign"
                         android:dependency="pref_developer" >

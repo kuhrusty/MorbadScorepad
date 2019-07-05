@@ -5,6 +5,13 @@ format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 
 ## Unreleased
 #### Added
+- Add Stephan's CardRenderer stuff for
+  [issue #9](https://github.com/kuhrusty/MorbadScorepad/issues/9),
+  although I'm not properly loading selected skills yet (and the HTML is
+  displaying both skill + mastery, etc.); this is just a starting point
+  for goofing with.  To see this, turn on developer options & enable
+  Skill List -> Use WebView.
+
 #### Changed
 
 

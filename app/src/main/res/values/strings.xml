@@ -88,6 +88,9 @@
     <string name="pref_developer_summary">Enables dangerous/unfinished stuff</string>
     <string name="pref_data_dir">Data directory (in CLASSPATH)</string>
 
+    <string name="pref_skill_list_activity">Skill List</string>  <!-- use skill_list_label instead? -->
+    <string name="pref_skill_list_use_webview">Use WebView</string>
+    <string name="pref_skill_list_use_webview_summary">Use WebView to display skills instead of scanned cards</string>
     <string name="pref_campaign_store_discards">Save discard piles</string>
     <string name="pref_campaign_store_discards_summary">Not needed if you only play one campaign at a time; see help</string>
     <string name="pref_scenario_graph_hide_names">Hide unplayed scenario names</string>
