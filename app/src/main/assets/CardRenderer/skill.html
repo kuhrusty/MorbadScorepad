@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>The Card Renderer Experiment</title>
+    <link rel="stylesheet" href="dd-card-renderer.css?cache-buster=20190704" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=yes" />
+  </head>
+  <body>
+    <header>
+      <span class='strong italic'>DDHoD Card Renderer Experiment.</span>
+    </header>
+    <div id='toolbar'>
+      <!--
+          My event handling of animations is apparently flawed, thus
+          enabling multiple separate animations doesn't work like it should.
+        -->
+      <button class='btn-toggle-scale'>Toggle scale (CSS transform)</button>
+      <!-- button class='btn-bling'>Bling!</button-->
+      <!-- button class='btn-tap'>Tap!</button-->
+    </div>
+
+    <div class='dd-card-wrapper'>
+      <div class='dd-the-card skill'>
+        <div class='dd-header'>
+          <div class='dd-card-name font-size-largest'>Buffy's Rage</div>
+          <div class='dd-card-type font-size-small'></div>
+          <span class='dd-copyright font-size-smaller'>&copy; goblinko</span>
+        </div>
+        <div class='dd-body'>
+          <div class='dd-body-section skill font-size-large'>
+            You may carry the Slayer's Scythe {:HEAVY:} Item as if it were not {:HEAVY:}.
+          </div>
+          <div class='dd-body-section mastery'>
+            You may carry the Slayer's Scythe {:HEAVY:} Item as if it were not {:HEAVY:}.
+          </div>
+          <div class='dd-body-section mastery'>
+            <hr/>**QUICK ACTION:** Deal 3d6 damage to target Enemy with the Slayer's Scythe *(which must be equipped)*.
+            If this destroys the Enemy, ***its {:XP:} VAL is reduced to 0***.
+          </div>
+          <div class='dd-body-section font-size-small'>
+            <hr/>(Note that this card contains both the Skill and Mastery text,
+            but CSS decides which is shown.)
+            ---
+            There should be separator ^^^
+            there and
+
+            a blank line ^^^ there.
+          </div>
+          <div class='dd-skill-cost-wrapper'>
+            <span class='dd-skill-cost'>13</span> {:XP_ALT:}
+          </div>
+        </div>
+        <div class='dd-footer'>
+          <div class='dd-req-label'>REQ</div><!-- no white space! --><div class='dd-req-list'>Buffy</div>
+        </div>
+      </div>
+    </div>
+
+    <div id='card-clone'>filled out by JS after the page loads</div>
+
+    <div class='comparison-image'>
+      <img src='cards/skill_burly.jpg' width='200'/>
+      <img src='cards/mastery_burly.jpg' width='200'/>
+    </div>
+
+    <footer>
+      Someday a footer might go here.
+    </footer>
+    <script src="dd-card-renderer.js"></script>
+    <script src="dd-skills-masteries.js"></script>
+  </body>
+</html>

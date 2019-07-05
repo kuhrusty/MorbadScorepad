@@ -1,0 +1,439 @@
+/*
+  Colors (obtained using a color picker on JPGs, so might be off):
+
+magenta: #b20e57
+sickly yellow: #dfbc18
+
+GAWD BLESS STACKOVERFLOW, FOR HE HATH GIVEN US:
+
+https://stackoverflow.com/questions/90178/make-a-div-fill-the-height-of-the-remaining-screen-space
+
+Which elegantly solves our funky layout issues (specifically, getting
+the card body's height to extend as far as we need it without us
+having to calculate it via JS code).
+
+*/
+
+body {
+    transform-origin: top left;
+    /*transform: scale(0.75);*/
+}
+
+.italic {
+    font-style: italic;
+}
+
+.strong {
+    font-weight: bold;
+}
+
+.dd-card-wrapper {
+    /*transform: scale(0.75);*/
+    /*transform-origin: top left;*/
+    padding: 0.25em;
+    margin: 0;
+    display: inline-block;
+    float: left;
+    
+}
+
+.dd-the-card {
+    /*
+      US Mini cards are 41x63mm and 63 === 41*1.53658.  If, however,
+      we render directly to a 41mm card, we have to set the font sizes
+      to be tiny, tiny, tiny. The results are better/easier if we
+      instead render to a double-width card (4x the surface area) and
+      then, if needed, use CSS {transform:scale(0.5)} to get a
+      41mm-wide card.
+   */
+    min-width: 82mm;
+    max-width: 82mm;
+    min-height: calc(82mm * 1.53658);
+    max-height: calc(82mm * 1.53658);
+    /*font-size: 1em;*/
+    padding: 0;
+    margin: 0;
+    background: black;
+    display: flex;
+    flex-flow: column;
+    position: relative;
+    border-radius: 0.5em;
+}
+
+.dd-the-card div {
+    /* We force scrollbars so we can detect, via JS, if text overflows so
+       we can adjust the foscrollnt size downwards until it stops
+       overflowing or the universe implodes. */
+    /*overflow: auto;*/
+    /* aarrggg. There are elements for which AUTO misbehaves. Of course there are.
+       Sigh. So skip this for the time being.
+   */
+}
+
+.dd-the-card .font-size-normal {
+    font-size: 100%;
+}
+
+.dd-the-card .font-size-small {
+    font-size: 85%;
+}
+
+.dd-the-card .font-size-smaller {
+    font-size: 75%;
+}
+
+.dd-the-card .font-size-smallest {
+    font-size: 66%;
+}
+
+.dd-the-card .font-size-large {
+    font-size: 125%;
+}
+
+.dd-the-card .font-size-larger {
+    font-size: 150%;
+}
+
+.dd-the-card .font-size-largest {
+    font-size: 200%;
+}
+
+.dd-the-card .no-text-transform {
+    text-transform: none;
+}
+
+
+.dd-the-card .dd-header {
+    display: block;
+    /*border: 1px dotted yellow;*/
+    border-radius: 0.25em;
+    margin: 0.5em 0.5em 0 0.5em;
+    flex: 0 1 auto;
+    height: 3.25em
+    /* bug (on my part): if left to its own devices,
+       i'm getting an extra blank line. This height
+       truncates that, but is also dependent on the
+       font sizes in the child elements.
+     */;
+}
+
+.dd-the-card .dd-header {
+    color: black;
+    background: #dfbc18;
+}
+
+.dd-the-card.mastery .dd-header {
+    color: #dfbc18;
+    background: #b20e57;
+}
+
+.dd-the-card .dd-header .dd-card-name {
+    /*border: 1px dotted blue;*/
+    text-transform: uppercase;
+    text-align: center;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+}
+
+.dd-the-card .dd-header .dd-card-type {
+    text-transform: uppercase;
+    text-align: center;
+    margin: -0.3em /* <== depends on font size!*/ 0 0 0;
+    padding: 0;
+    overflow: hidden;
+}
+
+.dd-the-card.skill .dd-header .dd-card-type::before {
+    content: "SKILL";
+}
+.dd-the-card.mastery .dd-header .dd-card-type::before {
+    content: "MASTERY";
+}
+/**
+   Toggle the SKILL/MASTERY labels on and off depending on whether
+   .dd-the-card.mastery is set.
+*/
+.dd-the-card:not(.mastery) .dd-header .dd-card-type.skill {
+    display: block;
+}
+.dd-the-card.mastery .dd-header .dd-card-type.mastery {
+    display: block;
+}
+.dd-the-card.mastery .dd-header .dd-card-type.skill {
+    display: none;
+}
+
+.dd-the-card .dd-header .dd-copyright {
+    /*border: 1px dotted yellow;*/
+    float: right;
+    position: relative;
+    bottom: 0.25em /* directly depends on the font sizes of .dd-card-name and .dd-card-type! */;
+    left: -0.5em;
+    background: inherit /*transparent*/;
+    color: inherit;
+    padding: 0 0.25em;
+    margin: 0;
+    text-transform: uppercase;
+    border-radius: 0.25em;
+    /**
+       TODO: text shadow instead of background bg.
+   */
+}
+
+/* text shadow isn't looking like i want it to... */
+/*.dd-the-card.skill .dd-header .dd-copyright {
+    text-shadow: 0px 0px 0.5em #b20e57;
+}
+.dd-the-card.mastery .dd-header .dd-copyright {
+    text-shadow: 0px 0px 0.5em #dfbc18;
+}*/
+
+.dd-the-card .dd-body {
+    margin: 0.5em 0.5em 0 0.5em;
+    /*border: 2px dotted blue;*/
+    padding: 0.25em 0.5em 0 0.5em;
+    background: #dfbc18;
+    color: black;
+    position: static;
+    flex: 1 1 auto;
+    border-radius: 0.25em;
+}
+
+.dd-the-card .dd-body .dd-body-section {
+    text-align: center;
+}
+
+.dd-the-card .dd-body .dd-keyword-ref {
+    white-space: nowrap;
+}
+
+.dd-the-card.skill .dd-body .dd-body-section.mastery {
+    display: none;
+}
+
+.dd-the-card.mastery .dd-body .dd-body-section.skill {
+    display: none;
+}
+
+.dd-the-card .dd-body .dd-keyword-ref img {
+    height: 1em;
+    border: none;
+    vertical-align: middle;
+    margin: 0;
+    padding: 0 0 0 0.3em;
+}
+
+/*.dd-the-card .dd-body .dd-body-section {
+    overflow-y: auto;
+}*/
+
+
+.dd-the-card .dd-body .dd-body-section:first-child {
+    display: block;
+    /*border: 1px dotted red;*/
+    padding: 0 0 0.75em 0;
+    margin: 0;
+    border-radius: 0.25em;
+}
+
+.dd-the-card .dd-body hr,
+.dd-the-card .dd-body .dd-body-section hr
+{
+    color: black;
+    background: black;
+    border: none;
+    height: 0.5em;
+    margin: 0.25em -0.75em 0.25em -0.75em;
+    width: calc(100% + 1.5em);
+}
+
+.dd-the-card .dd-body .dd-body-section {
+    display: block;
+    margin: 0 0 0.75em 0;
+    /*
+      The funky margins, padding, and explicit width are to get the top border to
+      extend all the way to the edges.
+
+      Bug: when the top-most .dd-body-section is specific to either
+     .skill or .mastery, the second one (which may be the first
+     VISIBLE one) may get misdiagnosed as one of these and get an
+     extra separator bar across the top. Hmm. We need to change how
+     separators are applied.
+   */
+    /*
+    border-top: 0.5em solid black;
+    padding: 0.25em 0.5em 0 0.5em;
+    margin: 0.5em -0.25em 0 -0.55em;
+    border-radius: 0 0 0.25em 0.25em;
+    width: calc(100% + 0.1em)*/ /* kludge for border-top width */;
+}
+
+.dd-the-card.skill .dd-body {
+    padding-bottom: 1.25em /* avoid collision with .dd-skill-cost-wrapper */;
+}
+
+
+.dd-the-card .dd-body .dd-skill-cost-wrapper {
+    /**
+       The skill cost label on the bottom/left, just above the REQ
+       footer. This is only visible for skills, not masteries.
+   */
+    color: #dfbc18;
+    background: black;
+    display: none;
+    vertical-align: bottom;
+    height: 1.25em;
+}
+
+.dd-the-card.skill .dd-body .dd-skill-cost-wrapper {
+    display: inline-block;
+    position: absolute;
+    bottom: 2.3em /* magic value based on .dd-footer height */;
+    left: 0;
+    padding: 0.1em 0.5em 0.1em 0.5em;
+    border-radius: 0 0.5em 0 0;
+    vertical-align: middle;
+}
+
+/*.dd-the-card .dd-body .dd-skill-cost-wrapper span {
+    margin: 0;
+    padding: 0;
+    height: 1em;
+    border: none;
+    vertical-align: middle;
+}
+
+.dd-the-card .dd-skill-cost-wrapper img {
+    height: 1em;
+    border: none;
+    vertical-align: middle;
+}*/
+
+.dd-the-card .dd-footer {
+    /*border: 1px dotted pink;*/
+    margin: 0.5em 0.25em 0.5em 0.5em;
+    padding: 0;
+    text-align: left;
+    white-space: nowrap;
+    text-transform: uppercase
+    /*
+      Sidebar: in JavaScript we replace certain bits of text in this
+      component with a span.no-text-transform so that it's lower case
+      (most notably the word "OR" which often preceeds the last
+      element in the .dd-req-list text.
+     */;
+    flex: 0 1 1em;
+}
+
+.dd-the-card .dd-footer .dd-req-label {
+    display: inline-block;
+    padding: 0;
+    margin: 0;
+    background: black;
+    color: #dfbc18;
+    width: 2.5em;
+    text-align: left;
+}
+
+.dd-the-card .dd-footer .dd-req-list {
+    display: inline-block;
+    padding: 0.1em 0 0.1em 0.25em;
+    margin: 0;
+    background: #b20e57;
+    color: #dfbc18;
+    border-radius: 0.25em;
+    width: calc(100% - 3em)/* WHY do we have a gap on the right? */;
+}
+
+.dd-the-card.skill .dd-footer .dd-req-list {
+    background: #dfbc18;
+    color: black;
+}
+
+.dd-the-card.mastery .dd-footer .dd-req-list {
+    background: #b20e57;
+    color: #dfbc18;
+}
+
+div#toolbar {
+    border: 1px solid #a0a0a0;
+    padding: 0.25em 1em;
+    margin: 0.5em 0;
+    clear: both;
+    display: block;
+    color: #a0a0a0;
+    text-align: center;
+}
+
+body > header {
+    border: 1px solid #a0a0a0;
+    padding: 0.5em;
+    clear: both;
+    display: block;
+    color: #a0a0a0;
+    text-align: center;
+}
+
+body > footer {
+    border: 1px solid #a0a0a0;
+    margin: 3em 0 0 0;
+    padding: 1em;
+    clear: both;
+    display: block;
+    color: #a0a0a0;
+    text-align: center;
+}
+
+/**
+   Bling...
+*/
+.bling-rotate-scale {
+	animation: bling-rotate-scale 1s linear both;
+}
+@keyframes bling-rotate-scale {
+  0% {
+    transform: scale(1) rotateZ(0);
+  }
+  50% {
+    transform: scale(0.5) rotateZ(180deg);
+  }
+  100% {
+    transform: scale(1) rotateZ(360deg);
+  }
+}
+
+.bling-tap {
+	animation: bling-tap 0.75s linear both;
+}
+@keyframes bling-tap {
+  0% {
+      transform-origin: 50% 50%;
+      transform: rotate( 15deg ) scale(1);
+  }
+  50% {
+      transform-origin: 50% 50%;
+      transform: rotate( 30deg ) scale(0.75);
+  }
+  100% {
+      transform-origin: 50% 50%;
+      transform: rotate( 60deg ) scale(0.5);
+  }
+}
+.bling-untap {
+	animation: bling-untap 0.75s linear both;
+}
+@keyframes bling-untap {
+  0% {
+      transform-origin: 50% 50%;
+      transform: rotate( 30deg ) scale(0.5);
+  }
+  50% {
+      transform-origin: 50% 50%;
+      transform: rotate( 15deg ) scale(0.75);
+  }
+  100% {
+      transform-origin: 50% 50%;
+      transform: rotate( 0deg ) scale(1);
+  }
+}
