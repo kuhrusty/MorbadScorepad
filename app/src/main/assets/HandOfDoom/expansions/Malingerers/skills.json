@@ -1,0 +1,65 @@
+//  The list of Skill cards.
+//
+//  See https://boardgamegeek.com/article/27715870#27715870
+//
+//  Note that the IDs are used in Android drawable IDs, so they can't contain
+//  upper-case characters.  We prepend "skill_" and "mastery_" to the IDs to
+//  get drawable IDs.
+[
+  {
+    "id": "detective",
+    "name": "Detective",
+    "req": "Scholar or PER 8",
+    "xp": 6
+  }, {
+    "id": "dominate",
+    "name": "Dominate",
+    "req": "PER 8",
+    "xp": 10
+  }, {
+    "id": "happy_go_lucky",
+    "name": "Happy Go Lucky",
+    "req": "Performer or Wild",
+    "xp": 8
+  }, {
+    "id": "natures_child",
+    "name": "Nature's Child",
+    "req": "Wild and Wizard",
+    "xp": 8
+  }, {
+    "id": "psychic_war",
+    "name": "Psychic War",
+    "req": "Reptilian, Wizard, or Warlock",
+    "xp": 12
+  }, {
+    "id": "pugilist",
+    "name": "Pugilist",
+    "req": "AGI 8 and STR 8",
+    "xp": 8
+  }, {
+    "id": "rising_fury",
+    "name": "Rising Fury",
+    "req": "STR 8",
+    "xp": 10
+  }, {
+    "id": "street_rat",
+    "name": "Street Rat",
+    "req": "Merchant or Rogue",
+    "xp": 8
+  }, {
+    "id": "street_songs",
+    "name": "Street Songs",
+    "req": "Performer",
+    "xp": 8
+  }, {
+    "id": "strike_fear",
+    "name": "Strike Fear",
+    "req": "MRL 8",
+    "xp": 10
+  }, {
+    "id": "weird_time",
+    "name": "Weird Time",
+    "req": "Wizard or Warlock",
+    "xp": 12
+  }
+]

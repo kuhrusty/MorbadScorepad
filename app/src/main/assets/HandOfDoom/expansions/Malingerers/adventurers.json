@@ -1,0 +1,75 @@
+[
+  {
+    "name": "Beefy Barbarian",
+    "classes": [ "Human", "Wild", "Fighter" ],
+    "agi": 6,
+    "con": 8,
+    "mag": 6,
+    "mrl": 8,
+    "per": 7,
+    "str": 9
+  }, {
+    "name": "Leather Lash",
+    "classes": [ "Human", "Rogue", "Scholar" ],
+    "agi": 8,
+    "con": 6,
+    "mag": 6,
+    "mrl": 6,
+    "per": 8,
+    "str": 6
+  }, {
+    "name": "Manscrag",
+    "classes": [ "Human", "Puritan", "Hunter" ],
+    "agi": 8,
+    "con": 8,
+    "mag": 5,
+    "mrl": 8,
+    "per": 8,
+    "str": 8
+  }, {
+    "name": "Provincial Prowler",
+    "classes": [ "Human", "Rogue", "Wild" ],
+    "agi": 8,
+    "con": 7,
+    "mag": 4,
+    "mrl": 6,
+    "per": 8,
+    "str": 6
+  }, {
+    "name": "Squash Sorceress",
+    "classes": [ "Human", "Wild", "Wizard" ],
+    "agi": 7,
+    "con": 6,
+    "mag": 9,
+    "mrl": 6,
+    "per": 8,
+    "str": 5
+  }, {
+    "name": "The Fool",
+    "classes": [ "Human", "Rogue", "Wild" ],
+    "agi": 8,
+    "con": 8,
+    "mag": 6,
+    "mrl": 7,
+    "per": 4,
+    "str": 7
+  }, {
+    "name": "Warrior Poet",
+    "classes": [ "Human", "Fighter", "Performer" ],
+    "agi": 7,
+    "con": 7,
+    "mag": 6,
+    "mrl": 7,
+    "per": 7,
+    "str": 7
+  }, {
+    "name": "Weird Wizard",
+    "classes": [ "Human", "Warlock", "Wizard" ],
+    "agi": 7,
+    "con": 6,
+    "mag": 9,
+    "mrl": 6,
+    "per": 7,
+    "str": 6
+  }
+]

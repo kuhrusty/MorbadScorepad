@@ -84,6 +84,11 @@ public class RequirementTest {
         assertEquals("Rogue or Void Witch", Req.parse(" Rogue,    Void Witch ").toString());
         assertEquals("Rogue or Void Witch", Req.parse(" Rogue or  Void Witch ").toString());
         assertEquals("AGI 7 and PER 7", Req.parse("AGI 7 AND PER 7").toString());
+
+        assertEquals("Scholar or PER 8", Req.parse("Scholar    OR   PER 8").toString());
+        assertEquals("Wild and Wizard", Req.parse("Wild    AND   Wizard").toString());
+        assertEquals("Wizard or Warlock", Req.parse("  Wizard,    Warlock  ").toString());
+        assertEquals("AGI 8 and STR 8", Req.parse("AGI 8  AND  STR 8").toString());
     }
 
     /**
@@ -110,6 +115,46 @@ public class RequirementTest {
     }
 
     /**
+     * OK, there's another skill with an "and" condition.
+     */
+    @Test
+    public void testNaturesChildRequirement() {
+        Context context = TestUtil.mockContext();
+        GameRepository grepos = new CachingGameRepository(new JSONGameRepository2());
+        GameConfiguration config = new GameConfiguration(context, "HandOfDoom", grepos, "cp1", "cp2", "cp3");
+        List<AdventurerSheet> al = grepos.getAdventurerSheets(context, config);
+        AdventurerSheet bothGood = Util.find(al, new AdventurerSheet.NameRequirement("Squash Sorceress"));
+        List<Skill> skills = grepos.getCards(context, config, "skill", Skill.class);
+        Skill.NameRequirement naturesChild = new Skill.NameRequirement("Nature's Child");
+        assertNotNull(Util.find(skills, naturesChild));
+        List<Skill> ts = Skill.filterSkills(skills, bothGood);
+        assertNotNull(Util.find(ts, naturesChild));
+    }
+
+    /**
+     * And another skill with an "and" condition.
+     */
+    @Test
+    public void testPugilistRequirement() {
+        Context context = TestUtil.mockContext();
+        GameRepository grepos = new CachingGameRepository(new JSONGameRepository2());
+        GameConfiguration config = new GameConfiguration(context, "HandOfDoom", grepos, "cp1", "cp2", "cp3");
+        List<AdventurerSheet> al = grepos.getAdventurerSheets(context, config);
+        AdventurerSheet firstBad = Util.find(al, new AdventurerSheet.NameRequirement("Squash Sorceress"));
+        AdventurerSheet secondBad = Util.find(al, new AdventurerSheet.NameRequirement("The Fool"));
+        AdventurerSheet bothGood = Util.find(al, new AdventurerSheet.NameRequirement("Manscrag"));
+        List<Skill> skills = grepos.getCards(context, config, "skill", Skill.class);
+        Skill.NameRequirement pugilist = new Skill.NameRequirement("Pugilist");
+        assertNotNull(Util.find(skills, pugilist));
+        List<Skill> ts = Skill.filterSkills(skills, firstBad);
+        assertNull(Util.find(ts, pugilist));
+        ts = Skill.filterSkills(skills, secondBad);
+        assertNull(Util.find(ts, pugilist));
+        ts = Skill.filterSkills(skills, bothGood);
+        assertNotNull(Util.find(ts, pugilist));
+    }
+
+    /**
      * Dilettante gives you access to skills whose requirements you might not
      * otherwise meet.
      */
@@ -122,14 +167,14 @@ public class RequirementTest {
         //  If this line fails, you've added an expansion, and haven't confirmed
         //  that Skill.DilettanteRequirement works correctly for any new skills
         //  included in that expansion.
-        assertEquals(7, config.getExpansionCount());
+        assertEquals(8, config.getExpansionCount());
 
         List<Skill> skills = grepos.getCards(context, config, "skill", Skill.class);
 
         //  Similarly, if this line fails, then the new expansion you've added
         //  contains new skills, and you need to confirm that
         //  Skill.DilettanteRequirement gives the right answer for them.
-        assertEquals(72, skills.size());
+        assertEquals(83, skills.size());
 
         int pass = 0;
         for (int ii = 0; ii < skills.size(); ++ii) {
@@ -141,6 +186,6 @@ public class RequirementTest {
             //  skill.
             assertFalse(skills.get(ii).getID().equals("none"));
         }
-        assertEquals(28, pass);
+        assertEquals(31, pass);
     }
 }

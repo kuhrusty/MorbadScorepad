@@ -15,6 +15,10 @@
     "name": "Freaks & Psychos",
     "subdir": "FreaksAndPsychos"
   }, {
+    "id": "cp3",
+    "name": "Malingerers",
+    "subdir": "Malingerers"
+  }, {
     "id": "wb_badlands",
     "name": "World Book - The Badlands & Beyond",
     "subdir": "WorldBookBadlands"
