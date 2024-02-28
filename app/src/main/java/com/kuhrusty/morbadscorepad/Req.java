@@ -2,6 +2,8 @@ package com.kuhrusty.morbadscorepad;
 
 import com.kuhrusty.morbadscorepad.model.AdventurerSheet;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -31,55 +33,43 @@ public abstract class Req implements Requirement<AdventurerSheet> {
     };
 
     /**
-     * This passes Adventurers who have one of the given classes.  This also
-     * treats the adventurer's name as a class, as the Voidwalker skill requires
-     * "Void Witch."
+     * This passes Adventurers who have the given class.  This also treats the
+     * adventurer's name as a class, as the Voidwalker skill requires "Void Witch."
      */
     public static class ClassRequirement extends Req {
-        private final String[] classes;
+        private final String className;
 
         /**
-         * @param classes must not be null, must not contain any nulls, and must
-         *                contain at least one element.  And don't screw with
-         *                its contents after passing it in.
+         * @param className must not be null.
          */
-        public ClassRequirement(String... classes) {
-            this.classes = classes;
-            if ((classes == null) || (classes.length == 0)) {
+        public ClassRequirement(String className) {
+            this.className = className;
+            if (className == null) {
                 throw new IllegalArgumentException();
-                //  not checking for nulls in the array...
             }
         }
         @Override
         public boolean passes(AdventurerSheet adventurer) {
             String[] aa = adventurer.getClasses();
-//            if ((aa == null) || (aa.length == 0)) return false;
-            for (int ii = 0; ii < classes.length; ++ii) {
-                String tc = classes[ii];
-                for (int jj = 0; (aa != null) && (jj < aa.length); ++jj) {
-                    if (tc.equals(aa[jj])) {
-                        return true;
-                    }
+            for (int ii = 0; (aa != null) && (ii < aa.length); ++ii) {
+                if (className.equals(aa[ii])) {
+                    return true;
                 }
-                if (tc.equals(adventurer.getName())) return true;
             }
-            return false;
+            return className.equals(adventurer.getName());
         }
 
         /**
-         * Returns true if the given className is one of the classes required
-         * by this skill (used by Skill.DilettanteRequirement).
+         * Returns true if the given className is the class required by this
+         * skill (used by Skill.DilettanteRequirement).
          */
         public boolean contains(String className) {
-            for (int ii = 0; ii < classes.length; ++ii) {
-                if (classes[ii].equals(className)) return true;
-            }
-            return false;
+            return this.className.equals(className);
         }
 
         @Override
         public String toString() {
-            return Util.oxfordComma("or", (Object[])classes);
+            return className;
         }
     }
 
@@ -116,9 +106,8 @@ public abstract class Req implements Requirement<AdventurerSheet> {
             Pattern.compile("\\s+and\\s+", Pattern.CASE_INSENSITIVE);
     private static final Pattern singleStat =
             Pattern.compile("^(AGI|CON|MAG|MRL|PER|STR)\\s+(<)?\\s*(\\d+)$");//, Pattern.CASE_INSENSITIVE);
-    //  well, this could be better...
-    private static final Pattern classSplitter =
-            Pattern.compile("(?:\\s*,\\s*or\\s+|\\s*,\\s*|\\s+or\\s+)", Pattern.CASE_INSENSITIVE);
+    private static final Pattern andOrSplitter =
+            Pattern.compile("(?:\\s*,\\s+(?:and|or)|\\s*,|\\s+(?:and|or))\\s+", Pattern.CASE_INSENSITIVE);
 
     /**
      * Currently this looks for stuff like "MRL 6", "MRL 6 or STR <9", or a list
@@ -131,30 +120,26 @@ public abstract class Req implements Requirement<AdventurerSheet> {
      *         already.
      */
     public static Requirement<AdventurerSheet> parse(String req) {
-        //  Well, this is pretty crude.  If it starts with a stat name (AGI,
-        //  CON, etc.), let's assume it's stat-based; otherwise we're going to
-        //  treat it as a list of classes.
         req = req.trim();
-        Matcher tm = startsWithStat.matcher(req);
-        if (tm.find()) {
-            boolean isOr = true;
-            String[] bits = orSplitter.split(req);
-            if (bits.length == 1) {
-                bits = andSplitter.split(req);
-                isOr = false;
-            }
-            if (bits.length == 1) {
-                return parseOneStat(bits[0]);
+        List<Requirement<AdventurerSheet>> ta = new ArrayList<>(4);
+        String[] bits = andOrSplitter.split(req);
+        for (String bit : bits) {
+            if (startsWithStat.matcher(bit).find()) {
+                ta.add(parseOneStat(bit));
             } else {
-                Requirement<AdventurerSheet> ta[] = new Requirement[bits.length];
-                for (int ii = 0; ii < bits.length; ++ii) {
-                    ta[ii] = parseOneStat(bits[ii]);
-                }
-                return isOr ? new Requirement.Or<AdventurerSheet>(ta) :
-                              new Requirement.And<AdventurerSheet>(ta);
+                ta.add(new ClassRequirement(bit));
             }
+        }
+        if (orSplitter.matcher(req).find()) {
+            return new Requirement.Or<>(ta);
+        } else if (andSplitter.matcher(req).find()) {
+            return new Requirement.And<>(ta);
+        } else if (ta.size() == 1) {
+            return ta.get(0);
         } else {
-            return new ClassRequirement(classSplitter.split(req));
+            //  "Rogue, Wild, Wizard" is OR?
+            return new Requirement.Or<>(ta);
+            //throw new IllegalArgumentException("couldn't parse \"" + req + "\"");
         }
     }
 

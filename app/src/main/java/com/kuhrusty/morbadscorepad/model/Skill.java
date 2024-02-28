@@ -43,28 +43,31 @@ public class Skill extends Card {
             Requirement<AdventurerSheet> reqs = skill.getRequirements();
             if (reqs.equals(Req.Passes)) return false;
             if (reqs instanceof Req.ClassRequirement) {
-                Req.ClassRequirement cr = (Req.ClassRequirement)reqs;
-                //  suspicious hard-coding
-                return cr.contains("Fighter") ||
-                       cr.contains("Hunter") ||
-                       cr.contains("Merchant") ||
-                       cr.contains("Militant") ||
-                       cr.contains("Performer") ||
-                       cr.contains("Rogue");
+                return hasApplicableClass((Req.ClassRequirement)reqs);
             } else if (reqs instanceof Req.StatRequirement) {
                 return false;
             } else if (reqs instanceof Requirement.BranchRequirement) {
-                //  What this *should* do is recurse through the branches of
-                //  this reqs' tree.  However, currently, none of the and/or
-                //  requirements are affected by Dilettante; if new skills are
-                //  added for which that's not the case, the unit test failure
-                //  "should" cause someone to fix this.
+                Requirement.BranchRequirement<AdventurerSheet> br = (Requirement.BranchRequirement<AdventurerSheet>)reqs;
+                for (int ii = 0; ii < br.getBranchCount(); ++ii) {
+                    if ((br.getBranch(ii) instanceof Req.ClassRequirement) &&
+                        hasApplicableClass((Req.ClassRequirement)(br.getBranch(ii)))) {
+                        return true;
+                    }
+                }
                 return false;
             } else {
                 Log.e("DilettanteRequirement",
                         "not handling requirement \"" + reqs + "\"");
                 return false;
             }
+        }
+        private boolean hasApplicableClass(Req.ClassRequirement cr) {
+            return cr.contains("Fighter") ||
+                    cr.contains("Hunter") ||
+                    cr.contains("Merchant") ||
+                    cr.contains("Militant") ||
+                    cr.contains("Performer") ||
+                    cr.contains("Rogue");
         }
     };
 

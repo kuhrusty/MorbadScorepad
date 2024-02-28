@@ -132,6 +132,23 @@ skills, you also have to add images.  (See
 that's fixed, here are notes on how I use the GIMP plugin to process
 cards.
 
+_Incidentally, the notes below worked in GIMP 2.8.  In the version I'm running_
+_now, there's no Python-Fu support; after trying various nonsense to get that_
+_working, I decided to build GIMP 2.8 from source... after a couple hours of_
+_madness, I gave up on_ that _and just found an old laptop which was still_
+_running it.  The march of progress... horrible._
+
+_Oh yeah, by default, XCF files written by GIMP 2.10 aren't readable by 2.8._
+WHAT
+
+_Also, the script below generates PNGs... you switched to JPEGs... so run the_
+_resulting files through:_
+
+    for f in skill_*.png mastery_*.png; do
+        echo $f ${f%.png}.jpg;
+        pngtopnm $f | pnmtojpeg --quality=90 --optimize > ${f%.png}.jpg;
+    done
+
 First, put `extras/card_to_android.py` in your GIMP plugins directory
 (mine is `~/.gimp-2.8/plug-ins/`).  Start up the GIMP, and set your
 rectangle select tool to use a fixed 900x1400 selection.  Then, scan
