@@ -64,10 +64,10 @@ def card_to_android(img, drawable, name, directory,
     if hdpi:
         saveScaled(newImage, newDrawable, 270, 420, "hdpi",
                 filename, directory, resPrefix)
-    if xhdpi:
+    if mdpi:
         saveScaled(newImage, newDrawable, 180, 280, "mdpi",
                 filename, directory, resPrefix)
-    if xhdpi:
+    if ldpi:
         saveScaled(newImage, newDrawable, 135, 210, "ldpi",
                 filename, directory, resPrefix)
 
@@ -91,8 +91,8 @@ register(
             (PF_INT,    "blurMaxDelta", "Blur max delta", 80),
             (PF_BOOL,   "xhdpi", "Generate xhdpi", True),
             (PF_BOOL,   "hdpi",  "Generate hdpi", True),
-            (PF_BOOL,   "mhdpi", "Generate mdpi", True),
-            (PF_BOOL,   "lhdpi", "Generate ldpi", True)
+            (PF_BOOL,   "mdpi", "Generate mdpi", True),
+            (PF_BOOL,   "ldpi", "Generate ldpi", True)
         ],
         [],
         card_to_android)
