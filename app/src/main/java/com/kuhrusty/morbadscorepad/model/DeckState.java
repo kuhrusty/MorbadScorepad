@@ -215,8 +215,9 @@ throw new RuntimeException("RUSTY IS A GODDAMN BOZO");
         shuffleLogLimit = in.readInt("logLimit", shuffleLogLimit);
         logpos = in.readInt("logpos", logpos);
         if (logpos >= 0) {
-            List<? extends PackedLogEntry> ples = in.readList("log",
-                    fmt == 1 ? PackedLogEntryV1.class : PackedLogEntry.class);
+            List<? extends PackedLogEntry> ples = (fmt == 1) ?
+                    in.readList("log", PackedLogEntryV1.class) :
+                    in.readList("log", PackedLogEntry.class);
             log = new ArrayList<>();
             //  The latest entry is at the start of the list, so let's walk
             //  backward through the packed entries.

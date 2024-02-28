@@ -146,7 +146,8 @@ Toast.makeText(SkillListActivity.this, "onClick(\"" + skillID + "\") doesn't do 
         super.onCreate(savedInstanceState);
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         if ((prefs != null) && (prefs.getBoolean(PREF_WEBVIEW, false))) {
-            setContentView(R.layout.activity_skill_list_wv);
+//I never checked this in!?
+//            setContentView(R.layout.activity_skill_list_wv);
         } else {
             setContentView(R.layout.activity_skill_list);
         }
@@ -188,10 +189,11 @@ Toast.makeText(SkillListActivity.this, "onClick(\"" + skillID + "\") doesn't do 
         filteredSkills = allSkills;
         skillIV = findViewById(R.id.skillImage);
         masteryIV = findViewById(R.id.masteryImage);
-        skillWV = findViewById(R.id.skillView);
-        masteryWV = findViewById(R.id.masteryView);
-        if (skillWV != null) initWebViewStuff(skillWV);
-        if (masteryWV != null) initWebViewStuff(masteryWV);
+//I never checked this in!?
+//        skillWV = findViewById(R.id.skillView);
+//        masteryWV = findViewById(R.id.masteryView);
+//        if (skillWV != null) initWebViewStuff(skillWV);
+//        if (masteryWV != null) initWebViewStuff(masteryWV);
 
         List<AdventurerSheet> al = grepos.getAdventurerSheets(this, config);
         final String[] aa = new String[al.size() + 1];

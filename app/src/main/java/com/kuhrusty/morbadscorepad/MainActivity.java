@@ -51,6 +51,17 @@ public class MainActivity extends AppCompatActivity {
                 R.string.expansions_warning_ok);
     }
 
+    //  One of the android version update steps said we might need to add
+    //  something like this:
+    //override fun onTopResumedActivityChanged(topResumed: Boolean) {
+    //    if (topResumed) {
+    //        // Top resumed activity
+    //        // Can be a signal to re-acquire exclusive resources
+    //    } else {
+    //        // No longer the top resumed activity
+    //    }
+    //}
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == RESULT_SAVE_CAMPAIGN_SELECTED) {
