@@ -1,0 +1,82 @@
+//  I DIDN'T FINISH setting up the prev/next elements below.
+[
+  {
+    "name": "The Wicker Man",
+    "id": "mb3_1",
+//    "prev": [ "hod2" ],
+//    "next": [ "hod4", "hod11", "mb2_2", "mb2_3" ],
+    "pageNumber": 2
+  }, {
+    "name": "Take a Powder",
+    "id": "mb3_2",
+//    "prev": [ "hod1" ],
+//    "next": [ "mb2_3", "hod4" ],
+    "pageNumber": 4
+  }, {
+    "name": "Crystal Logic",
+    "id": "mb3_3",
+//    "prev": [ "" ],
+//    "next": [ "" ],
+    "pageNumber": 6
+  }, {
+    "name": "Army Life",
+    "id": "mb3_4",
+//    "prev": [ "" ],
+//    "next": [ "" ],
+    "pageNumber": 8
+  }, {
+    "name": "Phantom Lord",
+    "id": "mb3_5",
+//    "prev": [ "" ],
+//    "next": [ "" ],
+    "pageNumber": 12
+  }, {
+    "name": "Death Church",
+    "id": "mb3_6",
+//    "prev": [ "" ],
+//    "next": [ "" ],
+    "pageNumber": 15
+  }, {
+    "name": "Cosmic Hearse",
+    "id": "mb3_7",
+//    "prev": [ "" ],
+//    "next": [ "" ],
+    "pageNumber": 16
+  }, {
+    "name": "Revelation",
+    "id": "mb3_8",
+//    "prev": [ "" ],
+//    "next": [ "" ],
+    "pageNumber": 20
+  }, {
+    "name": "Isn't it Nice?",
+    "id": "mb3_9",
+//    "prev": [ "" ],
+//    "next": [ "" ],
+    "pageNumber": 22
+  }, {
+    "name": "Shake It",
+    "id": "mb3_10",
+//    "prev": [ "" ],
+//    "next": [ "" ],
+    "pageNumber": 24
+  }, {
+    "name": "The Hell Pit Wos a Gasser",
+    "id": "mb3_11",
+//    "prev": [ "" ],
+//    "next": [ "" ],
+    "pageNumber": 28
+  }, {
+    "name": "I'm a Mess",
+    "id": "mb3_12",
+//    "prev": [ "" ],
+//    "next": [ "" ],
+    "pageNumber": 30
+  }, {
+    "name": "I Want Candy",
+    "id": "mb3_13",
+//    "prev": [ "" ],
+//    "next": [ "" ],
+    "pageNumber": 34
+  }
+]

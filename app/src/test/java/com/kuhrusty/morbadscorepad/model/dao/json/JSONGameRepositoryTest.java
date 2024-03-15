@@ -55,7 +55,7 @@ public class JSONGameRepositoryTest {
     public void testGetExpansions() throws Exception {
         List<Expansion> expansions = grepos.getExpansions(context, config);
         assertNotNull(expansions);
-        assertEquals(8, expansions.size());
+        assertEquals(10, expansions.size());
         assertEquals("cp1", expansions.get(1).getID());
         assertEquals("Adventurer Expansion", expansions.get(1).getName());
         assertEquals("cp2", expansions.get(2).getID());

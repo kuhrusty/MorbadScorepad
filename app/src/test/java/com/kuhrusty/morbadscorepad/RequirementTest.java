@@ -167,7 +167,7 @@ public class RequirementTest {
         //  If this line fails, you've added an expansion, and haven't confirmed
         //  that Skill.DilettanteRequirement works correctly for any new skills
         //  included in that expansion.
-        assertEquals(8, config.getExpansionCount());
+        assertEquals(10, config.getExpansionCount());
 
         List<Skill> skills = grepos.getCards(context, config, "skill", Skill.class);
 

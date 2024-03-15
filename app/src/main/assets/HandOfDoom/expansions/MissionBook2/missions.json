@@ -1,0 +1,84 @@
+//  I DIDN'T FINISH setting up the prev/next elements below.
+[
+  {
+    "name": "Bomber",
+    "id": "mb2_1",
+//  not quite right... this is if you end Loot & Pillage in the Lowlands.
+    "prev": [ "hod2" ],
+    "next": [ "hod4", "hod11", "mb2_2", "mb2_3" ],
+    "pageNumber": 2
+  }, {
+    "name": "Just Another Rat",
+    "id": "mb2_2",
+//  not quite right... this is if you end On The Run in Pigskin Port.
+    "prev": [ "hod1" ],
+    "next": [ "mb2_3", "hod4" ],
+    "pageNumber": 4
+  }, {
+    "name": "Stab the Judge",
+    "id": "mb2_3",
+//    "prev": [ "" ],
+//    "next": [ "" ],
+    "pageNumber": 6
+  }, {
+    "name": "City Baby Attacked by Rats",
+    "id": "mb2_4",
+//    "prev": [ "" ],
+//    "next": [ "" ],
+    "pageNumber": 10
+  }, {
+    "name": "The Black Bats",
+    "id": "mb2_5",
+//    "prev": [ "" ],
+//    "next": [ "" ],
+    "pageNumber": 13
+  }, {
+    "name": "Another Perfect Day",
+    "id": "mb2_6",
+//    "prev": [ "" ],
+//    "next": [ "" ],
+    "pageNumber": 14
+  }, {
+    "name": "Plague of Scrogs",
+    "id": "mb2_7",
+//    "prev": [ "" ],
+//    "next": [ "" ],
+    "pageNumber": 18
+  }, {
+    "name": "Holidays in the Sun",
+    "id": "mb2_8",
+//    "prev": [ "" ],
+//    "next": [ "" ],
+    "pageNumber": 20
+  }, {
+    "name": "Give Me Fire",
+    "id": "mb2_9",
+//    "prev": [ "" ],
+//    "next": [ "" ],
+    "pageNumber": 25
+  }, {
+    "name": "Dirty Deeds",
+    "id": "mb2_10",
+//    "prev": [ "" ],
+//    "next": [ "" ],
+    "pageNumber": 28
+  }, {
+    "name": "Bad Brains",
+    "id": "mb2_11",
+//    "prev": [ "" ],
+//    "next": [ "" ],
+    "pageNumber": 30
+  }, {
+    "name": "The Freaks Come Out at Night",
+    "id": "mb2_12",
+//    "prev": [ "" ],
+//    "next": [ "" ],
+    "pageNumber": 32
+  }, {
+    "name": "A Light in the Black",
+    "id": "mb2_13",
+//    "prev": [ "" ],
+//    "next": [ "" ],
+    "pageNumber": 34
+  }
+]
