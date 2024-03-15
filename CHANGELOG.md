@@ -3,16 +3,20 @@
 All notable changes to this project will be documented in this file.  The
 format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 
-## Unreleased
+## [1.4.0] (Android versionCode 22) - 2024-03-14
 #### Added
+- This adds support for the new **Malingerers** character expansion!
 - Add Stephan's CardRenderer stuff for
   [issue #9](https://github.com/kuhrusty/MorbadScorepad/issues/9),
   although I'm not properly loading selected skills yet (and the HTML is
   displaying both skill + mastery, etc.); this is just a starting point
   for goofing with.  To see this, turn on developer options & enable
-  Skill List -> Use WebView.
+  Skill List -> Use WebView. **NO** this was originally done 4+ years ago, and
+  broken in the SDK 33 changes, and it looks like I never checked in a couple
+  of the layout files!?
 
 #### Changed
+- Update to Android SDK 33
 
 
 ## [1.3.5] (Android versionCode 20) - 2019-06-29
